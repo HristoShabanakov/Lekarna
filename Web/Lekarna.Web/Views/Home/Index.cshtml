@@ -1,9 +1,23 @@
 ﻿@using Lekarna.Common
+@model Lekarna.Web.ViewModels.Home.IndexViewModel
 @{
-    this.ViewData["Title"] = "Home Page";
+    this.ViewData["Title"] = $"Welcome to {GlobalConstants.SystemName}!";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var offer in Model.Offers)
+    {
+        <div class="card col-md-4" style="width: 18rem;">
+            <img src="@offer.ImageUrl" class="card-img-top" alt="@offer.Name">
+            <div class="card-body">
+                <h5 class="card-title"><a href="@offer.Url">@offer.Name</a></h5>
+                <p class="card-text">@offer.CreatedOn</p>
+                <a href="@offer.Url" class="btn btn-primary">View Offer</a>
+            </div>
+        </div>
+    }
 </div>

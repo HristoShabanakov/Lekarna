@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using Lekarna.Data;
     using Lekarna.Data.Common;
     using Lekarna.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using Lekarna.Data.Seeding;
     using Lekarna.Services.Data;
     using Lekarna.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

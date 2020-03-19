@@ -1,9 +1,8 @@
 ﻿namespace Lekarna.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
