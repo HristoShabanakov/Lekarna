@@ -357,3 +357,6 @@ MigrationBackup/
 appsettings.Production.json
 *.min.css
 *.min.js
+/Web/Lekarna.Web/appsettings.json
+/Data/Lekarna.Data/appsettings.json
+/Lekarna.sln
