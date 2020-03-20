@@ -1,34 +1,27 @@
 ﻿namespace Lekarna.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
 
-    using Lekarna.Data;
+    using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels;
     using Lekarna.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IOffersService offersService;
 
-        public HomeController(ApplicationDbContext dbContext)
+        public HomeController(IOffersService offersService)
         {
-            this.dbContext = dbContext;
+            this.offersService = offersService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel();
-            var offers = this.dbContext.Offers.Select(x => new IndexOfferViewModel
+            var viewModel = new IndexViewModel
             {
-                 Name = x.Name,
-                 ImageUrl = x.ImageUrl,
-                 CreatedOn = x.CreatedOn,
-            }).ToList();
-
-            viewModel.Offers = offers;
-
+                Offers = this.offersService.GetAll<IndexOfferViewModel>(),
+            };
             return this.View(viewModel);
         }
 

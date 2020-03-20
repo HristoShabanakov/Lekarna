@@ -2,7 +2,10 @@
 {
     using System;
 
-    public class IndexOfferViewModel
+    using Lekarna.Data.Models;
+    using Lekarna.Services.Mapping;
+
+    public class IndexOfferViewModel : IMapFrom<Offer>
     {
         public string Name { get; set; }
 
