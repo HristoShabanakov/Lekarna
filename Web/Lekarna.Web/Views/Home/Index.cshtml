@@ -9,14 +9,14 @@
 </div>
 
 <div class="row">
-    @foreach (var offer in Model.Offers)
+    @foreach (var supplier in Model.Suppliers)
     {
         <div class="card col-md-4" style="width: 18rem;">
-            <img src="@offer.ImageUrl" class="card-img-top" alt="@offer.Name">
+            <img src="@supplier.ImageUrl" class="card-img-top" alt="@supplier.Name">
             <div class="card-body">
-                <h5 class="card-title"><a href="@offer.Url">@offer.Name</a></h5>
-                <p class="card-text">@offer.CreatedOn</p>
-                <a href="@offer.Url" class="btn btn-primary">View Offer</a>
+                <h5 class="card-title"><a href="@supplier.Url">@supplier.Name</a></h5>
+                <p class="card-text">@supplier.CreatedOn</p>
+                <a href="@supplier.Url" class="btn btn-primary">View Offer</a>
             </div>
         </div>
     }

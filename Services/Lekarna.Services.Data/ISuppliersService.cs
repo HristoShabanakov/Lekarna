@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public interface IOffersService
+    public interface ISuppliersService
     {
         IEnumerable<T> GetAll<T>(int? count = null);
     }

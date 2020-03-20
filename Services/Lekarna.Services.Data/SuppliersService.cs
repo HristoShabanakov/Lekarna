@@ -7,18 +7,18 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
 
-    public class OffersService : IOffersService
+    public class SuppliersService : ISuppliersService
     {
-        private readonly IDeletableEntityRepository<Offer> offersRepository;
+        private readonly IDeletableEntityRepository<Supplier> suppliersRepository;
 
-        public OffersService(IDeletableEntityRepository<Offer> offersRepository)
+        public SuppliersService(IDeletableEntityRepository<Supplier> suppliersRepository)
         {
-            this.offersRepository = offersRepository;
+            this.suppliersRepository = suppliersRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
-            IQueryable<Offer> query = this.offersRepository.All().OrderBy(x => x.Name);
+            IQueryable<Supplier> query = this.suppliersRepository.All().OrderBy(x => x.Name);
 
             if (count.HasValue)
             {

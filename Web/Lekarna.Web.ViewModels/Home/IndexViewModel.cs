@@ -4,6 +4,6 @@
 
     public class IndexViewModel
     {
-        public IEnumerable<IndexOfferViewModel> Offers { get; set; }
+        public IEnumerable<IndexSupplierViewModel> Suppliers { get; set; }
     }
 }

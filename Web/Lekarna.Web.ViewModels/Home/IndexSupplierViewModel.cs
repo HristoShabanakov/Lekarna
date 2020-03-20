@@ -5,7 +5,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
 
-    public class IndexOfferViewModel : IMapFrom<Offer>
+    public class IndexSupplierViewModel : IMapFrom<Supplier>
     {
         public string Name { get; set; }
 

@@ -9,18 +9,18 @@
 
     public class HomeController : BaseController
     {
-        private readonly IOffersService offersService;
+        private readonly ISuppliersService suppliersService;
 
-        public HomeController(IOffersService offersService)
+        public HomeController(ISuppliersService suppliersService)
         {
-            this.offersService = offersService;
+            this.suppliersService = suppliersService;
         }
 
         public IActionResult Index()
         {
             var viewModel = new IndexViewModel
             {
-                Offers = this.offersService.GetAll<IndexOfferViewModel>(),
+                Suppliers = this.suppliersService.GetAll<IndexSupplierViewModel>(),
             };
             return this.View(viewModel);
         }
