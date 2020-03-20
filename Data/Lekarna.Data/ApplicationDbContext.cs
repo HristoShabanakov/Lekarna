@@ -32,6 +32,8 @@
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<Supplier> Suppliers { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
