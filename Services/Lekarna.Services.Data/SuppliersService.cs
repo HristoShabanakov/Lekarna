@@ -27,5 +27,13 @@
 
             return query.To<T>().ToList();
         }
+
+        public T GetByName<T>(string name)
+        {
+            var supplier = this.suppliersRepository.All().Where(x => x.Name == name)
+                .To<T>().FirstOrDefault();
+
+            return supplier;
+        }
     }
 }

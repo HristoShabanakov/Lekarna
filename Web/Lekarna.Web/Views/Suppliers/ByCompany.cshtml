@@ -1,1 +1,19 @@
-﻿
+﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+<h1 class="display 3">@Model.Name</h1>
+
+<div class="card">
+    @foreach (var offer in Model.Offers)
+    {
+        <h1 class="display 3">@Model.Country</h1>
+        <ul class="list-group">
+            <li class="list-group-item">@offer.Name</li>
+            <li class="list-group-item">@offer.Price</li>
+            <li class="list-group-item">@offer.Quantity</li>
+            <li class="list-group-item">@offer.Target</li>
+        </ul>
+    }
+</div>
