@@ -7,6 +7,8 @@
     {
         public string Name { get; set; }
 
+        public string Medicine { get; set; }
+
         public string UserUsername { get; set; }
 
         public decimal Price { get; set; }

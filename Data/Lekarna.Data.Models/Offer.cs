@@ -14,6 +14,8 @@
 
         public string Name { get; set; }
 
+        public string Medicine { get; set; }
+
         public decimal Price { get; set; }
 
         public int Target { get; set; }
@@ -23,6 +25,8 @@
         public int Quantity { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public int OffersCount { get; set; }
 
         public string UserId { get; set; }
 

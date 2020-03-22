@@ -13,6 +13,8 @@
 
         public string ImageUrl { get; set; }
 
+        public int OffersCount { get; set; }
+
         public string Url => $"{this.Name.Replace(' ', '-')}";
     }
 }

@@ -159,11 +159,17 @@ namespace Lekarna.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Medicine")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OffersCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("PharmacyId")
                         .HasColumnType("nvarchar(450)");
@@ -332,9 +338,14 @@ namespace Lekarna.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Suppliers");
                 });
@@ -471,6 +482,13 @@ namespace Lekarna.Data.Migrations
                     b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
                         .WithMany("Orders")
                         .HasForeignKey("PharmacyId");
+                });
+
+            modelBuilder.Entity("Lekarna.Data.Models.Supplier", b =>
+                {
+                    b.HasOne("Lekarna.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
