@@ -6,19 +6,19 @@
 <h1 class="display 3">@Model.Name</h1>
 
 <div class="card">
-    @foreach (var offer in Model.Offers)
-    {
-        <table class="table table-sm table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Medicine</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Target</th>
-                </tr>
-            </thead>
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Medicine</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Target</th>
+            </tr>
+        </thead>
+        @foreach (var offer in Model.Offers)
+        {
             <tbody>
                 <tr>
                     <th scope="row">1</th>
@@ -29,6 +29,6 @@
                     <td><i class="fas fa-chart-line"></i>@offer.Target</td>
                 </tr>
             </tbody>
-        </table>
-    }
-</div>
+        }
+    </table>
+    </div>
