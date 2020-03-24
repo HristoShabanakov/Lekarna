@@ -5,6 +5,7 @@
 
     public class OfferCreateInputModel
     {
+
         [Required]
         public string Name { get; set; }
 
@@ -17,6 +18,8 @@
         [Required]
         public decimal Discount { get; set; }
 
+        [Required]
+        [Display(Name = "Supplier")]
         public string SupplierId { get; set; }
 
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }

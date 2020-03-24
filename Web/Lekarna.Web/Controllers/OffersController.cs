@@ -26,7 +26,8 @@
             this.userManager = userManager;
         }
 
-        public IActionResult ById(string id)
+        [Authorize]
+        public IActionResult Create()
         {
             var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
             var viewModel = new OfferCreateInputModel
@@ -34,12 +35,6 @@
                 Suppliers = suppliers,
             };
             return this.View(viewModel);
-        }
-
-        [Authorize]
-        public IActionResult Create()
-        {
-            return this.View();
         }
 
         [HttpPost]
@@ -59,6 +54,12 @@
                 inputModel.SupplierId,
                 user.Id);
             return this.RedirectToAction(nameof(this.ById), new { id = offerId });
+        }
+
+        public IActionResult ById(string id)
+        {
+            var offerViewModel = this.offersService.GetById<OfferViewModel>(id);
+            return this.View(offerViewModel);
         }
     }
 }

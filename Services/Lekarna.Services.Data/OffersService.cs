@@ -1,9 +1,11 @@
 ﻿namespace Lekarna.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
+    using Lekarna.Services.Mapping;
 
     public class OffersService : IOffersService
     {
@@ -28,6 +30,14 @@
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();
             return offer.Id;
+        }
+
+        public T GetById<T>(string id)
+        {
+            var offer = this.offersRepository.All().Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return offer;
         }
     }
 }
