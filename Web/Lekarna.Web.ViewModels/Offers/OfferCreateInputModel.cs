@@ -5,7 +5,6 @@
 
     public class OfferCreateInputModel
     {
-
         [Required]
         public string Name { get; set; }
 
@@ -14,6 +13,10 @@
 
         [Required]
         public decimal Price { get; set; }
+
+        public int Target { get; set; }
+
+        public int Quantity { get; set; }
 
         [Required]
         public decimal Discount { get; set; }

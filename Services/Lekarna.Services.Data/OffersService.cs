@@ -16,13 +16,16 @@
             this.offersRepository = offersRepository;
         }
 
-        public async Task<string> CreateAsync(string name, string medicine, decimal price, string supplierId, string userId)
+        public async Task<string> CreateAsync(string name, string medicine, decimal price, int target, int quantity, decimal discount, string supplierId, string userId)
         {
             var offer = new Offer
             {
                 Name = name,
                 Medicine = medicine,
                 Price = price,
+                Target = target,
+                Quantity = quantity,
+                Discount = discount,
                 SupplierId = supplierId,
                 UserId = userId,
             };

@@ -7,7 +7,7 @@
 
     public interface IOffersService
     {
-        Task<string> CreateAsync(string name, string medicine, decimal price, string supplierId, string userId);
+        Task<string> CreateAsync(string name, string medicine, decimal price, int target, int quantity, decimal discount, string supplierId, string userId);
 
         T GetById<T>(string id);
     }

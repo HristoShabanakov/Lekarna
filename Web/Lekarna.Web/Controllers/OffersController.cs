@@ -51,6 +51,9 @@
                 inputModel.Name,
                 inputModel.Medicine,
                 inputModel.Price,
+                inputModel.Target,
+                inputModel.Quantity,
+                inputModel.Discount,
                 inputModel.SupplierId,
                 user.Id);
             return this.RedirectToAction(nameof(this.ById), new { id = offerId });
