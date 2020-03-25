@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Offers;
@@ -62,6 +61,11 @@
         public IActionResult ById(string id)
         {
             var offerViewModel = this.offersService.GetById<OfferViewModel>(id);
+            if (offerViewModel == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(offerViewModel);
         }
     }
