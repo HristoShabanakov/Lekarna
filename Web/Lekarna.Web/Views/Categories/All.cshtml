@@ -1,0 +1,24 @@
+﻿@model Lekarna.Web.ViewModels.Categories.AllCategoriesViewModel
+@{
+    this.ViewData["Title"] = "Categories";
+}
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<div class="row">
+    @foreach (var category in Model.Categories)
+    {
+        <div class="row form-group">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body form-group">
+                        <h5 class="card-title">@category.CategoryName</h5>
+                        <p class="card-text">@category.Description</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
