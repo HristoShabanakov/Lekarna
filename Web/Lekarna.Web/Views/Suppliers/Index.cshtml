@@ -1,0 +1,24 @@
+﻿@using Lekarna.Common
+@model Lekarna.Web.ViewModels.Suppliers.IndexViewModel
+@{
+    this.ViewData["Title"] = $"Welcome to {GlobalConstants.SystemName}!";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var supplier in Model.Suppliers)
+    {
+        <div class="card col-md-4" style="width: 18rem;">
+            <img src="@supplier.ImageUrl" class="card-img-top" alt="@supplier.Name">
+            <div class="card-body">
+                <h5 class="card-title"><a href="@supplier.Url">@supplier.Name</a></h5>
+                <p class="card-text">Active Offers (@supplier.OffersCount)</p>
+                <p class="card-text">@supplier.CreatedOn</p>
+                <a href="@supplier.Url" class="btn btn-primary">View Offer</a>
+            </div>
+        </div>
+    }
+</div>
