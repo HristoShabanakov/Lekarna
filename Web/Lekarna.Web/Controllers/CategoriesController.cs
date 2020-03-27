@@ -1,5 +1,7 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Categories;
@@ -26,7 +28,26 @@
         [Authorize]
         public IActionResult Create()
         {
-            return null;
+            var viewModel = new CategoryCreateInputModel();
+
+            return this.View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+            var categoryId = await this.categoriesService.CreateAsync(
+                inputModel.CategoryName,
+                inputModel.Description);
+
+            return this.RedirectToAction(nameof(this.All), new { id = categoryId });
         }
 
         public IActionResult All()
