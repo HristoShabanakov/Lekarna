@@ -18,9 +18,19 @@
             this.suppliersRepository = suppliersRepository;
         }
 
-        public Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
+        public async Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
         {
-            throw new System.NotImplementedException();
+            var supplier = new Supplier
+            {
+                Name = inputModel.Name,
+                Country = inputModel.Country,
+                Address = inputModel.Address,
+                ImageUrl = inputModel.ImageUrl,
+            };
+
+            await this.suppliersRepository.AddAsync(supplier);
+            await this.suppliersRepository.SaveChangesAsync();
+            return supplier.Id;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)

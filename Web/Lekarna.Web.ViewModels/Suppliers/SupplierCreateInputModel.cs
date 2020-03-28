@@ -1,5 +1,7 @@
 ﻿namespace Lekarna.Web.ViewModels.Suppliers
 {
+    using System;
+
     public class SupplierCreateInputModel
     {
         public string Name { get; set; }
