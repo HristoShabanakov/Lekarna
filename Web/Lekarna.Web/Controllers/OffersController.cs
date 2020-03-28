@@ -46,15 +46,7 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var offerId = await this.offersService.CreateAsync(
-                inputModel.Name,
-                inputModel.Medicine,
-                inputModel.Price,
-                inputModel.Target,
-                inputModel.Quantity,
-                inputModel.Discount,
-                inputModel.SupplierId,
-                user.Id);
+            var offerId = await this.offersService.CreateAsync(inputModel, user);
             return this.RedirectToAction(nameof(this.ById), new { id = offerId });
         }
 

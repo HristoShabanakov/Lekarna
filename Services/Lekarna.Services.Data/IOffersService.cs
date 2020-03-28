@@ -1,13 +1,13 @@
 ﻿namespace Lekarna.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+
+    using Lekarna.Data.Models;
+    using Lekarna.Web.ViewModels.Offers;
 
     public interface IOffersService
     {
-        Task<string> CreateAsync(string name, string medicine, decimal price, int target, int quantity, decimal discount, string supplierId, string userId);
+        Task<string> CreateAsync(OfferCreateInputModel inputModel, ApplicationUser user);
 
         T GetById<T>(string id);
     }

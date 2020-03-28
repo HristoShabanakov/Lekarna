@@ -6,28 +6,33 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Offers;
 
     public class OffersService : IOffersService
     {
         private readonly IDeletableEntityRepository<Offer> offersRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> user;
 
-        public OffersService(IDeletableEntityRepository<Offer> offersRepository)
+        public OffersService(
+            IDeletableEntityRepository<Offer> offersRepository,
+            IDeletableEntityRepository<ApplicationUser> user)
         {
             this.offersRepository = offersRepository;
+            this.user = user;
         }
 
-        public async Task<string> CreateAsync(string name, string medicine, decimal price, int target, int quantity, decimal discount, string supplierId, string userId)
+        public async Task<string> CreateAsync(OfferCreateInputModel inputModel, ApplicationUser user)
         {
             var offer = new Offer
             {
-                Name = name,
-                Medicine = medicine,
-                Price = price,
-                Target = target,
-                Quantity = quantity,
-                Discount = discount,
-                SupplierId = supplierId,
-                UserId = userId,
+                Name = inputModel.Name,
+                Medicine = inputModel.Medicine,
+                Price = inputModel.Price,
+                Target = inputModel.Target,
+                Quantity = inputModel.Quantity,
+                Discount = inputModel.Discount,
+                SupplierId = inputModel.SupplierId,
+                UserId = user.Id,
             };
 
             await this.offersRepository.AddAsync(offer);
