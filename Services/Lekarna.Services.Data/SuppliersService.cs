@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Suppliers;
 
     public class SuppliersService : ISuppliersService
     {
@@ -14,6 +16,11 @@
         public SuppliersService(IDeletableEntityRepository<Supplier> suppliersRepository)
         {
             this.suppliersRepository = suppliersRepository;
+        }
+
+        public Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
+        {
+            throw new System.NotImplementedException();
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)

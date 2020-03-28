@@ -22,6 +22,12 @@
             return this.View(viewModel);
         }
 
+        public IActionResult Create()
+        {
+            var viewModel = new SupplierCreateInputModel();
+            return this.View(viewModel);
+        }
+
         public IActionResult ByCompany(string name)
         {
             var viewModel = this.suppliersService.GetByName<SupplierViewModel>(name);
