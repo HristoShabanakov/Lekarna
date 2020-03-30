@@ -66,6 +66,7 @@
             services.AddTransient<ISuppliersService, SuppliersService>();
             services.AddTransient<IOffersService, OffersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IPharmaciesService, PharmaciesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +113,7 @@
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("suppliersOffers", "{name:minlength(3)}", new { controller = "Suppliers", action = "ByCompany" });
                         endpoints.MapControllerRoute("categories", "{name:minlength(3)}", new { controller = "Categories", action = "All" });
+                        endpoints.MapControllerRoute("pharmacies", "{name:minlength(3)}", new { controller = "Pharmacies", action = "Create" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
