@@ -60,5 +60,14 @@
 
             return this.View(offerViewModel);
         }
+
+        public IActionResult All()
+        {
+            var viewModel = new AllOffersViewModel
+            {
+                Offers = this.offersService.GetAll<OfferViewModel>(),
+            };
+            return this.View(viewModel);
+        }
     }
 }
