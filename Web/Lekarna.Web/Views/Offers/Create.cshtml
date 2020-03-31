@@ -2,6 +2,7 @@
 @{
     this.ViewData["Title"] = "Create new offer";
     var suppliers = Model.Suppliers.Select(x => new SelectListItem(x.Name, x.Id));
+    var categories = Model.Categories.Select(x => new SelectListItem(x.CategoryName, x.Id));
 }
 <h1>@this.ViewData["Title"]</h1>
 <div class="col-md-4">
@@ -41,9 +42,14 @@
             <select asp-for="SupplierId" asp-items="suppliers" class="form-control"></select>
             <span asp-validation-for="SupplierId" class="text-danger"></span>
         </div>
+        <div class="form-group">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" asp-items="categories" class="form-control"></select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
 
         <hr />
-        
+
         <input type="submit" class="btn btn-primary" />
     </form>
 </div>

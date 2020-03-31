@@ -25,6 +25,10 @@
         [Display(Name = "Supplier")]
         public string SupplierId { get; set; }
 
+        public string CategoryId { get; set; }
+
+        public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
+
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
     }
 }

@@ -13,15 +13,18 @@
     {
         private readonly IOffersService offersService;
         private readonly ISuppliersService suppliersService;
+        private readonly ICategoriesService categoriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public OffersController(
             IOffersService offersService,
             ISuppliersService suppliersService,
+            ICategoriesService categoriesService,
             UserManager<ApplicationUser> userManager)
         {
             this.offersService = offersService;
             this.suppliersService = suppliersService;
+            this.categoriesService = categoriesService;
             this.userManager = userManager;
         }
 
@@ -29,9 +32,11 @@
         public IActionResult Create()
         {
             var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+            var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var viewModel = new OfferCreateInputModel
             {
                 Suppliers = suppliers,
+                Categories = categories,
             };
             return this.View(viewModel);
         }
