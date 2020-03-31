@@ -1,12 +1,10 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Pharmacies;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class PharmaciesController : Controller
     {
@@ -22,5 +20,38 @@
             var viewModel = new PharmacyViewModel();
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PharmacyViewModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            await this.pharmaciesService.CreateAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.ImageUrl);
+            return this.View();
+        }
+
+        public IActionResult ById(string id)
+        {
+            var offerViewModel = this.pharmaciesService.GetById<PharmacyViewModel>(id);
+            if (offerViewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(offerViewModel);
+        }
+
+        public IActionResult Index()
+        {
+            var viewModel = new AllPharmaciesViewModel
+            {
+                Pharmacies = this.pharmaciesService.GetAll<PharmacyViewModel>(),
+            };
+            return this.View(viewModel);
+        }
+
     }
 }
