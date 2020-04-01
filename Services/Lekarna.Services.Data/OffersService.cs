@@ -33,6 +33,7 @@
                 Quantity = inputModel.Quantity,
                 Discount = inputModel.Discount,
                 SupplierId = inputModel.SupplierId,
+                CategoryId = inputModel.CategoryId,
                 UserId = user.Id,
             };
 

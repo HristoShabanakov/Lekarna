@@ -52,6 +52,5 @@
             };
             return this.View(viewModel);
         }
-
     }
 }

@@ -1,10 +1,10 @@
-﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierViewModel
+﻿@model Lekarna.Web.ViewModels.Categories.CategoryViewModel
 @{
-    this.ViewData["Title"] = Model.Name;
+    this.ViewData["Title"] = Model.CategoryName;
     var index = 0;
 }
 
-<h1 class="display 3">@Model.Name</h1>
+<h1 class="display 3">@Model.CategoryName</h1>
 
 <div class="card">
     <table class="table table-sm table-hover">
@@ -34,5 +34,4 @@
             </tbody>
         }
     </table>
-    </div>
-
+</div>

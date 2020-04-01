@@ -58,5 +58,17 @@
             };
             return this.View(viewModel);
         }
+
+        public IActionResult ById(string id)
+        {
+            var categoriesViewModel = this.categoriesService.GetById<CategoryViewModel>(id);
+
+            if (categoriesViewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(categoriesViewModel);
+        }
     }
 }

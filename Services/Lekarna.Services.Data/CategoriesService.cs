@@ -43,5 +43,13 @@
 
             return query.To<T>().ToList();
         }
+
+        public T GetById<T>(string id)
+        {
+            var category = this.categoriesRepository.All().Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return category;
+        }
     }
 }

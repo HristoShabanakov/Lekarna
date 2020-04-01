@@ -1,6 +1,5 @@
 ﻿namespace Lekarna.Web.ViewModels.Pharmacies
 {
-
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
 

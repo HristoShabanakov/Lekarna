@@ -8,5 +8,7 @@
         Task<string> CreateAsync(string categoryName, string description);
 
         IEnumerable<T> GetAll<T>(int? count = null);
+
+        T GetById<T>(string id);
     }
 }

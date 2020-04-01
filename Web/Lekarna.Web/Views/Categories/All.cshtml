@@ -15,7 +15,7 @@
                     <div class="card-body form-group">
                         <h5 class="card-title">@category.CategoryName</h5>
                         <p class="card-text d-inline-block text-truncate">@category.Description</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a asp-controller="Categories" asp-action="ById" asp-route-id="@category.Id" class="btn btn-primary">Info</a>
                     </div>
                 </div>
             </div>

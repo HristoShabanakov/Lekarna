@@ -27,6 +27,8 @@
 
         public string CategoryId { get; set; }
 
+        public string CategoryName { get; set; }
+
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
 
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
