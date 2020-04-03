@@ -17,6 +17,7 @@
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Target</th>
+                <th scope="col">Category</th>
                 <th scope="col">Details</th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@
                     <td><i class="fas fa-euro-sign"></i>@offer.Price</td>
                     <td><i class="fas fa-plus"></i>@offer.Quantity</td>
                     <td><i class="fas fa-chart-line">@offer.Target</i></td>
+                    <td><i class="fas fa-chart-line">@offer.CategoryCategoryName</i></td>
                     <td><a asp-controller="Offers" asp-action="ById" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
                 </tr>
             </tbody>

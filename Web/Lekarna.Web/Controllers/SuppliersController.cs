@@ -21,12 +21,10 @@
         public SuppliersController(
             ISuppliersService suppliersService,
             UserManager<ApplicationUser> userManager,
-            ICategoriesService categoriesService,
             IOffersService offersService)
         {
             this.suppliersService = suppliersService;
             this.userManager = userManager;
-            this.categoriesService = categoriesService;
             this.offersService = offersService;
         }
 
@@ -64,17 +62,6 @@
           var viewModel = this.suppliersService.GetByName<SupplierViewModel>(name);
 
           return this.View(viewModel);
-        }
-
-        public IActionResult ById(string id)
-        {
-            var viewModel = this.offersService.GetById<OfferViewModel>(id);
-            if (viewModel == null)
-            {
-                return this.NotFound();
-            }
-
-            return this.View(viewModel);
         }
     }
 }

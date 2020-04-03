@@ -20,5 +20,9 @@
         public decimal Discount { get; set; }
 
         public int Quantity { get; set; }
+
+        public string CategoryId { get; set; }
+
+        public string CategoryCategoryName { get; set; }
     }
 }
