@@ -64,6 +64,8 @@
                 return this.NotFound();
             }
 
+            offerViewModel.Categories = categories;
+
             return this.View(offerViewModel);
         }
 

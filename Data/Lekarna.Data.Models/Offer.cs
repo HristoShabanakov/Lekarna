@@ -1,6 +1,7 @@
 ﻿namespace Lekarna.Data.Models
 {
     using System;
+    using System.Collections.Generic;
 
     using Lekarna.Data.Common.Models;
 

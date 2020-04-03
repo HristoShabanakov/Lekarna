@@ -12,10 +12,14 @@
     public class SuppliersService : ISuppliersService
     {
         private readonly IDeletableEntityRepository<Supplier> suppliersRepository;
+        private readonly IDeletableEntityRepository<Category> categoriesRepository;
 
-        public SuppliersService(IDeletableEntityRepository<Supplier> suppliersRepository)
+        public SuppliersService(
+            IDeletableEntityRepository<Supplier> suppliersRepository,
+            IDeletableEntityRepository<Category> categoriesRepository)
         {
             this.suppliersRepository = suppliersRepository;
+            this.categoriesRepository = categoriesRepository;
         }
 
         public async Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
@@ -43,6 +47,14 @@
             }
 
             return query.To<T>().ToList();
+        }
+
+        public T GetById<T>(string id)
+        {
+            var supplier = this.suppliersRepository.All().Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return supplier;
         }
 
         public T GetByName<T>(string name)

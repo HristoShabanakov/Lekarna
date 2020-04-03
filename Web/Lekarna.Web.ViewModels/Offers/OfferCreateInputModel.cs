@@ -3,7 +3,10 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class OfferCreateInputModel
+    using Lekarna.Data.Models;
+    using Lekarna.Services.Mapping;
+
+    public class OfferCreateInputModel : IMapFrom<Category>
     {
         [Required]
         public string Name { get; set; }
@@ -27,7 +30,7 @@
 
         public string CategoryId { get; set; }
 
-        public string CategoryName { get; set; }
+        public string CategoryCategoryName { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
 

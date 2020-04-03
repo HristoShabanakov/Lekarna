@@ -13,5 +13,7 @@
         Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user);
 
         T GetByName<T>(string name);
+
+        T GetById<T>(string id);
     }
 }

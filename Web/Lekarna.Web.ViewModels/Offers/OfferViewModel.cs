@@ -7,6 +7,8 @@
 
     public class OfferViewModel : IMapFrom<Offer>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Medicine { get; set; }
@@ -19,11 +21,13 @@
 
         public int Quantity { get; set; }
 
+        public string UserUsername { get; set; }
+
         public string UserId { get; set; }
 
         public string CategoryId { get; set; }
 
-        public string CategoryName { get; set; }
+        public string CategoryCategoryName { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
     }

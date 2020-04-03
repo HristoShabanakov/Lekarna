@@ -43,4 +43,10 @@
     <ProjectReference Include="..\Lekarna.Web.Infrastructure\Lekarna.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Lekarna.Web.ViewModels\Lekarna.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\Index.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
