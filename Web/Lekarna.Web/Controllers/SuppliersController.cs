@@ -4,8 +4,6 @@
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
-    using Lekarna.Web.ViewModels.Categories;
-    using Lekarna.Web.ViewModels.Offers;
     using Lekarna.Web.ViewModels.Suppliers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -54,6 +52,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
             var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
+            this.TempData["Notification"] = "Supplier was successfully created!";
             return this.RedirectToAction("Index");
         }
 

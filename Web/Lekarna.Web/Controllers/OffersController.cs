@@ -52,6 +52,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
             var offerId = await this.offersService.CreateAsync(inputModel, user);
+            this.TempData["Notification"] = "Offer was successfully created!";
             return this.RedirectToAction(nameof(this.ById), new { id = offerId });
         }
 

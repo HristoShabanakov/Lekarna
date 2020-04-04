@@ -46,7 +46,7 @@
             var categoryId = await this.categoriesService.CreateAsync(
                 inputModel.CategoryName,
                 inputModel.Description);
-
+            this.TempData["Notification"] = "Category was successfully created!";
             return this.RedirectToAction(nameof(this.All), new { id = categoryId });
         }
 
