@@ -1,0 +1,12 @@
+﻿@model Lekarna.Web.ViewModels.Pharmacies.PharmacyDetailsViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+    <h1>@this.ViewData["Title"]</h1>
+
+<h1>@Model.Address</h1>
+<h1>@Model.Country</h1>
+<h1>@Model.OrdersCount</h1>
+<h1>@Model.NewImage</h1>
+<img src="@Model.ImageUrl" class="card-img-top" />
+<h1>@Model.UserUsername</h1>

@@ -4,19 +4,19 @@
     using Lekarna.Services.Mapping;
     using Microsoft.AspNetCore.Http;
 
-    public class PharmacyViewModel : IMapFrom<Pharmacy>
+    public class PharmacyDetailsViewModel : IMapFrom<Pharmacy>
     {
         public string Id { get; set; }
-
-        public string UserId { get; set; }
-
-        public string UserUsername { get; set; }
 
         public string Name { get; set; }
 
         public string Country { get; set; }
 
         public string Address { get; set; }
+
+        public string UserUsername { get; set; }
+
+        public int OrdersCount { get; set; }
 
         public string ImageId { get; set; }
 

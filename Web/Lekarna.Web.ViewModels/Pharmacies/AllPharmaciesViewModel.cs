@@ -5,5 +5,5 @@
     public class AllPharmaciesViewModel
     {
         public IEnumerable<PharmacyViewModel> Pharmacies { get; set; }
-    }
+    }   
 }

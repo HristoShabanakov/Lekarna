@@ -4,14 +4,16 @@ using Lekarna.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lekarna.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200407133207_RemoveImageUrl")]
+    partial class RemoveImageUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +148,9 @@ namespace Lekarna.Data.Migrations
                         .IsUnique()
                         .HasFilter("[OfferId] IS NOT NULL");
 
-                    b.HasIndex("PharmacyId");
+                    b.HasIndex("PharmacyId")
+                        .IsUnique()
+                        .HasFilter("[PharmacyId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -349,7 +353,7 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -358,8 +362,6 @@ namespace Lekarna.Data.Migrations
                         .HasFilter("[ImageId] IS NOT NULL");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Pharmacies");
                 });
@@ -571,8 +573,9 @@ namespace Lekarna.Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
-                        .WithMany()
-                        .HasForeignKey("PharmacyId");
+                        .WithOne("User")
+                        .HasForeignKey("Lekarna.Data.Models.ApplicationUser", "PharmacyId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Image", b =>
@@ -621,11 +624,6 @@ namespace Lekarna.Data.Migrations
                     b.HasOne("Lekarna.Data.Models.Image", "Image")
                         .WithOne("Pharmacy")
                         .HasForeignKey("Lekarna.Data.Models.Pharmacy", "ImageId");
-
-                    b.HasOne("Lekarna.Data.Models.ApplicationUser", "User")
-                        .WithMany("Pharmacies")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Supplier", b =>

@@ -13,17 +13,13 @@
     {
         private readonly ISuppliersService suppliersService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly ICategoriesService categoriesService;
-        private readonly IOffersService offersService;
 
         public SuppliersController(
             ISuppliersService suppliersService,
-            UserManager<ApplicationUser> userManager,
-            IOffersService offersService)
+            UserManager<ApplicationUser> userManager)
         {
             this.suppliersService = suppliersService;
             this.userManager = userManager;
-            this.offersService = offersService;
         }
 
         public IActionResult Index()

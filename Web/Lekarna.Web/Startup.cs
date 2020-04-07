@@ -2,6 +2,7 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using Lekarna.Data;
     using Lekarna.Data.Common;
     using Lekarna.Data.Common.Repositories;
@@ -52,7 +53,6 @@
                 options.EnableForHttps = true;
             });
 
-
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -73,6 +73,16 @@
             services.AddTransient<IOffersService, OffersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPharmaciesService, PharmaciesService>();
+            services.AddTransient<IImagesService, ImageService>();
+
+            Account account = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:AppKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

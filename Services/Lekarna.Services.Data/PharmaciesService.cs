@@ -7,25 +7,42 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Pharmacies;
 
     public class PharmaciesService : IPharmaciesService
     {
         private readonly IDeletableEntityRepository<Pharmacy> pharmaciesRepository;
+        private readonly IImagesService imagesService;
+        private readonly IRepository<ApplicationUser> usersRepository;
 
-        public PharmaciesService(IDeletableEntityRepository<Pharmacy> pharmaciesRepository)
+        public PharmaciesService(
+            IDeletableEntityRepository<Pharmacy> pharmaciesRepository,
+            IImagesService imagesService,
+            IRepository<ApplicationUser> usersRepository)
         {
             this.pharmaciesRepository = pharmaciesRepository;
+            this.imagesService = imagesService;
+            this.usersRepository = usersRepository;
         }
 
-        public async Task<string> CreateAsync(string name, string country, string address, string imageUrl)
+        public async Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user)
         {
             var pharmacy = new Pharmacy
             {
-                Name = name,
-                Country = country,
-                Address = address,
-                ImageUrl = imageUrl,
+                UserId = user.Id,
+                Name = inputModel.Name,
+                Country = inputModel.Country,
+                Address = inputModel.Address,
             };
+
+            // user.Pharmacy = pharmacy;
+            // this.usersRepository.Update(user);
+            // await this.usersRepository.SaveChangesAsync();
+            if (inputModel.NewImage != null)
+            {
+                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
+                pharmacy.ImageId = newImage.Id;
+            }
 
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();

@@ -3,9 +3,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Lekarna.Data.Models;
+    using Lekarna.Web.ViewModels.Pharmacies;
+
     public interface IPharmaciesService
     {
-        Task<string> CreateAsync(string name, string country, string address, string imageUrl);
+        Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user);
 
         IEnumerable<T> GetAll<T>(int? count = null);
 

@@ -23,6 +23,10 @@
 
         public string UserId { get; set; }
 
+        public string ImageId { get; set; }
+
+        public virtual Image Image { get; set; }
+
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Offer> Offers { get; set; }

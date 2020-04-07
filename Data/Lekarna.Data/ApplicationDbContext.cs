@@ -36,6 +36,8 @@
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Image> Images { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -92,7 +94,35 @@
 
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
-             => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+        {
+            builder.Entity<Pharmacy>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Pharmacies)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Offer>()
+                .HasOne(u => u.User)
+                .WithOne(o => o.Offer)
+                .HasForeignKey<ApplicationUser>(o => o.OfferId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Image>()
+               .HasOne(i => i.Pharmacy)
+               .WithOne(p => p.Image)
+               .HasForeignKey<Pharmacy>(p => p.ImageId);
+
+            builder.Entity<Image>()
+               .HasOne(i => i.Supplier)
+               .WithOne(p => p.Image)
+               .HasForeignKey<Supplier>(p => p.ImageId);
+
+            builder.Entity<Order>()
+                .HasKey(o => new
+                {
+                    o.PharmacyId,
+                    o.OfferId,
+                });
+        }
 
         private void ApplyAuditInfoRules()
         {
