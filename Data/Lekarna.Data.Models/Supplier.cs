@@ -19,8 +19,6 @@
 
         public string Address { get; set; }
 
-        public string ImageUrl { get; set; }
-
         public string UserId { get; set; }
 
         public string ImageId { get; set; }

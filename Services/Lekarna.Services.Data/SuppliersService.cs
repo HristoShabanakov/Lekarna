@@ -12,14 +12,14 @@
     public class SuppliersService : ISuppliersService
     {
         private readonly IDeletableEntityRepository<Supplier> suppliersRepository;
-        private readonly IDeletableEntityRepository<Category> categoriesRepository;
+        private readonly IImagesService imagesService;
 
         public SuppliersService(
             IDeletableEntityRepository<Supplier> suppliersRepository,
-            IDeletableEntityRepository<Category> categoriesRepository)
+            IImagesService imagesService)
         {
             this.suppliersRepository = suppliersRepository;
-            this.categoriesRepository = categoriesRepository;
+            this.imagesService = imagesService;
         }
 
         public async Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
@@ -27,10 +27,16 @@
             var supplier = new Supplier
             {
                 Name = inputModel.Name,
+                UserId = inputModel.UserId,
                 Country = inputModel.Country,
                 Address = inputModel.Address,
-                ImageUrl = inputModel.ImageUrl,
             };
+
+            if (inputModel.NewImage != null)
+            {
+                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
+                supplier.ImageId = newImage.Id;
+            }
 
             await this.suppliersRepository.AddAsync(supplier);
             await this.suppliersRepository.SaveChangesAsync();

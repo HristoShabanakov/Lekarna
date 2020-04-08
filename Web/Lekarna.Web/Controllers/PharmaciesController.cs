@@ -45,7 +45,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
             var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel, user);
-
+            this.TempData["Notification"] = "Pharmacy was successfully created!";
             return this.RedirectToAction("Details", new { id = pharmacyId });
         }
 

@@ -8,18 +8,26 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
 
     public class SuppliersController : Controller
     {
         private readonly ISuppliersService suppliersService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IConfiguration configuration;
+
+        private readonly string imagePathPrefix;
+        private readonly string cloudinaryPrefix = "https://res.cloudinary.com/{0}/image/upload/";
 
         public SuppliersController(
             ISuppliersService suppliersService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration)
         {
             this.suppliersService = suppliersService;
             this.userManager = userManager;
+            this.configuration = configuration;
+            this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
         public IActionResult Index()
@@ -28,6 +36,14 @@
             {
                 Suppliers = this.suppliersService.GetAll<IndexSupplierViewModel>(),
             };
+
+            foreach (var supplier in viewModel.Suppliers)
+            {
+                supplier.ImageUrl = supplier.ImageUrl == null
+                ? "/images/logo.png"
+                : this.imagePathPrefix + supplier.ImageUrl;
+            }
+
             return this.View(viewModel);
         }
 
@@ -49,7 +65,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
             this.TempData["Notification"] = "Supplier was successfully created!";
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction("ByCompany", new { id = supplierId });
         }
 
         public IActionResult ByCompany(string name)
