@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Web.ViewModels.Offers
 {
+    using System;
     using System.Collections.Generic;
 
     using Lekarna.Data.Models;
@@ -10,6 +11,8 @@
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string Medicine { get; set; }
 

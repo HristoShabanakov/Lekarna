@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Models;
@@ -9,8 +10,11 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class OffersController : Controller
     {
+        private const int OffersPerPage = 10;
+
         private readonly IOffersService offersService;
         private readonly ISuppliersService suppliersService;
         private readonly ICategoriesService categoriesService;
@@ -28,7 +32,22 @@
             this.userManager = userManager;
         }
 
-        [Authorize]
+        public IActionResult All(int page = 1)
+        {
+            var viewModel = this.offersService.GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
+
+            var offersCount = this.offersService.GetAllOffersCount();
+
+            var allOffersViewModel = new AllOffersViewModel
+            {
+                CurrentPage = page,
+                PagesCount = (int)Math.Ceiling((double)offersCount / OffersPerPage),
+                Offers = viewModel,
+            };
+
+            return this.View(allOffersViewModel);
+        }
+
         public IActionResult Create()
         {
             var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
@@ -42,7 +61,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(OfferCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
@@ -69,15 +87,6 @@
             offerViewModel.Categories = categories;
 
             return this.View(offerViewModel);
-        }
-
-        public IActionResult All()
-        {
-            var viewModel = new AllOffersViewModel
-            {
-                Offers = this.offersService.GetAll<OfferViewModel>(),
-            };
-            return this.View(viewModel);
         }
     }
 }

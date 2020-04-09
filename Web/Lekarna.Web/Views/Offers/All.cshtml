@@ -12,6 +12,7 @@
                 <th scope="col"><i class="fas fa-sort-down"></i></th>
                 <th scope="col">Name</th>
                 <th scope="col">Medicine</th>
+                <th scope="col">Date</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Target</th>
@@ -27,6 +28,7 @@
                     <th scope="row">@(++index)</th>
                     <td><i class="far fa-copyright"></i>@offer.Name</td>
                     <td><i class="fas fa-prescription-bottle-alt"></i>@offer.Medicine</td>
+                    <td><i class="far fa-calendar-check"></i>@offer.CreatedOn</td>
                     <td><i class="fas fa-euro-sign"></i>@offer.Price</td>
                     <td><i class="fas fa-plus"></i>@offer.Quantity</td>
                     <td><i class="fas fa-chart-line">@offer.Target</i></td>
@@ -38,3 +40,43 @@
         }
     </table>
 </div>
+
+<hr />
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            var disabled = Model.CurrentPage == 1 ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Offers" asp-action="All" asp-route-page="@(Model.CurrentPage - 1)" tabindex="-1">Previous</a>
+        </li>
+        @for (int i = 1; i <= this.Model.PagesCount; i++)
+        {
+            if (i == Model.CurrentPage)
+            {
+                <li class="page-item active">
+                    <a class="page-link"
+                       asp-controller="Offers"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Offers"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+        @{
+            disabled = Model.CurrentPage == Model.PagesCount ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Offers" asp-action="All" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>

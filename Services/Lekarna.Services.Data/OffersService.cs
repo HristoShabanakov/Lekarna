@@ -54,6 +54,25 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllOffers<T>(int? take = null, int skip = 0)
+        {
+            var query = this.offersRepository.All()
+                .OrderByDescending(s => s.CreatedOn)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetAllOffersCount()
+        {
+            return this.offersRepository.All().ToList().Count;
+        }
+
         public T GetById<T>(string id)
         {
             var offer = this.offersRepository.All().Where(x => x.Id == id)

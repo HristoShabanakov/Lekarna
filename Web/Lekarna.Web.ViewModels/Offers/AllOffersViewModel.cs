@@ -4,6 +4,15 @@
 
     public class AllOffersViewModel
     {
+        public AllOffersViewModel()
+        {
+            this.Offers = new HashSet<OfferViewModel>();
+        }
+
+        public int CurrentPage { get; set; }
+
+        public int PagesCount { get; set; }
+
         public IEnumerable<OfferViewModel> Offers { get; set; }
     }
 }
