@@ -65,7 +65,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
             this.TempData["Notification"] = "Supplier was successfully created!";
-            return this.RedirectToAction("ByCompany", new { id = supplierId });
+            return this.RedirectToAction("Details", new { id = supplierId });
         }
 
         public IActionResult ByCompany(string name)
@@ -73,6 +73,18 @@
           var viewModel = this.suppliersService.GetByName<SupplierViewModel>(name);
 
           return this.View(viewModel);
+        }
+
+        public IActionResult Details(string id)
+        {
+            var viewModel = this.suppliersService.GetById<SupplierViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error, Home");
+            }
+
+            return this.View(viewModel);
         }
     }
 }
