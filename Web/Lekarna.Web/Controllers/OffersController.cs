@@ -60,6 +60,7 @@
         {
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var offerViewModel = this.offersService.GetById<OfferViewModel>(id);
+
             if (offerViewModel == null)
             {
                 return this.NotFound();

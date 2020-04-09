@@ -4,7 +4,7 @@
     using Lekarna.Services.Mapping;
     using Microsoft.AspNetCore.Http;
 
-    public class SupplierCreateInputModel : IMapFrom<Supplier>
+    public class SupplierCreateViewModel : IMapFrom<Supplier>
     {
         public string Name { get; set; }
 

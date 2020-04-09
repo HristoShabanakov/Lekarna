@@ -29,6 +29,23 @@
             this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
+        public IActionResult Index()
+        {
+            var viewModel = new AllPharmaciesViewModel
+            {
+                Pharmacies = this.pharmaciesService.GetAll<PharmacyViewModel>(),
+            };
+
+            foreach (var pharmacy in viewModel.Pharmacies)
+            {
+                pharmacy.ImageUrl = pharmacy.ImageUrl == null
+                ? "/images/logo.png"
+                : this.imagePathPrefix + pharmacy.ImageUrl;
+            }
+
+            return this.View(viewModel);
+        }
+
         public IActionResult Create()
         {
             var viewModel = new PharmacyViewModel();
@@ -76,23 +93,6 @@
             }
 
             return this.View(offerViewModel);
-        }
-
-        public IActionResult Index()
-        {
-            var viewModel = new AllPharmaciesViewModel
-            {
-                Pharmacies = this.pharmaciesService.GetAll<PharmacyViewModel>(),
-            };
-
-            foreach (var pharmacy in viewModel.Pharmacies)
-            {
-                pharmacy.ImageUrl = pharmacy.ImageUrl == null
-                ? "/images/logo.png"
-                : this.imagePathPrefix + pharmacy.ImageUrl;
-            }
-
-            return this.View(viewModel);
         }
     }
 }

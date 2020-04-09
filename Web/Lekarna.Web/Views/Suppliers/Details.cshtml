@@ -5,6 +5,13 @@
     var index = 0;
 }
 
+@if (this.TempData["Notification"] != null)
+{
+    <div class="alert alert-success">
+        @this.TempData["Notification"]
+    </div>
+}
+
 
 <h1 class="display 3">@Model.Name</h1>
 

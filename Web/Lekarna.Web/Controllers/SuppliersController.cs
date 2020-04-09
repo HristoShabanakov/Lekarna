@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Models;
@@ -10,8 +11,11 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
 
+    [Authorize]
     public class SuppliersController : Controller
     {
+        private const int SuppliersPerPage = 9;
+
         private readonly ISuppliersService suppliersService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration configuration;
@@ -30,32 +34,36 @@
             this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
-        public IActionResult Index()
+        public IActionResult All(int page = 1)
         {
-            var viewModel = new IndexViewModel
-            {
-                Suppliers = this.suppliersService.GetAll<IndexSupplierViewModel>(),
-            };
+            var viewModel = this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
 
-            foreach (var supplier in viewModel.Suppliers)
+            foreach (var supplier in viewModel)
             {
                 supplier.ImageUrl = supplier.ImageUrl == null
                 ? "/images/logo.png"
                 : this.imagePathPrefix + supplier.ImageUrl;
             }
 
-            return this.View(viewModel);
+            var suppliersCount = this.suppliersService.GetAllSuppliersCount();
+
+            var suppliersAllViewModel = new SuppliersAllViewModel
+            {
+                CurrentPage = page,
+                PagesCount = (int)Math.Ceiling((double)suppliersCount / SuppliersPerPage),
+                Suppliers = viewModel,
+            };
+            return this.View(suppliersAllViewModel);
         }
 
         public IActionResult Create()
         {
-            var viewModel = new SupplierCreateInputModel();
+            var viewModel = new SupplierCreateViewModel();
             return this.View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(SupplierCreateInputModel inputModel)
+        public async Task<IActionResult> Create(SupplierCreateViewModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -66,13 +74,6 @@
             var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
             this.TempData["Notification"] = "Supplier was successfully created!";
             return this.RedirectToAction("Details", new { id = supplierId });
-        }
-
-        public IActionResult ByCompany(string name)
-        {
-          var viewModel = this.suppliersService.GetByName<SupplierViewModel>(name);
-
-          return this.View(viewModel);
         }
 
         public IActionResult Details(string id)

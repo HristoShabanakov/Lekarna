@@ -22,7 +22,7 @@
             this.imagesService = imagesService;
         }
 
-        public async Task<string> CreateAsync(SupplierCreateInputModel inputModel, ApplicationUser user)
+        public async Task<string> CreateAsync(SupplierCreateViewModel inputModel, ApplicationUser user)
         {
             var supplier = new Supplier
             {
@@ -53,6 +53,25 @@
             }
 
             return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllSuppliers<T>(int? take = null, int skip = 0)
+        {
+            var query = this.suppliersRepository.All()
+                .OrderByDescending(s => s.CreatedOn)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetAllSuppliersCount()
+        {
+             return this.suppliersRepository.All().ToList().Count;
         }
 
         public T GetById<T>(string id)
