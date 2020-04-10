@@ -13,7 +13,6 @@
     {
         private readonly IDeletableEntityRepository<Pharmacy> pharmaciesRepository;
         private readonly IImagesService imagesService;
-        private readonly IRepository<ApplicationUser> usersRepository;
 
         public PharmaciesService(
             IDeletableEntityRepository<Pharmacy> pharmaciesRepository,
@@ -22,7 +21,6 @@
         {
             this.pharmaciesRepository = pharmaciesRepository;
             this.imagesService = imagesService;
-            this.usersRepository = usersRepository;
         }
 
         public async Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user)
@@ -35,9 +33,6 @@
                 Address = inputModel.Address,
             };
 
-            // user.Pharmacy = pharmacy;
-            // this.usersRepository.Update(user);
-            // await this.usersRepository.SaveChangesAsync();
             if (inputModel.NewImage != null)
             {
                 var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
@@ -59,6 +54,25 @@
             }
 
             return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllPharmacies<T>(int? take = null, int skip = 0)
+        {
+            var query = this.pharmaciesRepository.All()
+                .OrderByDescending(p => p.Name)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetAllPharmaciesCount()
+        {
+            return this.pharmaciesRepository.All().ToList().Count;
         }
 
         public T GetById<T>(string id)

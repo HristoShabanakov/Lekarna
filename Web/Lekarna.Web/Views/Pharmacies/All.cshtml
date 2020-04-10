@@ -1,0 +1,62 @@
+﻿@model Lekarna.Web.ViewModels.Pharmacies.AllPharmaciesViewModel
+@{
+    this.ViewData["Title"] = "Pharmacies";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var pharmacy in Model.Pharmacies)
+    {
+        <div class="card col-md-4" style="width: 18rem;">
+            <img src="@pharmacy.ImageUrl" class="card-img-top" alt="@pharmacy.Name">
+            <div class="card-body">
+                <h5 class="card-title"><a href="@pharmacy.Name">@pharmacy.Name</a></h5>
+                <p class="card-text">Country (@pharmacy.Country)</p>
+                <p class="card-text">@pharmacy.Address</p>
+                <a asp-controller="Pharmacies" asp-action="Details" asp-route-id="@pharmacy.Id" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    }
+</div>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            var disabled = Model.CurrentPage == 1 ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Pharmacies" asp-action="All" asp-route-page="@(Model.CurrentPage - 1)" tabindex="-1">Previous</a>
+        </li>
+        @for (int i = 1; i <= this.Model.PagesCount; i++)
+        {
+            if (i == Model.CurrentPage)
+            {
+                <li class="page-item active">
+                    <a class="page-link"
+                       asp-controller="Pharmacies"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Pharmacies"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+        @{
+            disabled = Model.CurrentPage == Model.PagesCount ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Pharmacies" asp-action="All" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>

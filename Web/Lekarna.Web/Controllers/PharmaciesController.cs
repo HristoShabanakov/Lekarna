@@ -1,16 +1,21 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Pharmacies;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
 
+    [Authorize]
     public class PharmaciesController : Controller
     {
+        private const int PharmaciesPerPage = 9;
+
         private readonly IPharmaciesService pharmaciesService;
         private readonly IConfiguration configuration;
         private readonly UserManager<ApplicationUser> userManager;
@@ -29,21 +34,27 @@
             this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
-        public IActionResult Index()
+        public IActionResult All(int page = 1)
         {
-            var viewModel = new AllPharmaciesViewModel
-            {
-                Pharmacies = this.pharmaciesService.GetAll<PharmacyViewModel>(),
-            };
+            var viewModel = this.pharmaciesService.GetAllPharmacies<PharmacyViewModel>(PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
 
-            foreach (var pharmacy in viewModel.Pharmacies)
+            foreach (var pharmacy in viewModel)
             {
                 pharmacy.ImageUrl = pharmacy.ImageUrl == null
                 ? "/images/logo.png"
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
-            return this.View(viewModel);
+            var pharmaciesCount = this.pharmaciesService.GetAllPharmaciesCount();
+
+            var allPharmaciesViewModel = new AllPharmaciesViewModel
+            {
+                CurrentPage = page,
+                PagesCount = (int)Math.Ceiling((double)pharmaciesCount / PharmaciesPerPage),
+                Pharmacies = viewModel,
+            };
+
+            return this.View(allPharmaciesViewModel);
         }
 
         public IActionResult Create()
