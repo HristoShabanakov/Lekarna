@@ -14,6 +14,8 @@
 
         public string Description { get; set; }
 
+        public int OffersCount { get; set; }
+
         public IEnumerable<SuppliersOffersViewModel> Offers { get; set; }
     }
 }

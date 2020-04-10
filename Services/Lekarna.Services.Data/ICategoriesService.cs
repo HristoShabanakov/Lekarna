@@ -10,5 +10,9 @@
         IEnumerable<T> GetAll<T>(int? count = null);
 
         T GetById<T>(string id);
+
+        IEnumerable<T> GetAllCategories<T>(int? take = null, int skip = 0);
+
+        int GetAllCategoriesCount();
     }
 }

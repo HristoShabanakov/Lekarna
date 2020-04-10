@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Models;
@@ -9,8 +10,11 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class CategoriesController : Controller
     {
+        private const int CategoriesPerPage = 10;
+
         private readonly ICategoriesService categoriesService;
         private readonly IOffersService offersService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -25,7 +29,22 @@
             this.userManager = userManager;
         }
 
-        [Authorize]
+        public IActionResult All(int page = 1)
+        {
+            var viewModel = this.categoriesService.GetAllCategories<CategoryViewModel>(CategoriesPerPage, (page - 1) * CategoriesPerPage);
+
+            var categoriesCount = this.categoriesService.GetAllCategoriesCount();
+
+            var allCategoriesViewModel = new AllCategoriesViewModel
+            {
+                CurrentPage = page,
+                PagesCount = (int)Math.Ceiling((double)categoriesCount / CategoriesPerPage),
+                Categories = viewModel,
+            };
+
+            return this.View(allCategoriesViewModel);
+        }
+
         public IActionResult Create()
         {
             var viewModel = new CategoryCreateInputModel();
@@ -33,7 +52,6 @@
             return this.View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
         {
@@ -48,15 +66,6 @@
                 inputModel.Description);
             this.TempData["Notification"] = "Category was successfully created!";
             return this.RedirectToAction(nameof(this.All), new { id = categoryId });
-        }
-
-        public IActionResult All()
-        {
-            var viewModel = new AllCategoriesViewModel
-            {
-                Categories = this.categoriesService.GetAll<CategoryViewModel>(),
-            };
-            return this.View(viewModel);
         }
 
         public IActionResult ById(string id)

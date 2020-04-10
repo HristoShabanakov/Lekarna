@@ -12,8 +12,8 @@
 <div class="row">
     @foreach (var supplier in Model.Suppliers)
     {
-        <div class="card col-md-4" style="width: 18rem;">
-            <img src="@supplier.ImageUrl" class="card-img-top" alt="@supplier.Name">
+        <div class="card col-md-4" style="width: 10rem;">
+            <img src="@supplier.ImageUrl" class="card-img-top rounded mx-auto d-block" alt="@supplier.Name">
             <div class="card-body">
                 <h5 class="card-title"><a asp-controller="Suppliers" asp-action="Details" asp-route-id="@supplier.Id">@supplier.Name</a></h5>
                 <p class="card-text">Active Offers (@supplier.OffersCount)</p>

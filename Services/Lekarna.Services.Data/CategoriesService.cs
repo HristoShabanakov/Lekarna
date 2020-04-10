@@ -44,6 +44,25 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllCategories<T>(int? take = null, int skip = 0)
+        {
+            var query = this.categoriesRepository.All()
+               .OrderByDescending(c => c.CategoryName)
+               .Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public int GetAllCategoriesCount()
+        {
+            return this.categoriesRepository.All().ToList().Count;
+        }
+
         public T GetById<T>(string id)
         {
             var category = this.categoriesRepository.All().Where(x => x.Id == id)
