@@ -51,6 +51,25 @@
             return pharmacy.Id;
         }
 
+        public async Task<string> EditAsync(PharmacyViewModel inputModel)
+        {
+            var pharmacy = this.pharmaciesRepository.All().FirstOrDefault(p => p.Id == inputModel.Id);
+
+            if (pharmacy == null)
+            {
+                return null;
+            }
+
+            pharmacy.Name = inputModel.Name;
+            pharmacy.Country = inputModel.Country;
+            pharmacy.Address = inputModel.Address;
+
+            this.pharmaciesRepository.Update(pharmacy);
+            await this.pharmaciesRepository.SaveChangesAsync();
+
+            return pharmacy.Id;
+        }
+
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
             IQueryable<Pharmacy> query = this.pharmaciesRepository.All().OrderBy(x => x.Name);

@@ -10,6 +10,8 @@
     {
         Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user);
 
+        Task<string> EditAsync(PharmacyViewModel inputModel);
+
         IEnumerable<T> GetAll<T>(int? count = null);
 
         T GetById<T>(string id);

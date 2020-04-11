@@ -111,5 +111,23 @@
 
             return this.View(offerViewModel);
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var viewModel = this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            viewModel.ImageUrl = viewModel.ImageUrl == null
+                ? "/images/logo.png"
+                : this.imagePathPrefix + viewModel.ImageUrl;
+
+            return this.View(viewModel);
+        }
     }
 }
