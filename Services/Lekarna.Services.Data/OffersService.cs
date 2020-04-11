@@ -37,6 +37,13 @@
                 UserId = user.Id,
             };
 
+            var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
+
+            if (dbOffer.Name == offer.Name)
+            {
+                return null;
+            }
+
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();
             return offer.Id;

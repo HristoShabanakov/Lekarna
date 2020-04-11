@@ -19,13 +19,21 @@
             this.categoriesRepository = categoriesRepository;
         }
 
-        public async Task<string> CreateAsync(string categoryName, string description)
+        public async Task<string> CreateAsync(string categoryName, string categoryId, string description)
         {
             var category = new Category
             {
+                Id = categoryId,
                 CategoryName = categoryName,
                 Description = description,
             };
+
+            var dbCategory = this.categoriesRepository.All().Where(c => c.CategoryName == category.CategoryName).FirstOrDefault();
+
+            if (dbCategory.CategoryName == category.CategoryName)
+            {
+                return null;
+            }
 
             await this.categoriesRepository.AddAsync(category);
             await this.categoriesRepository.SaveChangesAsync();

@@ -72,6 +72,12 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
             var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
+
+            if (supplierId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
             this.TempData["Notification"] = "Supplier was successfully created!";
             return this.RedirectToAction("Details", new { id = supplierId });
         }

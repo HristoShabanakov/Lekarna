@@ -5,7 +5,7 @@
 
     public interface ICategoriesService
     {
-        Task<string> CreateAsync(string categoryName, string description);
+        Task<string> CreateAsync(string categoryName, string categoryId, string description);
 
         IEnumerable<T> GetAll<T>(int? count = null);
 

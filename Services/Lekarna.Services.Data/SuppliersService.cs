@@ -26,6 +26,7 @@
         {
             var supplier = new Supplier
             {
+                Id = inputModel.Id,
                 UserId = user.Id,
                 Name = inputModel.Name,
                 Country = inputModel.Country,
@@ -36,6 +37,13 @@
             {
                 var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
                 supplier.ImageId = newImage.Id;
+            }
+
+            var dbSupplier = this.suppliersRepository.All().Where(s => s.Name == supplier.Name).FirstOrDefault();
+
+            if (dbSupplier.Name == supplier.Name)
+            {
+                return null;
             }
 
             await this.suppliersRepository.AddAsync(supplier);

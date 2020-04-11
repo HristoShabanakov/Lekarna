@@ -18,7 +18,7 @@
                 <h5 class="card-title"><a asp-controller="Suppliers" asp-action="Details" asp-route-id="@supplier.Id">@supplier.Name</a></h5>
                 <p class="card-text">Active Offers (@supplier.OffersCount)</p>
                 <p class="card-text">
-                    <time datetime="@supplier.CreatedOn.ToString("G")"></time>
+                    <time datetime="@supplier.CreatedOn.ToString("O")"></time>
                 </p>
                 <a asp-controller="Suppliers" asp-action="Details" asp-route-id="@supplier.Id" class="btn btn-primary">View offers</a>
             </div>

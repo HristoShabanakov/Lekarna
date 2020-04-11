@@ -39,6 +39,13 @@
                 pharmacy.ImageId = newImage.Id;
             }
 
+            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
+
+            if (dbPharmacy.Name == pharmacy.Name)
+            {
+                return null;
+            }
+
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
             return pharmacy.Id;

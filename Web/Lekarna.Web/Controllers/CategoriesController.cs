@@ -63,7 +63,14 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var categoryId = await this.categoriesService.CreateAsync(
                 inputModel.CategoryName,
+                inputModel.Id,
                 inputModel.Description);
+
+            if (categoryId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
             this.TempData["Notification"] = "Category was successfully created!";
             return this.RedirectToAction(nameof(this.All), new { id = categoryId });
         }
