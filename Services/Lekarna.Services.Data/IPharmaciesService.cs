@@ -10,7 +10,9 @@
     {
         Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user);
 
-        Task<string> EditAsync(PharmacyViewModel inputModel);
+        Task<string> EditAsync(PharmacyEditViewModel inputModel);
+
+        Task<string> DeleteAsync(string id);
 
         IEnumerable<T> GetAll<T>(int? count = null);
 

@@ -39,19 +39,29 @@
                 pharmacy.ImageId = newImage.Id;
             }
 
-            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
-
-            if (dbPharmacy.Name == pharmacy.Name)
-            {
-                return null;
-            }
-
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
             return pharmacy.Id;
         }
 
-        public async Task<string> EditAsync(PharmacyViewModel inputModel)
+        public async Task<string> DeleteAsync(string id)
+        {
+            var pharmacy = this.pharmaciesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (pharmacy == null)
+            {
+                return null;
+            }
+
+            var pharmacyId = pharmacy.Id;
+
+            this.pharmaciesRepository.Delete(pharmacy);
+            await this.pharmaciesRepository.SaveChangesAsync();
+
+            return pharmacyId;
+        }
+
+        public async Task<string> EditAsync(PharmacyEditViewModel inputModel)
         {
             var pharmacy = this.pharmaciesRepository.All().FirstOrDefault(p => p.Id == inputModel.Id);
 
@@ -63,6 +73,12 @@
             pharmacy.Name = inputModel.Name;
             pharmacy.Country = inputModel.Country;
             pharmacy.Address = inputModel.Address;
+
+            if (inputModel.NewImage != null)
+            {
+                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
+                pharmacy.ImageId = newImage.Id;
+            }
 
             this.pharmaciesRepository.Update(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();

@@ -96,20 +96,9 @@
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
                 ? "/images/logo.png"
-                : this.imagePathPrefix + viewModel.ImageUrl;
+               : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
-        }
-
-        public IActionResult ById(string id)
-        {
-            var offerViewModel = this.pharmaciesService.GetById<PharmacyViewModel>(id);
-            if (offerViewModel == null)
-            {
-                return this.NotFound();
-            }
-
-            return this.View(offerViewModel);
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -123,11 +112,81 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
+            if (user.Id != viewModel.UserId)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
             viewModel.ImageUrl = viewModel.ImageUrl == null
                 ? "/images/logo.png"
                 : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PharmacyEditViewModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Edit", new { id = inputModel.Id });
+            }
+
+            var pharmacyId = await this.pharmaciesService.EditAsync(inputModel);
+
+            if (pharmacyId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            this.TempData["Notification"] = "Pharmacy was successfully edited!";
+
+            return this.RedirectToAction("Details", new { id = pharmacyId });
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var viewModel = this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user.Id != viewModel.UserId)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePharmacy(string id)
+        {
+            var pharmacyId = await this.pharmaciesService.DeleteAsync(id);
+
+            if (pharmacyId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            this.TempData["Notification"] = "Pharmacy was successfully deleted!";
+
+            return this.RedirectToAction("All");
+        }
+
+        public IActionResult ById(string id)
+        {
+            var offerViewModel = this.pharmaciesService.GetById<PharmacyViewModel>(id);
+            if (offerViewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(offerViewModel);
         }
     }
 }
