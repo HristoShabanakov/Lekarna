@@ -26,7 +26,6 @@
         {
             var supplier = new Supplier
             {
-                Id = inputModel.Id,
                 UserId = user.Id,
                 Name = inputModel.Name,
                 Country = inputModel.Country,
@@ -39,16 +38,51 @@
                 supplier.ImageId = newImage.Id;
             }
 
-            var dbSupplier = this.suppliersRepository.All().Where(s => s.Name == supplier.Name).FirstOrDefault();
+            await this.suppliersRepository.AddAsync(supplier);
+            await this.suppliersRepository.SaveChangesAsync();
+            return supplier.Id;
+        }
 
-            if (dbSupplier.Name == supplier.Name)
+        public async Task<string> EditAsync(SupplierEditViewModel inputModel)
+        {
+            var supplier = this.suppliersRepository.All().FirstOrDefault(p => p.Id == inputModel.Id);
+
+            if (supplier == null)
             {
                 return null;
             }
 
-            await this.suppliersRepository.AddAsync(supplier);
+            supplier.Name = inputModel.Name;
+            supplier.Country = inputModel.Country;
+            supplier.Address = inputModel.Address;
+
+            if (inputModel.NewImage != null)
+            {
+                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
+                supplier.ImageId = newImage.Id;
+            }
+
+            this.suppliersRepository.Update(supplier);
             await this.suppliersRepository.SaveChangesAsync();
+
             return supplier.Id;
+        }
+
+        public async Task<string> DeleteAsync(string id)
+        {
+            var supplier = this.suppliersRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (supplier == null)
+            {
+                return null;
+            }
+
+            var supplierId = supplier.Id;
+
+            this.suppliersRepository.Delete(supplier);
+            await this.suppliersRepository.SaveChangesAsync();
+
+            return supplierId;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)

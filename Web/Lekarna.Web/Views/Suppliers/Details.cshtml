@@ -7,14 +7,15 @@
 
 @if (this.TempData["Notification"] != null)
 {
-    <div class="alert alert-success">
+    <div id="element" class="alert alert-success">
         @this.TempData["Notification"]
     </div>
 }
 
 
 <h1 class="display 3">@Model.Name</h1>
-
+<a asp-controller="Suppliers" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
+<a asp-controller="Suppliers" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
 <div class="card">
     <table class="table table-sm table-hover">
         <thead>
@@ -47,3 +48,7 @@
     </table>
 </div>
 
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

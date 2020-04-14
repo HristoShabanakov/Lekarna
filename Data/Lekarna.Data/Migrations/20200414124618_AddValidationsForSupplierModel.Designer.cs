@@ -4,14 +4,16 @@ using Lekarna.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lekarna.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200414124618_AddValidationsForSupplierModel")]
+    partial class AddValidationsForSupplierModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,9 +128,6 @@ namespace Lekarna.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupplierId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -155,8 +154,6 @@ namespace Lekarna.Data.Migrations
                         .HasFilter("[OfferId] IS NOT NULL");
 
                     b.HasIndex("PharmacyId");
-
-                    b.HasIndex("SupplierId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -599,10 +596,6 @@ namespace Lekarna.Data.Migrations
                     b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
                         .WithMany()
                         .HasForeignKey("PharmacyId");
-
-                    b.HasOne("Lekarna.Data.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Category", b =>
@@ -673,9 +666,8 @@ namespace Lekarna.Data.Migrations
                         .HasForeignKey("Lekarna.Data.Models.Supplier", "ImageId");
 
                     b.HasOne("Lekarna.Data.Models.ApplicationUser", "User")
-                        .WithMany("Suppliers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

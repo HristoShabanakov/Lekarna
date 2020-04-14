@@ -95,6 +95,11 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
         {
+            builder.Entity<Supplier>()
+                .HasOne(u => u.User)
+                .WithMany(s => s.Suppliers)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<Category>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Categories)

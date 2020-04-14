@@ -16,8 +16,7 @@
 
         public PharmaciesService(
             IDeletableEntityRepository<Pharmacy> pharmaciesRepository,
-            IImagesService imagesService,
-            IRepository<ApplicationUser> usersRepository)
+            IImagesService imagesService)
         {
             this.pharmaciesRepository = pharmaciesRepository;
             this.imagesService = imagesService;

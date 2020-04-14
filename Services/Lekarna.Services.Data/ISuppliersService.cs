@@ -12,6 +12,10 @@
 
         Task<string> CreateAsync(SupplierCreateViewModel inputModel, ApplicationUser user);
 
+        Task<string> EditAsync(SupplierEditViewModel inputModel);
+
+        Task<string> DeleteAsync(string id);
+
         T GetByName<T>(string name);
 
         T GetById<T>(string id);

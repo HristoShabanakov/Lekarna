@@ -16,8 +16,6 @@
 
         public string UserId { get; set; }
 
-        public string SupplierId { get; set; }
-
         public string Url { get; set; }
 
         public string ImageId { get; set; }
