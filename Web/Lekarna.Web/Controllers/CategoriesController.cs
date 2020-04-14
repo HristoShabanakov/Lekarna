@@ -63,8 +63,8 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var categoryId = await this.categoriesService.CreateAsync(
                 inputModel.CategoryName,
-                inputModel.Id,
-                inputModel.Description);
+                inputModel.Description,
+                user);
 
             if (categoryId == null)
             {
@@ -75,7 +75,80 @@
             return this.RedirectToAction(nameof(this.All), new { id = categoryId });
         }
 
-        public IActionResult ById(string id)
+        public async Task<IActionResult> Edit(string id)
+        {
+            var viewModel = this.categoriesService.GetById<CategoryDetailsViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user.Id != viewModel.UserId)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CategoryEditViewModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Edit", new { id = inputModel.Id });
+            }
+
+            var categoryId = await this.categoriesService.EditAsync(inputModel);
+
+            if (categoryId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            this.TempData["Notification"] = "Category was successfully edited!";
+
+            return this.RedirectToAction("Details", new { id = categoryId });
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var viewModel = this.categoriesService.GetById<CategoryDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user.Id != viewModel.UserId)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(string id)
+        {
+            var categoryId = await this.categoriesService.DeleteAsync(id);
+
+            if (categoryId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            this.TempData["Notification"] = "Category was successfully deleted!";
+
+            return this.RedirectToAction("All");
+        }
+
+        public IActionResult Details(string id)
         {
             var categoriesViewModel = this.categoriesService.GetById<CategoryViewModel>(id);
 

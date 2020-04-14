@@ -21,7 +21,7 @@
                 <div class="card-body form-group">
                     <h5 class="card-title">@category.CategoryName</h5>
                     <p class="card-text d-inline-block text-truncate">@category.Description</p>
-                    <a asp-controller="Categories" asp-action="ById" asp-route-id="@category.Id" class="btn btn-primary align-middle">Info</a>
+                    <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary align-middle">Info</a>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Number of offers: @category.OffersCount</small>
@@ -69,3 +69,8 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

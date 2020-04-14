@@ -9,6 +9,7 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Categories;
 
     public class CategoriesService : ICategoriesService
     {
@@ -19,24 +20,52 @@
             this.categoriesRepository = categoriesRepository;
         }
 
-        public async Task<string> CreateAsync(string categoryName, string categoryId, string description)
+        public async Task<string> CreateAsync(string categoryName, string description, ApplicationUser user)
         {
             var category = new Category
             {
-                Id = categoryId,
                 CategoryName = categoryName,
                 Description = description,
+                UserId = user.Id,
             };
 
-            var dbCategory = this.categoriesRepository.All().Where(c => c.CategoryName == category.CategoryName).FirstOrDefault();
+            await this.categoriesRepository.AddAsync(category);
+            await this.categoriesRepository.SaveChangesAsync();
+            return category.Id;
+        }
 
-            if (dbCategory.CategoryName == category.CategoryName)
+        public async Task<string> DeleteAsync(string id)
+        {
+            var category = this.categoriesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (category == null)
             {
                 return null;
             }
 
-            await this.categoriesRepository.AddAsync(category);
+            var categoryId = category.Id;
+
+            this.categoriesRepository.Delete(category);
             await this.categoriesRepository.SaveChangesAsync();
+
+            return categoryId;
+        }
+
+        public async Task<string> EditAsync(CategoryEditViewModel inputModel)
+        {
+            var category = this.categoriesRepository.All().FirstOrDefault(c => c.Id == inputModel.Id);
+
+            if (category == null)
+            {
+                return null;
+            }
+
+            category.CategoryName = inputModel.CategoryName;
+            category.Description = inputModel.Description;
+
+            this.categoriesRepository.Update(category);
+            await this.categoriesRepository.SaveChangesAsync();
+
             return category.Id;
         }
 
