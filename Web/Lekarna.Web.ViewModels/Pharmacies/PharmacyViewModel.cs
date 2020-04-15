@@ -27,6 +27,7 @@
 
         public string ImageUrl { get; set; }
 
+        [Display(Name = "Image")]
         public IFormFile NewImage { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -37,12 +38,13 @@
                 UserId = user.Id,
             };
 
-            // var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
+            var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
 
-            // if (dbOffer.Name == offer.Name)
-            // {
-            //    return null;
-            // }
+            if (dbOffer != null)
+             {
+                return null;
+             }
+
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();
             return offer.Id;

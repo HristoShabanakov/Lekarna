@@ -30,6 +30,8 @@
         [Display(Name = "Supplier")]
         public string SupplierId { get; set; }
 
+        [Required]
+        [Display(Name = "Category")]
         public string CategoryId { get; set; }
 
         public string CategoryCategoryName { get; set; }
