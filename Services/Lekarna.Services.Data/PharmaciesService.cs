@@ -32,6 +32,13 @@
                 Address = inputModel.Address,
             };
 
+            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
+
+            if (dbPharmacy != null)
+            {
+                return null;
+            }
+
             if (inputModel.NewImage != null)
             {
                 var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);

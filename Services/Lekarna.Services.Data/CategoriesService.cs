@@ -29,6 +29,13 @@
                 UserId = user.Id,
             };
 
+            var dbCategory = this.categoriesRepository.All().Where(c => c.CategoryName == category.CategoryName).FirstOrDefault();
+
+            if (dbCategory != null)
+            {
+                return null;
+            }
+
             await this.categoriesRepository.AddAsync(category);
             await this.categoriesRepository.SaveChangesAsync();
             return category.Id;

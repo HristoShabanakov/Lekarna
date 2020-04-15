@@ -32,6 +32,13 @@
                 Address = inputModel.Address,
             };
 
+            var dbSupplier = this.suppliersRepository.All().Where(s => s.Name == supplier.Name).FirstOrDefault();
+
+            if (dbSupplier != null)
+            {
+                return null;
+            }
+
             if (inputModel.NewImage != null)
             {
                 var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
