@@ -2,8 +2,15 @@
 @{
     this.ViewData["Title"] = "All Offers";
     var index = 0;
-    
+
 }
+@if (this.TempData["Notification"] != null)
+{
+    <div id="element" class="alert alert-success">
+        @this.TempData["Notification"]
+    </div>
+}
+
 <h1>@this.ViewData["Title"]</h1>
 <div class="card">
     <table class="table table-sm table-hover">
@@ -32,9 +39,9 @@
                     <td><i class="fas fa-euro-sign"></i>@offer.Price</td>
                     <td><i class="fas fa-plus"></i>@offer.Quantity</td>
                     <td><i class="fas fa-chart-line">@offer.Target</i></td>
-                    <td>@offer.UserUsername</td>
+                    <td>@offer.UserUserName</td>
                     <td>@offer.CategoryCategoryName</td>
-                    <td><a asp-controller="Offers" asp-action="ById" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
+                    <td><a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
                 </tr>
             </tbody>
         }
@@ -80,3 +87,8 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

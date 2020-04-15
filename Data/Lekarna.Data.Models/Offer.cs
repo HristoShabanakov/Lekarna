@@ -1,6 +1,7 @@
 ﻿namespace Lekarna.Data.Models
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     using Lekarna.Data.Common.Models;
 
@@ -12,16 +13,30 @@
             this.CreatedOn = DateTime.UtcNow;
         }
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string Name { get; set; }
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string Medicine { get; set; }
 
+        [Required]
+        [Range(0.01, double.MaxValue)]
         public decimal Price { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue)]
         public int Target { get; set; }
 
+        [Required]
+        [Range(typeof(decimal), "0.01", "79228162514264337593543950335")]
         public decimal Discount { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
         public string ImageUrl { get; set; }

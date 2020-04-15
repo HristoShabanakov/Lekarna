@@ -10,6 +10,10 @@
     {
         Task<string> CreateAsync(OfferCreateInputModel inputModel, ApplicationUser user);
 
+        Task<string> EditAsync(OfferEditViewModel inputModel);
+
+        Task<string> DeleteAsync(string id);
+
         IEnumerable<T> GetAll<T>(int? count = null);
 
         T GetById<T>(string id);

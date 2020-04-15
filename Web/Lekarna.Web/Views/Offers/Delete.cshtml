@@ -1,0 +1,20 @@
+﻿@model Lekarna.Web.ViewModels.Offers.OfferDeleteViewModel
+@{
+    this.ViewData["Title"] = "Delete offer";
+}
+
+<section id="page-title-area" class="section-padding overlay">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 form">
+                <h3>Are you sure you want to delete offer @Model.Name ?</h3>
+                <form class="row mb-3" method="post">
+                    <div class="col-4 col-md-auto">
+                        <button class="btn btn-danger btn-lg" type="submit" asp-area="" asp-controller="Offers" asp-action="DeleteOffer" asp-route-id="@Model.Id"><i class="fa fa-trash"></i>Delete</button>
+                        <button class="btn btn-outline-warning btn-lg" type="submit" asp-area="" asp-controller="Offers" asp-action="Details" asp-route-id="@Model.Id"><i class="fa fa-undo"></i> Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

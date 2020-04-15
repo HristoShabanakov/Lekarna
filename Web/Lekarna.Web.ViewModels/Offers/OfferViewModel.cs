@@ -24,14 +24,18 @@
 
         public int Quantity { get; set; }
 
-        public string UserUsername { get; set; }
+        public string UserUserName { get; set; }
 
         public string UserId { get; set; }
 
         public string CategoryId { get; set; }
 
+        public string SupplierId { get; set; }
+
         public string CategoryCategoryName { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
+
+        public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
     }
 }

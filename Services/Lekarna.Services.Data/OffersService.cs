@@ -37,15 +37,55 @@
                 UserId = user.Id,
             };
 
-            var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
+            // var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
 
-            if (dbOffer.Name == offer.Name)
+            // if (dbOffer.Name == offer.Name)
+            // {
+            //    return null;
+            // }
+            await this.offersRepository.AddAsync(offer);
+            await this.offersRepository.SaveChangesAsync();
+            return offer.Id;
+        }
+
+        public async Task<string> DeleteAsync(string id)
+        {
+            var offer = this.offersRepository.All().Where(x => x.Id == id).FirstOrDefault();
+
+            if (offer == null)
             {
                 return null;
             }
 
-            await this.offersRepository.AddAsync(offer);
+            var offerId = offer.Id;
+
+            this.offersRepository.Delete(offer);
             await this.offersRepository.SaveChangesAsync();
+
+            return offerId;
+        }
+
+        public async Task<string> EditAsync(OfferEditViewModel inputModel)
+        {
+            var offer = this.offersRepository.All().FirstOrDefault(o => o.Id == inputModel.Id);
+
+            if (offer == null)
+            {
+                return null;
+            }
+
+            offer.Name = inputModel.Name;
+            offer.Medicine = inputModel.Medicine;
+            offer.Price = inputModel.Price;
+            offer.Target = inputModel.Target;
+            offer.Quantity = inputModel.Quantity;
+            offer.Discount = inputModel.Discount;
+            offer.CategoryId = inputModel.CategoryId;
+            offer.SupplierId = inputModel.SupplierId;
+
+            this.offersRepository.Update(offer);
+            await this.offersRepository.SaveChangesAsync();
+
             return offer.Id;
         }
 

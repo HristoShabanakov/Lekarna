@@ -16,12 +16,18 @@
         }
 
         [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string Name { get; set; }
 
         [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string Country { get; set; }
 
         [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string Address { get; set; }
 
         public string ImageId { get; set; }

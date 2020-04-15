@@ -15,6 +15,8 @@
         }
 
         [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string CategoryName { get; set; }
 
         public string Description { get; set; }
