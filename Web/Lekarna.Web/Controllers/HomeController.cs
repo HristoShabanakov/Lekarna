@@ -25,6 +25,11 @@
             return this.View(viewModel);
         }
 
+        public IActionResult Chat()
+        {
+            return this.View();
+        }
+
         public IActionResult Privacy()
         {
             return this.View();

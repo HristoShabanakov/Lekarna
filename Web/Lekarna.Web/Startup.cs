@@ -12,6 +12,7 @@
     using Lekarna.Services.Data;
     using Lekarna.Services.Mapping;
     using Lekarna.Services.Messaging;
+    using Lekarna.Web.Hubs;
     using Lekarna.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -60,6 +61,8 @@
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
+
+            services.AddSignalR();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -127,6 +130,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
