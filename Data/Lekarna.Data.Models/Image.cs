@@ -13,10 +13,6 @@
 
         public string Url { get; set; }
 
-        public string UserId { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
-
         public string PharmacyId { get; set; }
 
         public virtual Pharmacy Pharmacy { get; set; }

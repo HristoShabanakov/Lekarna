@@ -28,11 +28,6 @@
             var offer = new Offer
             {
                 Name = inputModel.Name,
-                Medicine = inputModel.Medicine,
-                Price = inputModel.Price,
-                Target = inputModel.Target,
-                Quantity = inputModel.Quantity,
-                Discount = inputModel.Discount,
                 SupplierId = inputModel.SupplierId,
                 CategoryId = inputModel.CategoryId,
                 UserId = user.Id,
@@ -77,11 +72,6 @@
             }
 
             offer.Name = inputModel.Name;
-            offer.Medicine = inputModel.Medicine;
-            offer.Price = inputModel.Price;
-            offer.Target = inputModel.Target;
-            offer.Quantity = inputModel.Quantity;
-            offer.Discount = inputModel.Discount;
             offer.CategoryId = inputModel.CategoryId;
             offer.SupplierId = inputModel.SupplierId;
 

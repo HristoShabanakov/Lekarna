@@ -38,6 +38,8 @@
 
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<Medicine> Medicines { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -96,13 +98,15 @@
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
         {
             builder.Entity<Supplier>()
-                .HasOne(u => u.User)
-                .WithMany(s => s.Suppliers)
+                .HasMany(o => o.Offers)
+                .WithOne(s => s.Supplier)
+                .HasForeignKey(s => s.SupplierId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Category>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Categories)
+                .HasMany(o => o.Offers)
+                .WithOne(c => c.Category)
+                .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Pharmacy>()
@@ -111,9 +115,8 @@
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Offer>()
-                .HasOne(u => u.User)
-                .WithOne(o => o.Offer)
-                .HasForeignKey<ApplicationUser>(o => o.OfferId)
+                .HasOne(o => o.User)
+                .WithMany(u => u.Offers)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Image>()

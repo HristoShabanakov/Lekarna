@@ -18,13 +18,13 @@
 
             var offers = new List<Offer>()
            {
-               new Offer { Name = "Sanofi", Price = 2.55m, Target = 100, Quantity = 500, Discount = 50 },
-               new Offer { Name = "Sopharma", Price = 4.55m, Target = 20, Quantity = 300, Discount = 80 },
-               new Offer { Name = "Medica", Price = 12.86m, Target = 50, Quantity = 1100, Discount = 220 },
-               new Offer { Name = "Bayer", Price = 150.71m, Target = 700, Quantity = 1000, Discount = 300 },
-               new Offer { Name = "Zelenka", Price = 10.21m, Target = 40, Quantity = 150, Discount = 15 },
-               new Offer { Name = "Panoramna", Price = 18.19m, Target = 80, Quantity = 220, Discount = 25 },
-               new Offer { Name = "Buntovnik", Price = 245.19m, Target = 680, Quantity = 375, Discount = 90 },
+               new Offer { Name = "Sanofi", },
+               new Offer { Name = "Sopharma", },
+               new Offer { Name = "Medica", },
+               new Offer { Name = "Bayer", },
+               new Offer { Name = "Zelenka", },
+               new Offer { Name = "Panoramna", },
+               new Offer { Name = "Buntovnik", },
            };
             await dbContext.Offers.AddRangeAsync(offers);
         }

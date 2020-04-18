@@ -29,11 +29,11 @@
         [MaxLength(50)]
         public string Address { get; set; }
 
-        public string UserId { get; set; }
-
         public string ImageId { get; set; }
 
         public virtual Image Image { get; set; }
+
+        public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 

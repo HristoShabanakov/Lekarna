@@ -10,11 +10,29 @@
 }
 <a asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
 <a asp-controller="Offers" asp-action="Delete" asp-route-id="@Model.Id" class="btn bg-danger">Delete</a>
-<h1>@Model.Medicine</h1>
-<h1>@Model.Price</h1>
-<h1>@Model.Quantity</h1>
-<h1>@Model.Target</h1>
-<h1>@Model.CategoryCategoryName</h1>
+<h1>Offer - @Model.Name</h1>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Medicine</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Target</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>@Model.Medicine</td>
+            <td>@Model.Price</td>
+            <td>@Model.Quantity</td>
+            <td>@Model.Target</td>
+        </tr>
+    </tbody>
+</table>
+
 
 <script>
     let notification = document.getElementById("element");

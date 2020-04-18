@@ -18,8 +18,7 @@ namespace Lekarna.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Orders = new HashSet<Order>();
             this.Pharmacies = new HashSet<Pharmacy>();
-            this.Categories = new HashSet<Category>();
-            this.Suppliers = new HashSet<Supplier>();
+            this.Offers = new HashSet<Offer>();
         }
 
         // Audit info
@@ -42,9 +41,7 @@ namespace Lekarna.Data.Models
 
         public virtual ICollection<Pharmacy> Pharmacies { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; }
-
-        public virtual ICollection<Supplier> Suppliers { get; set; }
+        public virtual ICollection<Offer> Offers { get; set; }
 
         public string PharmacyId { get; set; }
 
@@ -53,13 +50,5 @@ namespace Lekarna.Data.Models
         public string OfferId { get; set; }
 
         public virtual Offer Offer { get; set; }
-
-        public string CategoryId { get; set; }
-
-        public virtual Category Category { get; set; }
-
-        public string SupplierId { get; set; }
-
-        public virtual Supplier Supplier { get; set; }
     }
 }
