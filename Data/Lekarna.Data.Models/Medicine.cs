@@ -30,5 +30,9 @@
         [Required]
         [Column(TypeName = "decimal(5,2)")]
         public decimal Discount { get; set; }
+
+        public string OfferId { get; set; }
+
+        public virtual Offer Offer { get; set; }
     }
 }

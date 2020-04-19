@@ -5,6 +5,7 @@
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Medicines;
 
     public class OfferViewModel : IMapFrom<Offer>
     {
@@ -32,10 +33,14 @@
 
         public string SupplierId { get; set; }
 
+        public string MedicineId { get; set; }
+
         public string CategoryCategoryName { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
 
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
+
+        public IEnumerable<MedicineViewModel> Medicines { get; set; }
     }
 }

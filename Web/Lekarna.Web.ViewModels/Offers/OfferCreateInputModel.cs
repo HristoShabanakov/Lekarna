@@ -6,25 +6,12 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
 
-    public class OfferCreateInputModel : IMapFrom<Category>
+    public class OfferCreateInputModel : IMapFrom<Offer>
     {
         public string UserId { get; set; }
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
-        public string Medicine { get; set; }
-
-        [Required]
-        public decimal Price { get; set; }
-
-        public int Target { get; set; }
-
-        public int Quantity { get; set; }
-
-        [Required]
-        public decimal Discount { get; set; }
 
         [Required]
         [Display(Name = "Supplier")]

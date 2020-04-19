@@ -14,29 +14,7 @@
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="Medicine"></label>
-            <input asp-for="Medicine" class="form-control" />
-            <span asp-validation-for="Medicine" class="text-danger"></span>
-        </div>
-        <label asp-for="Price"></label>
-        <input min="1.00" value="" asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-        <div class="form-group">
-            <label asp-for="Target"></label>
-            <input min="1.00" value="" asp-for="Target" class="form-control" />
-            <span asp-validation-for="Target" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Quantity"></label>
-            <input min="1.00" value="" asp-for="Quantity" class="form-control" />
-            <span asp-validation-for="Quantity" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Discount"></label>
-            <input min="1.00" value="" asp-for="Discount" class="form-control" />
-            <span asp-validation-for="Discount" class="text-danger"></span>
-        </div>
+
         <div class="form-group">
             <label asp-for="SupplierId"></label>
             <select asp-for="SupplierId" asp-items="suppliers" class="form-control">
