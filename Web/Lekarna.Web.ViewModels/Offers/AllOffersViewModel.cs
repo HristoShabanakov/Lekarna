@@ -13,6 +13,10 @@
 
         public int PagesCount { get; set; }
 
+        public string Id { get; set; }
+
+        public string OfferId { get; set; }
+
         public IEnumerable<OfferViewModel> Offers { get; set; }
     }
 }

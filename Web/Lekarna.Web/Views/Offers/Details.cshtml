@@ -1,6 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Offers.OfferViewModel
 @{
     this.ViewData["Title"] = Model.Name;
+    var index = 0;
 }
 @if (this.TempData["Notification"] != null)
 {
@@ -20,19 +21,20 @@
                         <th scope="col">#</th>
                         <th scope="col">Medicine</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
                         <th scope="col">Target</th>
                     </tr>
                 </thead>
-                @foreach (var offer in Model.Medicines)
+                @foreach (var medicine in Model.Medicines)
                 {
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>@Model.Medicine</td>
-                            <td>@Model.Price</td>
-                            <td>@Model.Quantity</td>
-                            <td>@Model.Target</td>
+                            <th scope="row">@(++index)</th>
+                            <td>@medicine.Name</td>
+                            <td>@medicine.Price</td>
+                            <td>@medicine.Target</td>
+                            <td>
+                                <button class="btn btn-primary font-weight-bold" asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id">Order</button>
+                            </td>
                         </tr>
                     </tbody>
                 }
@@ -40,10 +42,8 @@
         </div>
         <hr class="hr-2 bg-info mt-4" />
         <div class="mt-4 d-flex justify-content-around">
-            <button class="btn btn-primary font-weight-bold" asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id">Order</button>
             <a asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
             <a asp-controller="Offers" asp-action="Delete" asp-route-id="@Model.Id" class="btn bg-danger">Delete</a>
-            <a asp-controller="Medicines" asp-action="Create" asp-route-id="@Model.Id" class="btn bg-danger">Create</a>
         </div>
     </div>
 </div>

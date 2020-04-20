@@ -162,16 +162,17 @@
 
         public IActionResult Details(string id)
         {
+            var viewModel = this.offersService.GetById<OfferViewModel>(id);
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
-            var offerViewModel = this.offersService.GetById<OfferViewModel>(id);
-            if (offerViewModel == null)
+
+            if (viewModel == null)
             {
                 return this.NotFound();
             }
 
-            offerViewModel.Categories = categories;
+            viewModel.Categories = categories;
 
-            return this.View(offerViewModel);
+            return this.View(viewModel);
         }
     }
 }
