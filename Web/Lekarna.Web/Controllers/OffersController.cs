@@ -174,5 +174,11 @@
 
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Order(OfferOrderInputModel inputModel)
+        {
+            return this.Redirect("/");
+        }
     }
 }

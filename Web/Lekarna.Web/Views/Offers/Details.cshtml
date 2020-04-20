@@ -33,7 +33,7 @@
                             <td>@medicine.Price</td>
                             <td>@medicine.Target</td>
                             <td>
-                                <button class="btn btn-primary font-weight-bold" asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id">Order</button>
+                                <button class="btn btn-primary font-weight-bold" data-toggle="modal" data-target="#orderModal"  data-id="@Model.MedicineId" >Order</button>
                             </td>
                         </tr>
                     </tbody>
@@ -49,8 +49,40 @@
 </div>
 
 
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModalLabel">Order - @Model.MedicineId</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="order-form" method="post" asp-controller="Offers" asp-action="Order">
+                    <div class="form-group">
+                        <label for="quantity" class="col-form-label font-weight-bold">Quantity</label>
+                        <input type="number"
+                               class="form-control"
+                               id="quantity"
+                               name="quantity"
+                               value="orderModal">
+                        <input type="hidden" data-id="@Model.MedicineId" name="productId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="complete-order-button">Complete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
-    let notification = document.getElementById("element");
-    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+    $('#complete-order-button').click(function () {
+        $('#order-form').submit();
+    });
 </script>

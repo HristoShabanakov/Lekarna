@@ -27,6 +27,8 @@
 
         public string OfferId { get; set; }
 
+        public string MedicineId { get; set; }
+
         public string CategoryCategoryName { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
