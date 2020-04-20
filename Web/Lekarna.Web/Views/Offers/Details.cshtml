@@ -3,12 +3,7 @@
     this.ViewData["Title"] = Model.Name;
     var index = 0;
 }
-@if (this.TempData["Notification"] != null)
-{
-    <div class="alert alert-success">
-        @this.TempData["Notification"]
-    </div>
-}
+
 
 <h1 class="text-center">Offer - @Model.Name</h1>
 
@@ -33,7 +28,7 @@
                             <td>@medicine.Price</td>
                             <td>@medicine.Target</td>
                             <td>
-                                <button class="btn btn-primary font-weight-bold" data-toggle="modal" data-target="#orderModal"  data-id="@Model.MedicineId" >Order</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@medicine.Name">Open modal</button>
                             </td>
                         </tr>
                     </tbody>
@@ -41,48 +36,49 @@
             </table>
         </div>
         <hr class="hr-2 bg-info mt-4" />
-        <div class="mt-4 d-flex justify-content-around">
-            <a asp-controller="Offers" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
-            <a asp-controller="Offers" asp-action="Delete" asp-route-id="@Model.Id" class="btn bg-danger">Delete</a>
-        </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="orderModalLabel">Order - @Model.MedicineId</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="order-form" method="post" asp-controller="Offers" asp-action="Order">
+                <form>
                     <div class="form-group">
-                        <label for="quantity" class="col-form-label font-weight-bold">Quantity</label>
-                        <input type="number"
-                               class="form-control"
-                               id="quantity"
-                               name="quantity"
-                               value="orderModal">
-                        <input type="hidden" data-id="@Model.MedicineId" name="productId" />
+                        <label for="recipient-name" class="col-form-label">Medicine</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="complete-order-button">Complete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add to cart</button>
             </div>
         </div>
     </div>
 </div>
 
-
-
-<script>
-    $('#complete-order-button').click(function () {
-        $('#order-form').submit();
-    });
-</script>
+@section Scripts {
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text(' Order ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+    </script>
+}
