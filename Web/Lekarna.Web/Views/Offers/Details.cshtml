@@ -28,7 +28,7 @@
                             <td>@medicine.Price</td>
                             <td>@medicine.Target</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-whatever="@medicine.Name">Open modal</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-id="@medicine.Price"  data-whatever="@medicine.Name">Open modal</button>
                             </td>
                         </tr>
                     </tbody>
@@ -39,6 +39,65 @@
     </div>
 </div>
 
+<div class="pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                <!-- Shopping cart table -->
+                <div class="table-responsive">
+                    <table id="MainTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="border-0 bg-light">
+                                    <div class="p-2 px-3 text-uppercase">Medicine</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-light">
+                                    <div class="py-2 text-uppercase">Price</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-light">
+                                    <div class="py-2 text-uppercase">Quantity</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-light">
+                                    <div class="py-2 text-uppercase">Remove</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="FirstRow">
+                                <td id="name" title="" class="align-middle"><strong>Name</strong></td>
+                                <td id="price" title="" class="align-middle"><strong>$79.00</strong></td>
+                                <td id="quantity" class="align-middle"><strong>3</strong></td>
+                                <td class="align-middle">
+                                    <button id="delete-button" class="text-dark" href="#" ><i class="fa fa-trash"></i></></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+        <div>
+            <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                <div class="col-lg-6">
+                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+                    <div class="p-4">
+                        <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong>$390.00</strong></li>
+                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.00</strong></li>
+                            <li class="d-flex justify-content-between py-3 border-bottom">
+                                <strong class="text-muted">Total</strong>
+                                <h5 class="font-weight-bold">$400.00</h5>
+                            </li>
+                        </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -56,14 +115,18 @@
                         <input type="text" class="form-control" id="medicine-name">
                     </div>
                     <div class="form-group">
+                        <label for="medicine-price" class="col-form-label">Price</label>
+                        <input type="number" class="form-control" name="medicine-price" id="medicine-price">
+                    </div>
+                    <div class="form-group">
                         <label for="message-text" class="col-form-label">Quantity</label>
-                        <input type="number" class="form-control" id="quantity">
+                        <input type="number" class="form-control" id="medicine-quantity">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add to cart</button>
+                <button id="cart-button" type="button" class="btn btn-primary">Add to cart</button>
             </div>
         </div>
     </div>
@@ -73,12 +136,29 @@
     <script>
         $('#orderModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var medicine = button.data('whatever') // Extract info from data-* attributes
+            var medicine = button.data('whatever')
+            var price = button.data('id')// Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
             modal.find('.modal-title').text(' Order ' + medicine)
-            modal.find('.modal-body input').val(medicine)
-        })
+            $(".modal-body #medicine-price").val(price)
+            $(".modal-body #medicine-name").val(medicine)
+        });
+
+        $("#cart-button").click(function () {
+            var medicineName = $('#medicine-name').val();
+            var medicinePrice = $('#medicine-price').val();
+            var quantity = $('#medicine-quantity').val();
+            $("#name").text(medicineName);
+            $("#price").text(medicinePrice);
+            $("#quantity").text(quantity);
+            $('#FirstRow').clone().appendTo('#MainTable');
+        });
+
+        $("#delete-button").click(function () {
+            $('#FirstRow').remove();
+        });
+        
     </script>
 }
