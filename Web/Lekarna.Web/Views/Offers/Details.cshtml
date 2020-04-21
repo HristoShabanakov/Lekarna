@@ -28,7 +28,7 @@
                             <td>@medicine.Price</td>
                             <td>@medicine.Target</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-id="@medicine.Price"  data-whatever="@medicine.Name">Open modal</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Open modal</button>
                             </td>
                         </tr>
                     </tbody>
@@ -39,6 +39,40 @@
     </div>
 </div>
 
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModalLabel">New order @Model.Id</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Order" method="post" id="order-form">
+                    <div class="form-group">
+                        <label for="medicine" class="col-form-label font-weight-bold">Medicine</label>
+                        <input type="text" class="form-control" name="medicine" id="medicine">
+                        <input type="hidden" id="medicineId" value="id" name="medicineId" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="col-form-label">Price</label>
+                        <input type="number" class="form-control" name="price" id="price">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity" class="col-form-label">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="quantity">
+                        <input type="hidden" value="@Model.Id" name="offerId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="complete-order-button" type="button" class="btn btn-primary">Add to cart</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="pb-5">
     <div class="container">
         <div class="row">
@@ -63,12 +97,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="FirstRow">
+                            <tr id="templateRow">
                                 <td id="name" title="" class="align-middle"><strong>Name</strong></td>
                                 <td id="price" title="" class="align-middle"><strong>$79.00</strong></td>
                                 <td id="quantity" class="align-middle"><strong>3</strong></td>
                                 <td class="align-middle">
-                                    <button id="delete-button" class="text-dark" href="#" ><i class="fa fa-trash"></i></></button>
+                                    <button id="delete-button" class="text-dark" href="#"><i class="fa fa-trash"></i></></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -99,66 +133,27 @@
     </div>
 </div>
 
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="orderModalLabel">New order</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Medicine</label>
-                        <input type="text" class="form-control" id="medicine-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="medicine-price" class="col-form-label">Price</label>
-                        <input type="number" class="form-control" name="medicine-price" id="medicine-price">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Quantity</label>
-                        <input type="number" class="form-control" id="medicine-quantity">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="cart-button" type="button" class="btn btn-primary">Add to cart</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @section Scripts {
     <script>
         $('#orderModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var medicine = button.data('whatever')
-            var price = button.data('id')// Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var medicine = button.data('name')
+            var price = button.data('price')// Extract info from data-* attributes
+            var medicineId = button.data('id')
             var modal = $(this)
-            modal.find('.modal-title').text(' Order ' + medicine)
-            $(".modal-body #medicine-price").val(price)
-            $(".modal-body #medicine-name").val(medicine)
+            modal.find('.modal-title').text(' Offer ' + medicine)
+            $(".modal-body #price").val(price)
+            $(".modal-body #medicine").val(medicine)
+            $(".modal-body #medicineId").val(medicineId)
+           
         });
 
-        $("#cart-button").click(function () {
-            var medicineName = $('#medicine-name').val();
-            var medicinePrice = $('#medicine-price').val();
-            var quantity = $('#medicine-quantity').val();
-            $("#name").text(medicineName);
-            $("#price").text(medicinePrice);
-            $("#quantity").text(quantity);
-            $('#FirstRow').clone().appendTo('#MainTable');
+        $('#complete-order-button').click(function () {
+            $('#order-form').submit();
         });
-
-        $("#delete-button").click(function () {
-            $('#FirstRow').remove();
-        });
-        
     </script>
+
+
 }
