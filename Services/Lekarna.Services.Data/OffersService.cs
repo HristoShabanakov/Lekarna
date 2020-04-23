@@ -23,14 +23,13 @@
             this.user = user;
         }
 
-        public async Task<string> CreateAsync(OfferCreateInputModel inputModel, ApplicationUser user)
+        public async Task<string> CreateAsync(OfferCreateInputModel inputModel)
         {
             var offer = new Offer
             {
                 Name = inputModel.Name,
                 SupplierId = inputModel.SupplierId,
                 CategoryId = inputModel.CategoryId,
-                UserId = user.Id,
             };
 
             var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();

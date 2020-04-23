@@ -46,7 +46,7 @@
             }
 
             this.TempData["Notification"] = "Medicine was successfully registered!";
-            return this.RedirectToAction(nameof(this.Create), new { id = medicineId });
+            return this.RedirectToAction("All", "Offers");
         }
     }
 }

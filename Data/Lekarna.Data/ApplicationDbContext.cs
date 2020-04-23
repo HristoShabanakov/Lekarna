@@ -42,6 +42,8 @@
 
         public DbSet<OrderStatus> OrderStatuses { get; set; }
 
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -99,6 +101,12 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
         {
+            builder.Entity<Pharmacy>()
+                .HasOne(p => p.ApplicationUser)
+                .WithOne(u => u.Pharmacy)
+                .HasForeignKey<ApplicationUser>(u => u.PharmacyId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<Supplier>()
                 .HasMany(o => o.Offers)
                 .WithOne(s => s.Supplier)
@@ -111,16 +119,6 @@
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder.Entity<Pharmacy>()
-                .HasOne(p => p.User)
-                .WithMany(u => u.Pharmacies)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            builder.Entity<Offer>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Offers)
-                .OnDelete(DeleteBehavior.SetNull);
-
             builder.Entity<Image>()
                .HasOne(i => i.Pharmacy)
                .WithOne(p => p.Image)
@@ -131,12 +129,14 @@
                .WithOne(p => p.Image)
                .HasForeignKey<Supplier>(p => p.ImageId);
 
+            builder.Entity<Medicine>()
+                .HasKey(m => m.Id);
+
             builder.Entity<Order>()
-                .HasKey(o => new
-                {
-                    o.PharmacyId,
-                    o.OfferId,
-                });
+                .HasOne(p => p.Pharmacy)
+                .WithMany(o => o.Orders)
+                .HasForeignKey(p => p.PharmacyId)
+                .HasForeignKey(o => o.OrderItemId);
         }
 
         private void ApplyAuditInfoRules()

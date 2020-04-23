@@ -4,14 +4,16 @@ using Lekarna.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lekarna.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200423104341_DatabaseOrderModel")]
+    partial class DatabaseOrderModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,7 +303,10 @@ namespace Lekarna.Data.Migrations
 
             modelBuilder.Entity("Lekarna.Data.Models.Order", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("OfferId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PharmacyId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
@@ -313,52 +318,14 @@ namespace Lekarna.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("IssuedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OrderItemId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PharmacyId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("OrderItemId");
-
-                    b.HasIndex("PharmacyId");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Lekarna.Data.Models.OrderItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("MedicineId")
                         .HasColumnType("nvarchar(450)");
@@ -366,24 +333,28 @@ namespace Lekarna.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OfferId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OfferId", "PharmacyId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("MedicineId");
 
-                    b.HasIndex("OfferId");
+                    b.HasIndex("PharmacyId");
 
-                    b.ToTable("OrderItems");
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.OrderStatus", b =>
@@ -687,30 +658,27 @@ namespace Lekarna.Data.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Lekarna.Data.Models.OrderItem", "OrderItem")
-                        .WithMany()
-                        .HasForeignKey("OrderItemId");
-
-                    b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
-                        .WithMany("Orders")
-                        .HasForeignKey("PharmacyId");
-
-                    b.HasOne("Lekarna.Data.Models.OrderStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lekarna.Data.Models.OrderItem", b =>
-                {
                     b.HasOne("Lekarna.Data.Models.Medicine", "Medicine")
                         .WithMany()
                         .HasForeignKey("MedicineId");
 
                     b.HasOne("Lekarna.Data.Models.Offer", "Offer")
                         .WithMany()
-                        .HasForeignKey("OfferId");
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
+                        .WithMany("Orders")
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lekarna.Data.Models.OrderStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Pharmacy", b =>

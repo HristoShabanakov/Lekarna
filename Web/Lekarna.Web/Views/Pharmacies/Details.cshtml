@@ -18,7 +18,7 @@
 <h1>Number of Orders: @Model.OrdersCount</h1>
 <h1>@Model.NewImage</h1>
 <img src="@Model.ImageUrl" class="img-thumbnail height: 100px; width: 100px;" />
-<h1>Created by @Model.UserUsername</h1>
+<h1>Created by @Model.ApplicationUserUsername</h1>
 
 <a asp-controller="Pharmacies" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
 <a asp-controller="Pharmacies" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>

@@ -26,7 +26,6 @@
         {
             var supplier = new Supplier
             {
-                UserId = user.Id,
                 Name = inputModel.Name,
                 Country = inputModel.Country,
                 Address = inputModel.Address,

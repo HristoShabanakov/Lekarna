@@ -21,7 +21,7 @@
 
         public string UserId { get; set; }
 
-        public string UserUsername { get; set; }
+        public string ApplicationUserUsername { get; set; }
 
         public int OrdersCount { get; set; }
 

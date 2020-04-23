@@ -26,7 +26,6 @@
             {
                 CategoryName = categoryName,
                 Description = description,
-                UserId = user.Id,
             };
 
             var dbCategory = this.categoriesRepository.All().Where(c => c.CategoryName == category.CategoryName).FirstOrDefault();

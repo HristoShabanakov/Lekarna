@@ -5,7 +5,6 @@
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
-    using Lekarna.Web.ViewModels.Medicines;
     using Lekarna.Web.ViewModels.Offers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -20,20 +19,17 @@
         private readonly ISuppliersService suppliersService;
         private readonly ICategoriesService categoriesService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IMedicinesService medicinesService;
 
         public OffersController(
             IOffersService offersService,
             ISuppliersService suppliersService,
             ICategoriesService categoriesService,
-            UserManager<ApplicationUser> userManager,
-            IMedicinesService medicinesService)
+            UserManager<ApplicationUser> userManager)
         {
             this.offersService = offersService;
             this.suppliersService = suppliersService;
             this.categoriesService = categoriesService;
             this.userManager = userManager;
-            this.medicinesService = medicinesService;
         }
 
         public IActionResult All(int page = 1)
@@ -73,7 +69,7 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var offerId = await this.offersService.CreateAsync(inputModel, user);
+            var offerId = await this.offersService.CreateAsync(inputModel);
 
             if (offerId == null)
             {
@@ -173,12 +169,6 @@
             viewModel.Categories = categories;
 
             return this.View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Order(OfferOrderInputModel inputModel)
-        {
-            return this.Redirect("/");
         }
     }
 }

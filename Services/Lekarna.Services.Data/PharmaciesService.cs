@@ -13,24 +13,29 @@
     {
         private readonly IDeletableEntityRepository<Pharmacy> pharmaciesRepository;
         private readonly IImagesService imagesService;
+        private readonly IRepository<ApplicationUser> usersRepository;
 
         public PharmaciesService(
             IDeletableEntityRepository<Pharmacy> pharmaciesRepository,
-            IImagesService imagesService)
+            IImagesService imagesService,
+            IRepository<ApplicationUser> usersRepository)
         {
             this.pharmaciesRepository = pharmaciesRepository;
             this.imagesService = imagesService;
+            this.usersRepository = usersRepository;
         }
 
         public async Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user)
         {
             var pharmacy = new Pharmacy
             {
-                UserId = user.Id,
+                ApplicationUserId = user.Id,
                 Name = inputModel.Name,
                 Country = inputModel.Country,
                 Address = inputModel.Address,
             };
+
+            user.PharmacyId = pharmacy.Id;
 
             var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
 
@@ -47,6 +52,9 @@
 
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
+
+            this.usersRepository.Update(user);
+            await this.usersRepository.SaveChangesAsync();
             return pharmacy.Id;
         }
 

@@ -33,10 +33,6 @@
 
         public virtual Image Image { get; set; }
 
-        public string UserId { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
-
         public virtual ICollection<Offer> Offers { get; set; }
     }
 }

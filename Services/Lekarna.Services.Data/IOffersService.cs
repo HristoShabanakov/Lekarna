@@ -8,7 +8,7 @@
 
     public interface IOffersService
     {
-        Task<string> CreateAsync(OfferCreateInputModel inputModel, ApplicationUser user);
+        Task<string> CreateAsync(OfferCreateInputModel inputModel);
 
         Task<string> EditAsync(OfferEditViewModel inputModel);
 

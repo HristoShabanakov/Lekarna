@@ -1,0 +1,33 @@
+﻿@model Lekarna.Web.ViewModels.Orders.AllOrdersViewModel
+@{
+    this.ViewData["Title"] = "Orders";
+    var index = 0;
+}
+
+<h1>@this.ViewData["Title"]</h1>
+<div class="card">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th scope="col"><i class="fas fa-sort-down"></i></th>
+                <th scope="col">Medicine</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Offer</th>
+            </tr>
+        </thead>
+        @foreach (var order in Model.Orders)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row">@(++index)</th>
+                    <td><i class="far fa-copyright"></i>@order.MedicineName</td>
+                    <td><i class="far fa-calendar-check"></i>@order.Price</td>
+                    <td>@order.Quantity</td>
+                    <td>@order.OfferId</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
+
