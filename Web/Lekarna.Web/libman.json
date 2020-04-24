@@ -72,6 +72,14 @@
       "files": [
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "jquery-datetimepicker@2.5.21",
+      "destination": "wwwroot/lib/jquery/dist/datetimepicker",
+      "files": [
+        "jquery.datetimepicker.css",
+        "jquery.datetimepicker.min.js"
+      ]
     }
   ]
 }

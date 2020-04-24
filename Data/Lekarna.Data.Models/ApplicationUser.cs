@@ -3,6 +3,7 @@ namespace Lekarna.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Lekarna.Data.Common.Models;
 

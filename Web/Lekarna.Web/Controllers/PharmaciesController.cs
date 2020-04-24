@@ -112,7 +112,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user.Id != viewModel.UserId)
+            if (user.PharmacyId != viewModel.Id)
             {
                 return this.RedirectToAction("Error", "Home");
             }
@@ -155,7 +155,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user.Id != viewModel.UserId)
+            if (user.PharmacyId != viewModel.Id)
             {
                 return this.RedirectToAction("Error", "Home");
             }

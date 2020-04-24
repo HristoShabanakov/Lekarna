@@ -24,6 +24,8 @@
         {
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public DbSet<Pharmacy> Pharmacies { get; set; }

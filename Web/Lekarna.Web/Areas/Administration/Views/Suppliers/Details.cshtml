@@ -12,10 +12,10 @@
     </div>
 }
 
-<h1 class="row justify-content-center">@Model.Name</h1>
 
-
-
+<h1 class="display 3">@Model.Name</h1>
+<a asp-area="Administration" asp-controller="Suppliers" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
+<a asp-area="Administration" asp-controller="Suppliers" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
 <div class="card">
     <table class="table table-sm table-hover">
         <thead>
@@ -32,7 +32,6 @@
         </thead>
         @foreach (var offer in Model.Offers)
         {
-
             <tbody>
                 <tr>
                     <th scope="row">@(++index)</th>
@@ -48,15 +47,6 @@
         }
     </table>
 </div>
-
-
-@if (Model.Offers.Count() == 0)
-{
-    <card class="row justify-content-center">
-        <h4 class="row justify-content-center alert-primary">Currently they are no offers from @Model.Name !</h4>
-    </card>
-}
-<hr />
 
 <script>
     let notification = document.getElementById("element");

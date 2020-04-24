@@ -1,7 +1,6 @@
-﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierViewModel
-
+﻿@model Lekarna.Web.ViewModels.Categories.CategoryViewModel
 @{
-    this.ViewData["Title"] = Model.Name;
+    this.ViewData["Title"] = Model.CategoryName;
     var index = 0;
 }
 
@@ -12,9 +11,9 @@
     </div>
 }
 
-<h1 class="row justify-content-center">@Model.Name</h1>
-
-
+<h1 class="display 3">@Model.CategoryName</h1>
+<a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
+<a asp-area="Administration" asp-controller="Categories" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
 
 <div class="card">
     <table class="table table-sm table-hover">
@@ -26,13 +25,11 @@
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Target</th>
-                <th scope="col">Category</th>
                 <th scope="col">Details</th>
             </tr>
         </thead>
         @foreach (var offer in Model.Offers)
         {
-
             <tbody>
                 <tr>
                     <th scope="row">@(++index)</th>
@@ -41,22 +38,12 @@
                     <td><i class="fas fa-euro-sign"></i>@offer.Price</td>
                     <td><i class="fas fa-plus"></i>@offer.Quantity</td>
                     <td><i class="fas fa-chart-line">@offer.Target</i></td>
-                    <td><i class="fas fa-chart-line">@offer.CategoryCategoryName</i></td>
-                    <td><a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
+                    <td><a asp-controller="Offers" asp-action="ById" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
                 </tr>
             </tbody>
         }
     </table>
 </div>
-
-
-@if (Model.Offers.Count() == 0)
-{
-    <card class="row justify-content-center">
-        <h4 class="row justify-content-center alert-primary">Currently they are no offers from @Model.Name !</h4>
-    </card>
-}
-<hr />
 
 <script>
     let notification = document.getElementById("element");

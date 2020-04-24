@@ -1,0 +1,76 @@
+﻿@model Lekarna.Web.ViewModels.Categories.AllCategoriesViewModel
+@{
+    this.ViewData["Title"] = "Categories";
+}
+
+@if (this.TempData["Notification"] != null)
+{
+    <div id="element" class="alert alert-success">
+        @this.TempData["Notification"]
+    </div>
+}
+<div class="text-center">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<div class="row">
+    @foreach (var category in Model.Categories)
+    {
+    <div class="card w-25" style="width: 8rem;">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body form-group">
+                    <h5 class="card-title">@category.CategoryName</h5>
+                    <p class="card-text d-inline-block text-truncate">@category.Description</p>
+                    <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary align-middle">Info</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Number of offers: @category.OffersCount</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            var disabled = Model.CurrentPage == 1 ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Categories" asp-action="All" asp-route-page="@(Model.CurrentPage - 1)" tabindex="-1">Previous</a>
+        </li>
+        @for (int i = 1; i <= this.Model.PagesCount; i++)
+        {
+            if (i == Model.CurrentPage)
+            {
+                <li class="page-item active">
+                    <a class="page-link"
+                       asp-controller="Categories"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Categories"
+                       asp-action="All"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+        @{
+            disabled = Model.CurrentPage == Model.PagesCount ? "disabled" : string.Empty;
+        }
+        <li class="page-item @disabled">
+            <a class="page-link" asp-controller="Categories" asp-action="All" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

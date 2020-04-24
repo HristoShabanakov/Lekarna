@@ -4,4 +4,28 @@
 }
 
 <h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+<div class="row mb-2 justify-content-center">
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="All">Suppliers</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Create">Create</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Delete">Delete</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Edit">Edit</a>
+</div>
+
+<hr />
+
+<div class="row mb-2 justify-content-center">
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="All">Categories</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Create">Create</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Delete">Delete</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Edit">Edit</a>
+</div>
+
+<hr />
+
+<div class="row mb-2 justify-content-center">
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="All">Offers</a>
+    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="Create">Create</a>
+    
+</div>
+
+

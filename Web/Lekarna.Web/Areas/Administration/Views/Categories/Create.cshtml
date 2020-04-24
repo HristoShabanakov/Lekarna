@@ -1,0 +1,25 @@
+﻿@model Lekarna.Web.ViewModels.Categories.CategoryCreateInputModel
+@{
+    this.ViewData["Title"] = "Create new category";
+}
+<h1>@this.ViewData["Title"]</h1>
+<div class="col-md-4">
+    <form method="post" asp-action="Create">
+        <div asp-validation-summary="All" class="text-danger"> </div>
+
+        <div class="form-group">
+            <label asp-for="CategoryName"></label>
+            <input asp-for="CategoryName" class="form-control" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>

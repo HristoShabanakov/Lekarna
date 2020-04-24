@@ -5,6 +5,8 @@
 }
 
 <h1 class="text-center">Offer - @Model.Name</h1>
+<a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-route-id="@Model.Id" asp-action="Edit">Edit</a>
+<a class="btn-lg btn-danger" asp-area="Administration" asp-controller="Offers" asp-route-id="@Model.Id" asp-action="Delete">Delete</a>
 
 <div class="card">
     <table class="table table-sm table-hover">
@@ -25,12 +27,44 @@
                     <td><i class="far fa-calendar-check"></i>@medicine.Price</td>
                     <td>@medicine.Target</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Open modal</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Order</button>
                     </td>
                 </tr>
             </tbody>
         }
     </table>
+</div>
+
+<div class="d-flex justify-content-between row">
+    <div class="col-md-5">
+        <div>
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Medicine</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Target</th>
+                    </tr>
+                </thead>
+                @foreach (var medicine in Model.Medicines)
+                {
+                    <tbody>
+                        <tr>
+                            <th scope="row">@(++index)</th>
+                            <td>@medicine.Name</td>
+                            <td>@medicine.Price</td>
+                            <td>@medicine.Target</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Open modal</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+        <hr class="hr-2 bg-info mt-4" />
+    </div>
 </div>
 
 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -70,6 +104,7 @@
 
 
 
+
 @section Scripts {
     <script>
         $('#orderModal').on('show.bs.modal', function (event) {
@@ -82,11 +117,13 @@
             $(".modal-body #price").val(price)
             $(".modal-body #medicine").val(medicine)
             $(".modal-body #medicineId").val(medicineId)
-           
+
         });
 
         $('#complete-order-button').click(function () {
             $('#order-form').submit();
         });
     </script>
+
+
 }

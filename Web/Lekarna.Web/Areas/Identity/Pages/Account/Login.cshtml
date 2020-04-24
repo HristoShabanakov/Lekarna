@@ -1,0 +1,53 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Lekarna";
+}
+
+<h1 class="row justify-content-center" >@ViewData["Title"]</h1>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h4 class="text-center">Sign In</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Username"></label>
+                    <input asp-for="Input.Username" class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group justify-content-center">
+                    <button type="submit" class="btn btn-success btn-block"><i class="glyphicon glyphicon-log-in"></i>Sign In</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <i class="fa fa-unlock"></i>&nbsp;<a id="forgot-password" asp-page="./ForgotPassword">Reset Password</a>
+                    </p>
+                    <p>
+                        Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Register</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

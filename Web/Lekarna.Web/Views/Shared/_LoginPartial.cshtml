@@ -19,7 +19,6 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-area="" asp-controller="Suppliers" asp-action="All">All</a>
-            <a class="dropdown-item" asp-area="" asp-controller="Suppliers" asp-action="Create">Create</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -28,7 +27,6 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-area="" asp-controller="Offers" asp-action="All">All</a>
-            <a class="dropdown-item" asp-area="" asp-controller="Offers" asp-action="Create">Create</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -37,7 +35,6 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="All">All</a>
-            <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Create">Create</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -59,7 +56,7 @@
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
+                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Dashboard</a>
             </li>
         }
         <li class="nav-item">

@@ -11,6 +11,8 @@
     </div>
 }
 
+
+
 <h1>@this.ViewData["Title"]</h1>
 <div class="card">
     <table class="table table-sm table-hover">
@@ -40,14 +42,6 @@
     </table>
 </div>
 
-<hr />
-
-@if (Model.Offers.Count() == 0)
-{
-    <card class="row justify-content-center">
-        <h4 class="row justify-content-center alert-primary">Currently they are no offers !</h4>
-    </card>
-}
 <hr />
 
 <nav>
@@ -87,6 +81,14 @@
         </li>
     </ul>
 </nav>
+
+@if (Model.Offers.Count() == 0)
+{
+    <card class="row justify-content-center">
+        <h4 class="row justify-content-center alert-primary">Currently they are no offers !</h4>
+    </card>
+}
+<hr />
 
 <script>
     let notification = document.getElementById("element");
