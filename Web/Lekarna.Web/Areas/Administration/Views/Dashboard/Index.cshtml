@@ -4,28 +4,90 @@
 }
 
 <h1>@this.ViewData["Title"]</h1>
-<div class="row mb-2 justify-content-center">
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="All">Suppliers</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Create">Create</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Delete">Delete</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Edit">Edit</a>
+
+
+<hr />
+
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 class="text-center">Categories<sup style="font-size: 20px"></sup></h3>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="All">All</a>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 class="text-center">Suppliers<sup style="font-size: 20px"></sup></h3>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="All">All</a>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Suppliers" asp-action="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 class="text-center">Offers<sup style="font-size: 20px"></sup></h3>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="All">All</a>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 class="text-center">Medicines<sup style="font-size: 20px"></sup></h3>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Medicines" asp-action="All">All</a>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Medicines" asp-action="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
 </div>
 
 <hr />
 
-<div class="row mb-2 justify-content-center">
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="All">Categories</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Create">Create</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Delete">Delete</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Categories" asp-action="Edit">Edit</a>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 class="text-center">Pharmacies<sup style="font-size: 20px"></sup></h3>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Pharmacies" asp-action="All">All</a>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Pharmacies" asp-action="Create">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
 </div>
 
 <hr />
-
-<div class="row mb-2 justify-content-center">
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="All">Offers</a>
-    <a class="btn-lg btn-warning" asp-area="Administration" asp-controller="Offers" asp-action="Create">Create</a>
-    
-</div>
-
-

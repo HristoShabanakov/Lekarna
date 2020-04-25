@@ -24,5 +24,7 @@
         public string PharmacyId { get; set; }
 
         public string OfferId { get; set; }
+
+        public string OfferName { get; set; }
     }
 }

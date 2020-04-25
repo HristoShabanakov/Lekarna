@@ -11,9 +11,7 @@
     </div>
 }
 
-<h1 class="display 3">@Model.CategoryName</h1>
-<a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
-<a asp-area="Administration" asp-controller="Categories" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
+<h1 class="display 3 text-center">@Model.CategoryName</h1>
 
 <div class="card">
     <table class="table table-sm table-hover">
@@ -43,6 +41,13 @@
             </tbody>
         }
     </table>
+</div>
+
+<hr class="hr-2 bg-info mt-4" />
+
+<div>
+    <a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
+    <a asp-area="Administration" asp-controller="Categories" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
 </div>
 
 <script>

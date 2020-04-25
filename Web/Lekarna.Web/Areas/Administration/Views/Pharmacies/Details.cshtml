@@ -1,0 +1,29 @@
+﻿@model Lekarna.Web.ViewModels.Pharmacies.PharmacyDetailsViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+@if (this.TempData["Notification"] != null)
+{
+    <div id="element" class="alert alert-success">
+        @this.TempData["Notification"]
+    </div>
+}
+
+<h1>Pharmacy - @this.ViewData["Title"]</h1>
+
+
+<h1>Address @Model.Address</h1>
+<h1>Country @Model.Country</h1>
+<h1>Number of Orders: @Model.OrdersCount</h1>
+<h1>@Model.NewImage</h1>
+<img src="@Model.ImageUrl" class="img-thumbnail height: 100px; width: 100px;" />
+<h1>Created by @Model.ApplicationUserUsername</h1>
+
+<a asp-area="Administration" asp-controller="Pharmacies" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
+<a asp-area="Administration" asp-controller="Pharmacies" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
+
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

@@ -36,7 +36,7 @@
 
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
-            IQueryable<OrderItem> query = this.ordersRepository.All().Where(x => x.Id == x.OfferId && x.OfferId == x.MedicineId);
+            IQueryable<OrderItem> query = this.ordersRepository.All().OrderBy(x => x.Id);
 
             if (count.HasValue)
             {

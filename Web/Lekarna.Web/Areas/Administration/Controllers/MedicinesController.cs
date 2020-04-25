@@ -1,15 +1,12 @@
-﻿namespace Lekarna.Web.Controllers
+﻿namespace Lekarna.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Medicines;
     using Microsoft.AspNetCore.Mvc;
 
-    public class MedicinesController : Controller
+    public class MedicinesController : AdministrationController
     {
         private readonly IMedicinesService medicinesService;
         private readonly IOffersService offersService;

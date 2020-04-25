@@ -80,6 +80,11 @@
         "jquery.datetimepicker.css",
         "jquery.datetimepicker.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "admin-lte@3.0.4",
+      "destination": "wwwroot/admin-lte/"
     }
   ]
 }

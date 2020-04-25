@@ -4,7 +4,10 @@
     var index = 0;
 }
 
-<h1>@this.ViewData["Title"]</h1>
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+
 <div class="card">
     <table class="table table-sm table-hover">
         <thead>
@@ -22,9 +25,9 @@
                 <tr>
                     <th scope="row">@(++index)</th>
                     <td><i class="far fa-copyright"></i>@order.MedicineName</td>
-                    <td><i class="far fa-calendar-check"></i>@order.Price</td>
+                    <td><i class="fas fa-euro-sign"></i>@order.Price</td>
                     <td>@order.Quantity</td>
-                    <td>@order.OfferId</td>
+                    <td>@order.OfferName</td>
                 </tr>
             </tbody>
         }

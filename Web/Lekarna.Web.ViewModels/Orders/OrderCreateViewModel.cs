@@ -17,14 +17,9 @@
         [Column(TypeName = "decimal(5,2)")]
         public decimal Price { get; set; }
 
-        public string PharmacyId { get; set; }
-
         public string OfferId { get; set; }
 
         public string MedicineId { get; set; }
 
-        public int StatusId { get; set; }
-
-        public OrderStatusViewModel Status { get; set; }
     }
 }
