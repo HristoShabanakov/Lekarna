@@ -27,6 +27,11 @@
             return this.View(viewModel);
         }
 
+        public IActionResult General()
+        {
+            return this.View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(MedicineViewModel inputModel)
         {

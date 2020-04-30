@@ -142,8 +142,7 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            // validations 
-
+            // validations
             this.TempData["Notification"] = "Supplier was successfully deleted!";
 
             return this.RedirectToAction("All");

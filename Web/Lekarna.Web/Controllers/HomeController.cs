@@ -25,6 +25,11 @@
             return this.View(viewModel);
         }
 
+        public IActionResult Admin()
+        {
+            return this.View();
+        }
+
         public IActionResult Chat()
         {
             return this.View();

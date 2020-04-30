@@ -92,8 +92,6 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            
-
             return this.View(viewModel);
         }
 

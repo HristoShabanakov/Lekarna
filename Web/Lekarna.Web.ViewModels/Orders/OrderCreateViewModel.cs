@@ -20,6 +20,5 @@
         public string OfferId { get; set; }
 
         public string MedicineId { get; set; }
-
     }
 }
