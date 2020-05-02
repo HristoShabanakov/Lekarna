@@ -1,6 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Categories.CategoryDetailsViewModel
 @{
     this.ViewData["Title"] = "Edit category";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 <h1>@this.ViewData["Title"]</h1>
 <div class="col-md-4">
@@ -23,3 +24,7 @@
         <button asp-controller="Categories" asp-action="Edit" asp-route-id="@Model.Id" type="submit" class="btn btn-primary">Edit</button>
     </form>
 </div>
+
+@section footer{
+
+}

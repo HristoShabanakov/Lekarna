@@ -2,7 +2,7 @@
 @{
     this.ViewData["Title"] = "All Offers";
     var index = 0;
-
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 @if (this.TempData["Notification"] != null)
 {
@@ -90,6 +90,9 @@
 }
 <hr />
 
+@section footer{
+
+}
 <script>
     let notification = document.getElementById("element");
     notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');

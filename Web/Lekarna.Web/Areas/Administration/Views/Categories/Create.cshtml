@@ -1,6 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Categories.CategoryCreateInputModel
 @{
     this.ViewData["Title"] = "Create new category";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 <h1>@this.ViewData["Title"]</h1>
 <div class="col-md-4">
@@ -23,3 +24,7 @@
         <input type="submit" class="btn btn-primary" />
     </form>
 </div>
+
+@section footer{
+
+}

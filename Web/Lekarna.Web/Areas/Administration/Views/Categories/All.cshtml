@@ -1,6 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Categories.AllCategoriesViewModel
 @{
     this.ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
 @if (this.TempData["Notification"] != null)
@@ -15,20 +16,20 @@
 <div class="row">
     @foreach (var category in Model.Categories)
     {
-    <div class="card w-25" style="width: 8rem;">
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body form-group">
-                    <h5 class="card-title">@category.CategoryName</h5>
-                    <p class="card-text d-inline-block text-truncate">@category.Description</p>
-                    <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary align-middle">Info</a>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Number of offers: @category.OffersCount</small>
+        <div class="card w-25" style="width: 8rem;">
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body form-group">
+                        <h5 class="card-title">@category.CategoryName</h5>
+                        <p class="card-text d-inline-block text-truncate">@category.Description</p>
+                        <a asp-area="Administration" asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary align-middle">Info</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Number of offers: @category.OffersCount</small>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 </div>
 
@@ -69,6 +70,10 @@
         </li>
     </ul>
 </nav>
+
+@section footer{
+
+}
 
 <script>
     let notification = document.getElementById("element");

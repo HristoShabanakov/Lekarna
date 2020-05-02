@@ -27,7 +27,7 @@
             return this.View(viewModel);
         }
 
-        public IActionResult General()
+        public IActionResult Admin()
         {
             return this.View();
         }
