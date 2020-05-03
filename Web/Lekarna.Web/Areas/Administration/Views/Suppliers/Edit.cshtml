@@ -1,6 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierViewModel
 @{
     this.ViewData["Title"] = "Edit supplier";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
 <h1>@this.ViewData["Title"]</h1>
@@ -37,3 +38,6 @@
     </form>
 </div>
 
+@section footer{
+
+}

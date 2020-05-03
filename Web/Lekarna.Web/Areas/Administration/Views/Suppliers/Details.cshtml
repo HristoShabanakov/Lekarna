@@ -1,7 +1,7 @@
 ﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierViewModel
-
 @{
     this.ViewData["Title"] = Model.Name;
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
     var index = 0;
 }
 
@@ -47,6 +47,10 @@
         }
     </table>
 </div>
+
+@section footer{
+
+}
 
 <script>
     let notification = document.getElementById("element");
