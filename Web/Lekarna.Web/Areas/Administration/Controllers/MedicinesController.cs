@@ -27,7 +27,7 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Admin()
+        public IActionResult Import()
         {
             return this.View();
         }

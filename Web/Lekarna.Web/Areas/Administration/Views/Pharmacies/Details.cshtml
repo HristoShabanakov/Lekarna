@@ -23,6 +23,9 @@
 <a asp-area="Administration" asp-controller="Pharmacies" asp-action="Edit" asp-route-id="@Model.Id" class="btn bg-warning">Edit</a>
 <a asp-area="Administration" asp-controller="Pharmacies" asp-action="Delete" asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</a>
 
+@section footer{
+
+}
 <script>
     let notification = document.getElementById("element");
     notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');

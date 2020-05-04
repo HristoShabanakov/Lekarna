@@ -3,7 +3,6 @@
     this.ViewData["Title"] = "Create new offer";
     var suppliers = Model.Suppliers.Select(x => new SelectListItem(x.Name, x.Id));
     var categories = Model.Categories.Select(x => new SelectListItem(x.CategoryName, x.Id));
-    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 <h1>@this.ViewData["Title"]</h1>
 <div class="col-md-4">
