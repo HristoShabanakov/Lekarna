@@ -76,7 +76,7 @@
 
             if (pharmacyId == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             this.TempData["Notification"] = "Pharmacy was successfully created!";
@@ -91,7 +91,7 @@
 
             if (viewModel == null)
             {
-                return this.RedirectToAction("Error, Home");
+                return this.RedirectToAction("NotFound, Errors");
             }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
@@ -107,14 +107,14 @@
 
             if (viewModel == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
 
             if (user.PharmacyId != viewModel.Id)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("Forbidden", "Errors");
             }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
@@ -136,7 +136,7 @@
 
             if (pharmacyId == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             this.TempData["Notification"] = "Pharmacy was successfully edited!";
@@ -150,14 +150,14 @@
 
             if (viewModel == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
 
             if (user.PharmacyId != viewModel.Id)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("Forbidden", "Errors");
             }
 
             return this.View(viewModel);
@@ -170,7 +170,7 @@
 
             if (pharmacyId == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             this.TempData["Notification"] = "Pharmacy was successfully deleted!";
