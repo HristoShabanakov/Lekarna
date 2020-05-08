@@ -1,12 +1,12 @@
-﻿@model Lekarna.Web.ViewModels.Medicines.MedicineViewModel
+﻿@model Lekarna.Web.ViewModels.Medicines.MedicineImportViewModel
 <div class="col-md-4">
-    <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <form method="post" asp-area="Administration" asp-controller="Medicines" asp-action="Records" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="text-danger"> </div>
 
         <div class="form-group">
-            <label asp-for="Name">Import medicines</label>
-            <input type="file" asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Data">Import medicines</label>
+            <input type="file" asp-for="Data" class="form-control" />
+            <span asp-validation-for="Data" class="text-danger"></span>
         </div>
 
         <hr />

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="15.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Lekarna.Common\Lekarna.Common.csproj" />
+    <ProjectReference Include="..\..\Web\Lekarna.Web.ViewModels\Lekarna.Web.ViewModels.csproj" />
     <ProjectReference Include="..\Lekarna.Data.Common\Lekarna.Data.Common.csproj" />
     <ProjectReference Include="..\Lekarna.Data.Models\Lekarna.Data.Models.csproj" />
   </ItemGroup>
