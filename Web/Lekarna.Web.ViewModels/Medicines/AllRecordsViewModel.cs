@@ -8,7 +8,6 @@
         {
             this.Records = new HashSet<Record>();
         }
-
         public IEnumerable<Record> Records { get; set; }
     }
 }

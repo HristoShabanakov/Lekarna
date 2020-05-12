@@ -1,4 +1,12 @@
 ﻿@model Lekarna.Web.ViewModels.Medicines.MedicineImportViewModel
+
+@if (this.TempData["Notification"] != null)
+{
+    <div id="element" class="alert alert-danger">
+        @this.TempData["Notification"]
+    </div>
+}
+
 <div class="col-md-4">
     <form method="post" asp-area="Administration" asp-controller="Medicines" asp-action="Records" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="text-danger"> </div>
@@ -18,3 +26,8 @@
 @section footer{
 
 }
+
+<script>
+    let notification = document.getElementById("element");
+    notification.addEventListener('click', (event) => event.currentTarget.style.display = 'none');
+</script>

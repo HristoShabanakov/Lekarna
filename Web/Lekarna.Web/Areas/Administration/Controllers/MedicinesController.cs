@@ -1,8 +1,11 @@
 ﻿namespace Lekarna.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using CsvHelper;
@@ -44,16 +47,69 @@
 
             if (fileExtension != ".csv")
             {
-                this.ViewBag.Message = "Please select the csv file with .csv extension";
+                this.TempData["Notification"] = "Please select the csv file with .csv extension !";
                 return this.View();
             }
 
             var viewModel = new AllRecordsViewModel();
+            var recordsList = new List<Record>();
+            string line;
             using (var reader = new StreamReader(file.OpenReadStream()))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var records = csv.GetRecords<Record>().ToList();
-                viewModel.Records = records;
+                string[] headers = reader.ReadLine().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] rows = line.Split(';');
+
+                    string name = rows[0];
+                    string price = rows[1];
+                    string target = rows[2];
+                    string discount = rows[3];
+
+                    if (name.StartsWith("\"") && name.EndsWith("\""))
+                    {
+                        rows[0] = name.Replace("\"", " ").Trim();
+                    }
+
+                    if (price.Contains("лв."))
+                    {
+                        rows[1] = price.Replace("лв.", " ").Trim();
+                    }
+
+                    if (target.Length == 0)
+                    {
+                        rows[2] = "0";
+                    }
+
+                    if (discount.Contains("%"))
+                    {
+                        rows[3] = discount.Replace("%", " ").Trim();
+                    }
+
+                    if (rows.Contains(string.Empty))
+                    {
+                        continue;
+                    }
+
+                    if (rows.Length == 4)
+                    {
+                        recordsList.Add(new Record
+                        {
+                            Name = rows[0].ToString(),
+                            Price = decimal.Parse(rows[1]),
+                            Target = int.Parse(rows[2]),
+                            Discount = decimal.Parse(rows[3]),
+                        });
+                    }
+                }
+
+                viewModel.Records = recordsList;
+
+                // using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                // {
+                //    var records = csv.GetRecords<Record>().ToList();
+                //    viewModel.Records = records;
+                // }
             }
 
             return this.View(viewModel);
