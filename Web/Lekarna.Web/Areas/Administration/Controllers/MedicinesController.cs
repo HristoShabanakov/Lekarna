@@ -53,57 +53,48 @@
 
             var viewModel = new AllRecordsViewModel();
             var recordsList = new List<Record>();
-            string line;
+            var targetList = new List<Target>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 string[] headers = reader.ReadLine().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                while ((line = reader.ReadLine()) != null)
+                var textReader = reader.ReadToEnd().Replace(" лв.", string.Empty).Replace("%", string.Empty).Replace("\"", string.Empty).Trim();
+                var rows = textReader.Split("\r\n");
+
+                for (int i = 0; i < rows.Length; i++)
                 {
-                    string[] rows = line.Split(';');
+                    var cols = rows[i].Split(";");
+                    string name = cols[0];
+                    string price = cols[1];
+                    string target = cols[2];
+                    string discount = cols[3];
 
-                    string name = rows[0];
-                    string price = rows[1];
-                    string target = rows[2];
-                    string discount = rows[3];
-
-                    if (name.StartsWith("\"") && name.EndsWith("\""))
+                    if (name.Contains("Total") && target.Any())
                     {
-                        rows[0] = name.Replace("\"", " ").Trim();
-                    }
-
-                    if (price.Contains("лв."))
-                    {
-                        rows[1] = price.Replace("лв.", " ").Trim();
+                        targetList.Add(new Target
+                        {
+                            Name = cols[0],
+                            Total = int.Parse(cols[2]),
+                        });
                     }
 
                     if (target.Length == 0)
                     {
-                        rows[2] = "0";
+                        cols[2] = "0";
                     }
 
-                    if (discount.Contains("%"))
-                    {
-                        rows[3] = discount.Replace("%", " ").Trim();
-                    }
-
-                    if (rows.Contains(string.Empty))
+                    if (cols.Contains(string.Empty))
                     {
                         continue;
                     }
 
-                    if (rows.Length == 4)
+                    recordsList.Add(new Record
                     {
-                        recordsList.Add(new Record
-                        {
-                            Name = rows[0].ToString(),
-                            Price = decimal.Parse(rows[1]),
-                            Target = int.Parse(rows[2]),
-                            Discount = decimal.Parse(rows[3]),
-                        });
-                    }
+                        Name = cols[0].ToString(),
+                        Price = decimal.Parse(cols[1]),
+                        Target = int.Parse(cols[2]),
+                        Discount = decimal.Parse(cols[3]),
+                    });
                 }
-
-                viewModel.Records = recordsList;
 
                 // using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 // {
@@ -112,6 +103,8 @@
                 // }
             }
 
+            viewModel.Records = recordsList;
+            viewModel.Targets = targetList;
             return this.View(viewModel);
         }
 

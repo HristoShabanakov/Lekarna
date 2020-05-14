@@ -25,6 +25,15 @@
                     <td>@record.Discount</td>
                 </tr>
             }
+
+            @foreach (var target in Model.Targets)
+            {
+        <tr>
+            <th scope="row">@(++index)</th>
+            <td>@target.Name</td>
+            <td>@target.Total</td>
+        </tr>
+            }
         </tbody>
     </table>
 </div>
