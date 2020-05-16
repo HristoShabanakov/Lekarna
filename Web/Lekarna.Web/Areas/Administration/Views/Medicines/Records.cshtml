@@ -17,22 +17,32 @@
         <tbody>
             @foreach (var record in Model.Records)
             {
-                <tr>
-                    <th scope="row">@(++index)</th>
-                    <td><i class="far fa-copyright"></i>@record.Name</td>
-                    <td><i class="far fa-calendar-check"></i>@record.Price</td>
-                    <td>@record.Target</td>
-                    <td>@record.Discount</td>
-                </tr>
+            <tr>
+                <th scope="row">@(++index)</th>
+                <td><i class="far fa-copyright"></i>@record.Name</td>
+                <td><i class="far fa-calendar-check"></i>@record.Price</td>
+                <td>@record.Target</td>
+                <td>@record.Discount</td>
+            </tr>
             }
 
             @foreach (var target in Model.Targets)
             {
-        <tr>
-            <th scope="row">@(++index)</th>
-            <td>@target.Name</td>
-            <td>@target.Total</td>
-        </tr>
+                <tr>
+                    <th scope="row">@(++index)</th>
+                    <td>@target.Name</td>
+                    <td>@target.Price</td>
+                    <td>@target.TotalTarget</td>
+                    <td>@target.Discount</td>
+                </tr>
+            }
+            @foreach (var discount in Model.Discounts)
+            {
+                <tr>
+                    <th scope="row">@(++index)</th>
+                    <td>@discount.Name</td>
+                    <td>@discount.Personal</td>
+                </tr>
             }
         </tbody>
     </table>
