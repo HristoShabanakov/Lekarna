@@ -53,8 +53,6 @@
 
             var viewModel = new AllRecordsViewModel();
             var recordsList = new List<Record>();
-            var targetList = new List<Target>();
-            var discountList = new List<Discount>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 string[] headers = reader.ReadLine()
@@ -64,6 +62,7 @@
                     .Trim();
                 var rows = textReader.Split("\r\n");
                 int index = 0;
+                int discountIndex = 0;
                 for (int i = 0; i < rows.Length; i++)
                 {
                     var cols = rows[i].Split(";");
@@ -74,11 +73,11 @@
 
                     if (name.Contains("Total") && target.Any())
                     {
-                        for (int j = 0; j < targetList.Count; j++)
+                        for (int j = 0; j < recordsList.Count; j++)
                         {
-                           if (targetList[j].TotalTarget.Length == 0)
+                           if (recordsList[j].Target == 0)
                             {
-                                targetList[j].TotalTarget = target;
+                                recordsList[j].Target = int.Parse(target);
                             }
                         }
 
@@ -87,28 +86,41 @@
 
                     if (name.Any() && price.Any() && target.Length == 0 && discount.Any())
                     {
-                        targetList.Add(new Target
+                        recordsList.Add(new Record
                         {
-                            Id = index + 1,
+                            TargetId = index + 1,
                             Name = cols[0],
-                            Price = cols[1],
-                            TotalTarget = cols[2],
-                            Discount = cols[3],
+                            Price = decimal.Parse(cols[1]),
+                            Target = 0,
+                            Discount = decimal.Parse(cols[3]),
+                            DiscountId = ++discountIndex,
                         });
                     }
 
                     if (name.Any() && price.Any() && target.Any() && discount.Length == 0)
                     {
-                        cols[3] = "0";
+                        recordsList.Add(new Record
+                        {
+                            TargetId = index + 1,
+                            Name = cols[0],
+                            Price = decimal.Parse(cols[1]),
+                            Target = int.Parse(cols[2]),
+                            Discount = 0,
+                            DiscountId = discountIndex + 1,
+                        });
                     }
 
                     if (name.Contains("FORMULA") && discount.Any())
                     {
-                        discountList.Add(new Discount
+                        for (int j = 0; j < recordsList.Count; j++)
                         {
-                            Name = cols[0],
-                            Personal = decimal.Parse(cols[3]),
-                        });
+                            if (recordsList[j].Discount == 0)
+                            {
+                                recordsList[j].Discount = int.Parse(discount);
+                            }
+                        }
+
+                        discountIndex++;
                     }
 
                     if (cols.Contains(string.Empty))
@@ -123,6 +135,7 @@
                         Price = decimal.Parse(cols[1]),
                         Target = int.Parse(cols[2]),
                         Discount = decimal.Parse(cols[3]),
+                        DiscountId = ++discountIndex,
                     });
                 }
 
@@ -134,8 +147,6 @@
             }
 
             viewModel.Records = recordsList;
-            viewModel.Targets = targetList;
-            viewModel.Discounts = discountList;
             return this.View(viewModel);
         }
 

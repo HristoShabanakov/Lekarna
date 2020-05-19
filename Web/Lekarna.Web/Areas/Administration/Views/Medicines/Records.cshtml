@@ -25,25 +25,6 @@
                 <td>@record.Discount</td>
             </tr>
             }
-
-            @foreach (var target in Model.Targets)
-            {
-                <tr>
-                    <th scope="row">@(++index)</th>
-                    <td>@target.Name</td>
-                    <td>@target.Price</td>
-                    <td>@target.TotalTarget</td>
-                    <td>@target.Discount</td>
-                </tr>
-            }
-            @foreach (var discount in Model.Discounts)
-            {
-                <tr>
-                    <th scope="row">@(++index)</th>
-                    <td>@discount.Name</td>
-                    <td>@discount.Personal</td>
-                </tr>
-            }
         </tbody>
     </table>
 </div>

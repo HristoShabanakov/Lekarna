@@ -7,14 +7,8 @@
         public AllRecordsViewModel()
         {
             this.Records = new HashSet<Record>();
-            this.Targets = new HashSet<Target>();
-            this.Discounts = new HashSet<Discount>();
         }
 
         public IEnumerable<Record> Records { get; set; }
-
-        public IEnumerable<Target> Targets { get; set; }
-
-        public IEnumerable<Discount> Discounts { get; set; }
     }
 }
