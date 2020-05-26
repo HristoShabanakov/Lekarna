@@ -63,7 +63,14 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(inputModel);
+                var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+                var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
+                var viewModel = new OfferCreateInputModel
+                {
+                    Suppliers = suppliers,
+                    Categories = categories,
+                };
+                return this.View(viewModel);
             }
 
             var user = await this.userManager.GetUserAsync(this.User);

@@ -5,6 +5,7 @@
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
 
     public class OfferCreateInputModel : IMapFrom<Offer>
     {
@@ -21,10 +22,11 @@
         [Display(Name = "Category")]
         public string CategoryId { get; set; }
 
-        public string CategoryCategoryName { get; set; }
-
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
 
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
+
+        [Required]
+        public IFormFile Data { get; set; }
     }
 }
