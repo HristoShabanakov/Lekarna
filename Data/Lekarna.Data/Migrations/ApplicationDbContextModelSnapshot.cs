@@ -178,6 +178,33 @@ namespace Lekarna.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Lekarna.Data.Models.Discount", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("Lekarna.Data.Models.Image", b =>
                 {
                     b.Property<string>("Id")
@@ -222,8 +249,8 @@ namespace Lekarna.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(5,2)");
+                    b.Property<string>("DiscountId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -242,14 +269,18 @@ namespace Lekarna.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("Target")
-                        .HasColumnType("int");
+                    b.Property<string>("TargetId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscountId");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("OfferId");
+
+                    b.HasIndex("TargetId");
 
                     b.ToTable("Medicines");
                 });
@@ -537,6 +568,33 @@ namespace Lekarna.Data.Migrations
                     b.ToTable("Suppliers");
                 });
 
+            modelBuilder.Entity("Lekarna.Data.Models.Target", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Targets");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -666,9 +724,17 @@ namespace Lekarna.Data.Migrations
 
             modelBuilder.Entity("Lekarna.Data.Models.Medicine", b =>
                 {
+                    b.HasOne("Lekarna.Data.Models.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId");
+
                     b.HasOne("Lekarna.Data.Models.Offer", "Offer")
                         .WithMany("Medicines")
                         .HasForeignKey("OfferId");
+
+                    b.HasOne("Lekarna.Data.Models.Target", "Target")
+                        .WithMany()
+                        .HasForeignKey("TargetId");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Offer", b =>

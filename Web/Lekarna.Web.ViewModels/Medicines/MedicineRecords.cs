@@ -1,6 +1,6 @@
 ﻿namespace Lekarna.Web.ViewModels.Medicines
 {
-    public class Record
+    public class MedicineRecords
     {
         public string Name { get; set; }
 

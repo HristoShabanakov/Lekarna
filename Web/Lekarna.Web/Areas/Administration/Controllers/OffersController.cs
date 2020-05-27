@@ -1,10 +1,14 @@
 ﻿namespace Lekarna.Web.Areas.Administration.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
+    using Lekarna.Web.ViewModels.Medicines;
     using Lekarna.Web.ViewModels.Offers;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -16,17 +20,20 @@
         private readonly IOffersService offersService;
         private readonly ISuppliersService suppliersService;
         private readonly ICategoriesService categoriesService;
+        private readonly IMedicinesService medicinesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public OffersController(
             IOffersService offersService,
             ISuppliersService suppliersService,
             ICategoriesService categoriesService,
+            IMedicinesService medicinesService,
             UserManager<ApplicationUser> userManager)
         {
             this.offersService = offersService;
             this.suppliersService = suppliersService;
             this.categoriesService = categoriesService;
+            this.medicinesService = medicinesService;
             this.userManager = userManager;
         }
 
@@ -61,6 +68,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(OfferCreateInputModel inputModel)
         {
+            var file = inputModel.Data;
             if (!this.ModelState.IsValid)
             {
                 var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
@@ -69,10 +77,103 @@
                 {
                     Suppliers = suppliers,
                     Categories = categories,
+                    Data = file,
                 };
                 return this.View(viewModel);
             }
 
+            string fileExtension = Path.GetExtension(inputModel.Data.FileName);
+
+            var medicineViewModel = new AllRecordsViewModel();
+            var recordsList = new List<MedicineRecords>();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                string[] headers = reader.ReadLine()
+                    .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                var textReader = reader.ReadToEnd()
+                    .Replace(" лв.", string.Empty).Replace("%", string.Empty).Replace("\"", string.Empty)
+                    .Trim();
+                var rows = textReader.Split("\r\n");
+                int index = 0;
+                int discountIndex = 0;
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    var cols = rows[i].Split(";");
+                    string name = cols[0];
+                    string price = cols[1];
+                    string target = cols[2];
+                    string discount = cols[3];
+
+                    if (name.Contains("Total") && target.Any())
+                    {
+                        for (int j = 0; j < recordsList.Count; j++)
+                        {
+                            if (recordsList[j].Target == 0)
+                            {
+                                recordsList[j].Target = int.Parse(target);
+                            }
+                        }
+
+                        index++;
+                    }
+
+                    if (name.Any() && price.Any() && target.Length == 0 && discount.Any())
+                    {
+                        recordsList.Add(new MedicineRecords
+                        {
+                            TargetId = index + 1,
+                            Name = cols[0],
+                            Price = decimal.Parse(cols[1]),
+                            Target = 0,
+                            Discount = decimal.Parse(cols[3]),
+                            DiscountId = ++discountIndex,
+                        });
+                    }
+
+                    if (name.Any() && price.Any() && target.Any() && discount.Length == 0)
+                    {
+                        recordsList.Add(new MedicineRecords
+                        {
+                            TargetId = index + 1,
+                            Name = cols[0],
+                            Price = decimal.Parse(cols[1]),
+                            Target = int.Parse(cols[2]),
+                            Discount = 0,
+                            DiscountId = discountIndex + 1,
+                        });
+                    }
+
+                    if (name.Contains("FORMULA") && discount.Any())
+                    {
+                        for (int j = 0; j < recordsList.Count; j++)
+                        {
+                            if (recordsList[j].Discount == 0)
+                            {
+                                recordsList[j].Discount = int.Parse(discount);
+                            }
+                        }
+
+                        discountIndex++;
+                    }
+
+                    if (cols.Contains(string.Empty))
+                    {
+                        continue;
+                    }
+
+                    recordsList.Add(new MedicineRecords
+                    {
+                        TargetId = ++index,
+                        Name = cols[0].ToString(),
+                        Price = decimal.Parse(cols[1]),
+                        Target = int.Parse(cols[2]),
+                        Discount = decimal.Parse(cols[3]),
+                        DiscountId = ++discountIndex,
+                    });
+                }
+            }
+
+            medicineViewModel.Records = recordsList;
             var user = await this.userManager.GetUserAsync(this.User);
             var offerId = await this.offersService.CreateAsync(inputModel);
 

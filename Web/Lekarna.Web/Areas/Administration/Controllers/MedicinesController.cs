@@ -52,7 +52,7 @@
             }
 
             var viewModel = new AllRecordsViewModel();
-            var recordsList = new List<Record>();
+            var recordsList = new List<MedicineRecords>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 string[] headers = reader.ReadLine()
@@ -86,7 +86,7 @@
 
                     if (name.Any() && price.Any() && target.Length == 0 && discount.Any())
                     {
-                        recordsList.Add(new Record
+                        recordsList.Add(new MedicineRecords
                         {
                             TargetId = index + 1,
                             Name = cols[0],
@@ -99,7 +99,7 @@
 
                     if (name.Any() && price.Any() && target.Any() && discount.Length == 0)
                     {
-                        recordsList.Add(new Record
+                        recordsList.Add(new MedicineRecords
                         {
                             TargetId = index + 1,
                             Name = cols[0],
@@ -128,7 +128,7 @@
                         continue;
                     }
 
-                    recordsList.Add(new Record
+                    recordsList.Add(new MedicineRecords
                     {
                         TargetId = ++index,
                         Name = cols[0].ToString(),

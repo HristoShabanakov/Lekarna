@@ -6,9 +6,9 @@
     {
         public AllRecordsViewModel()
         {
-            this.Records = new HashSet<Record>();
+            this.Records = new HashSet<MedicineRecords>();
         }
 
-        public IEnumerable<Record> Records { get; set; }
+        public IEnumerable<MedicineRecords> Records { get; set; }
     }
 }

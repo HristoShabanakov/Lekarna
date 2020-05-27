@@ -32,6 +32,10 @@
 
         public DbSet<Offer> Offers { get; set; }
 
+        public DbSet<Target> Targets { get; set; }
+
+        public DbSet<Discount> Discounts { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }

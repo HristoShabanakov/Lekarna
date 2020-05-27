@@ -24,8 +24,8 @@
             {
                 Name = inputModel.Name,
                 Price = inputModel.Price,
-                Discount = inputModel.Discount,
-                Target = inputModel.Target,
+                DiscountId = inputModel.DiscountId,
+                TargetId = inputModel.TargetId,
                 OfferId = inputModel.OfferId,
             };
 
