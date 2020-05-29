@@ -68,6 +68,13 @@
         [HttpPost]
         public async Task<IActionResult> Create(OfferCreateInputModel inputModel)
         {
+            var offerId = await this.offersService.CreateAsync(inputModel);
+
+            if (offerId == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
             var file = inputModel.Data;
             if (!this.ModelState.IsValid)
             {
@@ -170,18 +177,18 @@
                         Discount = decimal.Parse(cols[3]),
                         DiscountId = ++discountIndex,
                     });
+                    var medicineRecords = new MedicineViewModel
+                    {
+                        Name = cols[0].ToString(),
+                        Price = decimal.Parse(cols[1]),
+                        OfferId = offerId,
+                    };
+                    var medicine = await this.medicinesService.CreateAsync(medicineRecords);
                 }
             }
 
             medicineViewModel.Records = recordsList;
             var user = await this.userManager.GetUserAsync(this.User);
-            var offerId = await this.offersService.CreateAsync(inputModel);
-
-            if (offerId == null)
-            {
-                return this.RedirectToAction("Error", "Home");
-            }
-
             this.TempData["Notification"] = "Offer was successfully created!";
             return this.RedirectToAction(nameof(this.Details), new { id = offerId });
         }

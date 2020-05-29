@@ -8,19 +8,23 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
+    using Lekarna.Web.ViewModels.Medicines;
     using Lekarna.Web.ViewModels.Offers;
 
     public class OffersService : IOffersService
     {
         private readonly IDeletableEntityRepository<Offer> offersRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> user;
+        private readonly IMedicinesService medicinesService;
 
         public OffersService(
             IDeletableEntityRepository<Offer> offersRepository,
-            IDeletableEntityRepository<ApplicationUser> user)
+            IDeletableEntityRepository<ApplicationUser> user,
+            IMedicinesService medicinesService)
         {
             this.offersRepository = offersRepository;
             this.user = user;
+            this.medicinesService = medicinesService;
         }
 
         public async Task<string> CreateAsync(OfferCreateInputModel inputModel)
@@ -32,12 +36,13 @@
                 CategoryId = inputModel.CategoryId,
             };
 
-            var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
 
-            if (dbOffer != null)
-             {
-                return null;
-             }
+            //var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
+
+            //if (dbOffer != null)
+            // {
+            //    return null;
+            // }
 
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();

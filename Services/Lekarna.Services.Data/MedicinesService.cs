@@ -18,23 +18,21 @@
             this.medicinesRepository = medicinesRepository;
         }
 
-        public async Task<string> CreateAsync(MedicineViewModel inputModel)
+        public async Task<string> CreateAsync(MedicineViewModel medicineModel)
         {
             var medicine = new Medicine
             {
-                Name = inputModel.Name,
-                Price = inputModel.Price,
-                DiscountId = inputModel.DiscountId,
-                TargetId = inputModel.TargetId,
-                OfferId = inputModel.OfferId,
+                Name = medicineModel.Name,
+                Price = medicineModel.Price,
+                OfferId = medicineModel.OfferId,
             };
 
-            var dbMedicine = this.medicinesRepository.All().Where(o => o.Name == medicine.Name).FirstOrDefault();
+            //var dbMedicine = this.medicinesRepository.All().Where(o => o.Name == medicine.Name).FirstOrDefault();
 
-            if (dbMedicine != null)
-            {
-                return null;
-            }
+            //if (dbMedicine != null)
+            //{
+            //    return null;
+            //}
 
             await this.medicinesRepository.AddAsync(medicine);
             await this.medicinesRepository.SaveChangesAsync();

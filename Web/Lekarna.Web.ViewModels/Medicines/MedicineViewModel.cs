@@ -8,7 +8,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
 
-    public class MedicineViewModel : IMapFrom<Medicine>
+    public class MedicineViewModel : IMapFrom<Medicine>, IMapFrom<Target>, IMapFrom<Discount>
     {
         public string Id { get; set; }
 
@@ -22,6 +22,10 @@
 
         [Required]
         public string TargetId { get; set; }
+
+        public int TargetQuantity { get; set; }
+
+        public decimal DiscountQuantity { get; set; }
 
         [Required]
         public string DiscountId { get; set; }

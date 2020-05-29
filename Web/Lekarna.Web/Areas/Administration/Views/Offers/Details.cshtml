@@ -24,6 +24,7 @@
                     <th scope="row">@(++index)</th>
                     <td><i class="far fa-copyright"></i>@medicine.Name</td>
                     <td><i class="far fa-calendar-check"></i>@medicine.Price</td>
+                    <td>@medicine.TargetQuantity</td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Order</button>
                     </td>
