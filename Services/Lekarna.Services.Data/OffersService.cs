@@ -36,14 +36,12 @@
                 CategoryId = inputModel.CategoryId,
             };
 
+            // var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
 
-            //var dbOffer = this.offersRepository.All().Where(o => o.Name == offer.Name).FirstOrDefault();
-
-            //if (dbOffer != null)
+            // if (dbOffer != null)
             // {
             //    return null;
             // }
-
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();
             return offer.Id;

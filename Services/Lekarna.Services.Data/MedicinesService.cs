@@ -25,15 +25,16 @@
                 Name = medicineModel.Name,
                 Price = medicineModel.Price,
                 OfferId = medicineModel.OfferId,
+                TargetId = medicineModel.TargetId,
+                DiscountId = medicineModel.DiscountId,
             };
 
-            //var dbMedicine = this.medicinesRepository.All().Where(o => o.Name == medicine.Name).FirstOrDefault();
+            // var dbMedicine = this.medicinesRepository.All().Where(o => o.Name == medicine.Name).FirstOrDefault();
 
-            //if (dbMedicine != null)
-            //{
+            // if (dbMedicine != null)
+            // {
             //    return null;
-            //}
-
+            // }
             await this.medicinesRepository.AddAsync(medicine);
             await this.medicinesRepository.SaveChangesAsync();
             return medicine.Id;

@@ -7,7 +7,7 @@
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Medicines;
 
-    public class OfferViewModel : IMapFrom<Offer>, IMapFrom<Medicine>
+    public class OfferViewModel : IMapFrom<Offer>, IMapFrom<Medicine>, IMapFrom<Target>
     {
         public string Id { get; set; }
 

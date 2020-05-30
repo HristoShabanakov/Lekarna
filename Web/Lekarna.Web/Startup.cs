@@ -79,6 +79,8 @@
             services.AddTransient<IImagesService, ImageService>();
             services.AddTransient<IMedicinesService, MedicinesService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<ITargetsService, TargetsService>();
+            services.AddTransient<IDiscountsService, DiscountsService>();
 
             Account account = new Account(
                 this.configuration["Cloudinary:CloudName"],

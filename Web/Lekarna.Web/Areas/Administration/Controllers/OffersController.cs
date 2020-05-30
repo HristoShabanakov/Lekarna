@@ -8,8 +8,10 @@
 
     using Lekarna.Data.Models;
     using Lekarna.Services.Data;
+    using Lekarna.Web.ViewModels.Discounts;
     using Lekarna.Web.ViewModels.Medicines;
     using Lekarna.Web.ViewModels.Offers;
+    using Lekarna.Web.ViewModels.Targets;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +23,8 @@
         private readonly ISuppliersService suppliersService;
         private readonly ICategoriesService categoriesService;
         private readonly IMedicinesService medicinesService;
+        private readonly ITargetsService targetsService;
+        private readonly IDiscountsService discountsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public OffersController(
@@ -28,12 +32,16 @@
             ISuppliersService suppliersService,
             ICategoriesService categoriesService,
             IMedicinesService medicinesService,
+            ITargetsService targetsService,
+            IDiscountsService discountsService,
             UserManager<ApplicationUser> userManager)
         {
             this.offersService = offersService;
             this.suppliersService = suppliersService;
             this.categoriesService = categoriesService;
             this.medicinesService = medicinesService;
+            this.targetsService = targetsService;
+            this.discountsService = discountsService;
             this.userManager = userManager;
         }
 
@@ -177,11 +185,27 @@
                         Discount = decimal.Parse(cols[3]),
                         DiscountId = ++discountIndex,
                     });
+
+                    var targetsRecords = new TargetViewModel
+                    {
+                        Quantity = int.Parse(cols[2]),
+                    };
+                    var targetId = await this.targetsService.CreateAsync(targetsRecords);
+
+                    var discountRecords = new DiscountViewModel
+                    {
+                        Quantity = decimal.Parse(cols[3]),
+                    };
+
+                    var discountId = await this.discountsService.CreateAsync(discountRecords);
+
                     var medicineRecords = new MedicineViewModel
                     {
                         Name = cols[0].ToString(),
                         Price = decimal.Parse(cols[1]),
                         OfferId = offerId,
+                        TargetId = targetId,
+                        DiscountId = discountId,
                     };
                     var medicine = await this.medicinesService.CreateAsync(medicineRecords);
                 }
