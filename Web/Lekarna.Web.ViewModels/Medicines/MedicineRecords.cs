@@ -8,7 +8,7 @@
 
         public int Target { get; set; }
 
-        public int TargetId { get; set; }
+        public string TargetId { get; set; }
 
         public decimal Discount { get; set; }
 

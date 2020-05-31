@@ -88,7 +88,6 @@
                     {
                         recordsList.Add(new MedicineRecords
                         {
-                            TargetId = index + 1,
                             Name = cols[0],
                             Price = decimal.Parse(cols[1]),
                             Target = 0,
@@ -101,7 +100,6 @@
                     {
                         recordsList.Add(new MedicineRecords
                         {
-                            TargetId = index + 1,
                             Name = cols[0],
                             Price = decimal.Parse(cols[1]),
                             Target = int.Parse(cols[2]),
@@ -130,7 +128,6 @@
 
                     recordsList.Add(new MedicineRecords
                     {
-                        TargetId = ++index,
                         Name = cols[0].ToString(),
                         Price = decimal.Parse(cols[1]),
                         Target = int.Parse(cols[2]),

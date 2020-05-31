@@ -101,6 +101,7 @@
 
             var medicineViewModel = new AllRecordsViewModel();
             var recordsList = new List<MedicineRecords>();
+            var medicinesDbRecords = new List<MedicineViewModel>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 string[] headers = reader.ReadLine()
@@ -109,7 +110,6 @@
                     .Replace(" лв.", string.Empty).Replace("%", string.Empty).Replace("\"", string.Empty)
                     .Trim();
                 var rows = textReader.Split("\r\n");
-                int index = 0;
                 int discountIndex = 0;
                 for (int i = 0; i < rows.Length; i++)
                 {
@@ -121,27 +121,38 @@
 
                     if (name.Contains("Total") && target.Any())
                     {
-                        for (int j = 0; j < recordsList.Count; j++)
+                        var targetModel = new TargetViewModel
                         {
-                            if (recordsList[j].Target == 0)
-                            {
-                                recordsList[j].Target = int.Parse(target);
-                            }
+                            Quantity = int.Parse(cols[2]),
+                        };
+                        var idTarget = await this.targetsService.CreateAsync(targetModel);
+
+                        for (int index = 0; index < medicinesDbRecords.Count; index++)
+                        {
+                            medicinesDbRecords[index].TargetId = idTarget;
+
+                            var medicines = medicinesDbRecords[index];
+                            var db = await this.medicinesService.CreateAsync(medicines);
                         }
 
-                        index++;
+                        medicinesDbRecords.Clear();
                     }
 
                     if (name.Any() && price.Any() && target.Length == 0 && discount.Any())
                     {
-                        recordsList.Add(new MedicineRecords
+                        var discountDbModel = new DiscountViewModel
                         {
-                            TargetId = index + 1,
+                            Quantity = decimal.Parse(cols[3]),
+                        };
+
+                        var discountIdDb = await this.discountsService.CreateAsync(discountDbModel);
+
+                        medicinesDbRecords.Add(new MedicineViewModel
+                        {
                             Name = cols[0],
                             Price = decimal.Parse(cols[1]),
-                            Target = 0,
-                            Discount = decimal.Parse(cols[3]),
-                            DiscountId = ++discountIndex,
+                            DiscountId = discountIdDb,
+                            OfferId = offerId,
                         });
                     }
 
@@ -149,7 +160,6 @@
                     {
                         recordsList.Add(new MedicineRecords
                         {
-                            TargetId = index + 1,
                             Name = cols[0],
                             Price = decimal.Parse(cols[1]),
                             Target = int.Parse(cols[2]),
@@ -175,16 +185,6 @@
                     {
                         continue;
                     }
-
-                    recordsList.Add(new MedicineRecords
-                    {
-                        TargetId = ++index,
-                        Name = cols[0].ToString(),
-                        Price = decimal.Parse(cols[1]),
-                        Target = int.Parse(cols[2]),
-                        Discount = decimal.Parse(cols[3]),
-                        DiscountId = ++discountIndex,
-                    });
 
                     var targetsRecords = new TargetViewModel
                     {
