@@ -24,16 +24,6 @@
             this.offersService = offersService;
         }
 
-        public IActionResult Create()
-        {
-            var offers = this.offersService.GetAll<OfferDropDownViewModel>();
-            var viewModel = new MedicineViewModel
-            {
-                Offers = offers,
-            };
-            return this.View(viewModel);
-        }
-
         public IActionResult Import()
         {
             return this.View();
@@ -51,7 +41,6 @@
                 return this.View();
             }
 
-            var viewModel = new AllRecordsViewModel();
             var recordsList = new List<MedicineRecords>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
@@ -75,7 +64,7 @@
                     {
                         for (int j = 0; j < recordsList.Count; j++)
                         {
-                           if (recordsList[j].Target == 0)
+                            if (recordsList[j].Target == 0)
                             {
                                 recordsList[j].Target = int.Parse(target);
                             }
@@ -141,10 +130,8 @@
                 //    var records = csv.GetRecords<Record>().ToList();
                 //    viewModel.Records = records;
                 // }
+                return this.View();
             }
-
-            viewModel.Records = recordsList;
-            return this.View(viewModel);
         }
 
         [HttpPost]

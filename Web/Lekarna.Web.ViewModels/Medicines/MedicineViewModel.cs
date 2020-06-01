@@ -31,7 +31,5 @@
         public string DiscountId { get; set; }
 
         public string OfferId { get; set; }
-
-        public IEnumerable<OfferDropDownViewModel> Offers { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿@model Lekarna.Web.ViewModels.Medicines.MedicineViewModel
 @{
-    var offers = Model.Offers.Select(x => new SelectListItem(x.Name, x.Id));
 }
 <h1>@this.ViewData["Title"]</h1>
 
@@ -17,24 +16,6 @@
         <label asp-for="Price"></label>
         <input min="0.01" value="" asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
-        @*<div class="form-group">
-            <label asp-for="Target"></label>
-            <input min="1.00" value="" asp-for="Target" class="form-control" />
-            <span asp-validation-for="Target" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Discount"></label>
-            <input min="1.00" value="" asp-for="Discount" class="form-control" />
-            <span asp-validation-for="Discount" class="text-danger"></span>
-        </div>*@
-        <div class="form-group">
-            <label asp-for="OfferId"></label>
-            <select asp-for="OfferId" asp-items="offers" class="form-control">
-                <option value="" selected disabled hidden>Select offer</option>
-            </select>
-            <span asp-validation-for="OfferId" class="text-danger"></span>
-        </div>
-
         <hr />
 
         <input type="submit" class="btn btn-primary" />

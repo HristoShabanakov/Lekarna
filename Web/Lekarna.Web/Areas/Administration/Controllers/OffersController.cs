@@ -99,18 +99,16 @@
 
             string fileExtension = Path.GetExtension(inputModel.Data.FileName);
 
-            var medicineViewModel = new AllRecordsViewModel();
-            var recordsList = new List<MedicineRecords>();
             var medicinesDbRecords = new List<MedicineViewModel>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 string[] headers = reader.ReadLine()
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                 var textReader = reader.ReadToEnd()
-                    .Replace(" лв.", string.Empty).Replace("%", string.Empty).Replace("\"", string.Empty)
+                    .Replace(" лв.", string.Empty).Replace("%", string.Empty)
+                    .Replace("\"", string.Empty)
                     .Trim();
                 var rows = textReader.Split("\r\n");
-                int discountIndex = 0;
                 for (int i = 0; i < rows.Length; i++)
                 {
                     var cols = rows[i].Split(";");
@@ -158,27 +156,39 @@
 
                     if (name.Any() && price.Any() && target.Any() && discount.Length == 0)
                     {
-                        recordsList.Add(new MedicineRecords
+                        var targetModel = new TargetViewModel
+                        {
+                            Quantity = int.Parse(cols[2]),
+                        };
+
+                        var idTarget = await this.targetsService.CreateAsync(targetModel);
+
+                        medicinesDbRecords.Add(new MedicineViewModel
                         {
                             Name = cols[0],
                             Price = decimal.Parse(cols[1]),
-                            Target = int.Parse(cols[2]),
-                            Discount = 0,
-                            DiscountId = discountIndex + 1,
+                            TargetId = idTarget,
+                            OfferId = offerId,
                         });
                     }
 
                     if (name.Contains("FORMULA") && discount.Any())
                     {
-                        for (int j = 0; j < recordsList.Count; j++)
+                        var discountDbModel = new DiscountViewModel
                         {
-                            if (recordsList[j].Discount == 0)
-                            {
-                                recordsList[j].Discount = int.Parse(discount);
-                            }
+                            Quantity = decimal.Parse(cols[3]),
+                        };
+
+                        var discountIdDb = await this.discountsService.CreateAsync(discountDbModel);
+
+                        for (int j = 0; j < medicinesDbRecords.Count; j++)
+                        {
+                            medicinesDbRecords[j].DiscountId = discountIdDb;
+                            var medicines = medicinesDbRecords[j];
+                            var db = await this.medicinesService.CreateAsync(medicines);
                         }
 
-                        discountIndex++;
+                        medicinesDbRecords.Clear();
                     }
 
                     if (cols.Contains(string.Empty))
@@ -211,7 +221,6 @@
                 }
             }
 
-            medicineViewModel.Records = recordsList;
             var user = await this.userManager.GetUserAsync(this.User);
             this.TempData["Notification"] = "Offer was successfully created!";
             return this.RedirectToAction(nameof(this.Details), new { id = offerId });
