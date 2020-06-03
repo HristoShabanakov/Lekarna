@@ -8,6 +8,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Medicines;
+    using Microsoft.EntityFrameworkCore;
 
     public class MedicinesService : IMedicinesService
     {
@@ -50,6 +51,26 @@
             }
 
             return query.To<T>().ToList();
+        }
+
+        public async Task<IEnumerable<T>> GetAllMedicines<T>(string id)
+        {
+            var medicines = await this.medicinesRepository.All()
+                .Where(x => x.OfferId == id)
+                .OrderBy(m => m.Name)
+                .To<T>()
+                .ToListAsync();
+
+            return medicines;
+        }
+
+        public async Task<IEnumerable<T>> GetSameTargetsId<T>(string id)
+        {
+            var medicineTargetId = await this.medicinesRepository.All()
+                .Where(x => x.OfferId == id)
+                .GroupBy(t => t.TargetId).To<T>()
+                .ToListAsync();
+            return medicineTargetId;
         }
     }
 }

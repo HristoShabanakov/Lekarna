@@ -292,17 +292,18 @@
             return this.RedirectToAction("All");
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             var viewModel = this.offersService.GetById<OfferViewModel>(id);
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
-
+            var medicines = await this.medicinesService.GetAllMedicines<MedicineViewModel>(id);
             if (viewModel == null)
             {
                 return this.NotFound();
             }
 
             viewModel.Categories = categories;
+            viewModel.Medicines = medicines;
 
             return this.View(viewModel);
         }
