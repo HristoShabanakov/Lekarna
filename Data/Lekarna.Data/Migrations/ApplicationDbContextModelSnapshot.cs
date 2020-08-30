@@ -139,9 +139,7 @@ namespace Lekarna.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("PharmacyId")
-                        .IsUnique()
-                        .HasFilter("[PharmacyId] IS NOT NULL");
+                    b.HasIndex("PharmacyId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -451,9 +449,6 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -717,9 +712,8 @@ namespace Lekarna.Data.Migrations
             modelBuilder.Entity("Lekarna.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("Lekarna.Data.Models.ApplicationUser", "PharmacyId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("PharmacyId");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Medicine", b =>

@@ -57,6 +57,7 @@
             var viewModel = this.offersService.GetById<OfferViewModel>(id);
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var medicines = await this.medicinesService.GetAllMedicines<MedicineViewModel>(id);
+
             if (viewModel == null)
             {
                 return this.NotFound();

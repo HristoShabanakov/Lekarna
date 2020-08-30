@@ -107,12 +107,11 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
         {
-            builder.Entity<Pharmacy>()
-                .HasOne(p => p.ApplicationUser)
-                .WithOne(u => u.Pharmacy)
-                .HasForeignKey<ApplicationUser>(u => u.PharmacyId)
-                .OnDelete(DeleteBehavior.SetNull);
-
+            // builder.Entity<Pharmacy>()
+            //    .HasOne(p => p.Id)
+            //    .WithOne(u => u.Pharmacy)
+            //    .HasForeignKey<ApplicationUser>(u => u.PharmacyId)
+            //    .OnDelete(DeleteBehavior.SetNull);
             builder.Entity<Supplier>()
                 .HasMany(o => o.Offers)
                 .WithOne(s => s.Supplier)

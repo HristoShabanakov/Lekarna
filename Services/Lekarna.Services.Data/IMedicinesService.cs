@@ -13,6 +13,6 @@
 
         Task<IEnumerable<T>> GetAllMedicines<T>(string id);
 
-        Task<IEnumerable<T>> GetSameTargetsId<T>(string id);
+       // Task<IEnumerable<T>> GetSameTargetsId<T>(string id);
     }
 }

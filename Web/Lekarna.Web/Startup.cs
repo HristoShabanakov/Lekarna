@@ -1,6 +1,7 @@
 ﻿namespace Lekarna.Web
 {
     using System.Reflection;
+    using System.Text;
 
     using CloudinaryDotNet;
     using Lekarna.Data;
@@ -14,7 +15,6 @@
     using Lekarna.Services.Messaging;
     using Lekarna.Web.Hubs;
     using Lekarna.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -53,12 +53,19 @@
             {
                 options.EnableForHttps = true;
             });
+            var applicationSettingsConfiguration = this.configuration.GetSection("ApplicationSettings");
+            services.Configure<AppSettings>(applicationSettingsConfiguration);
+
+            var appSettings = applicationSettingsConfiguration.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
             services.AddRazorPages();
+
+            services.AddControllers();
 
             services.AddSingleton(this.configuration);
 
@@ -128,6 +135,11 @@
 
             app.UseRouting();
 
+            app.UseCors(options => options
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -138,6 +150,7 @@
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
+                        endpoints.MapControllers();
                     });
         }
     }

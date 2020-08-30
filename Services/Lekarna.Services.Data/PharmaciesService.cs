@@ -29,7 +29,6 @@
         {
             var pharmacy = new Pharmacy
             {
-                ApplicationUserId = user.Id,
                 Name = inputModel.Name,
                 Country = inputModel.Country,
                 Address = inputModel.Address,

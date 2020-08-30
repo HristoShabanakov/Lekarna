@@ -64,13 +64,23 @@
             return medicines;
         }
 
-        public async Task<IEnumerable<T>> GetSameTargetsId<T>(string id)
-        {
-            var medicineTargetId = await this.medicinesRepository.All()
-                .Where(x => x.OfferId == id)
-                .GroupBy(t => t.TargetId).To<T>()
-                .ToListAsync();
-            return medicineTargetId;
-        }
+        //public async Task<IEnumerable<T>> GetSameTargetsId<T>(string id)
+        //{
+        //    //var medicineTargetId = await this.medicinesRepository.All()
+        //    //    .GroupBy(t => t.TargetId).Select(g => new { TargetId = g.Key, Count = g.Count() }).To<T>()
+        //    //    .ToListAsync();
+
+        //    var query = from p in this.medicinesRepository.All()
+        //                group p by p.TargetId into g
+        //                where g.Count() > 1
+        //                orderby g.Key
+        //                select new
+        //                {
+        //                    g.Key,
+        //                    Count = g.Count(),
+        //                };
+
+        //    return query.To<T>().ToList();
+        //}
     }
 }
