@@ -53,11 +53,6 @@
             {
                 options.EnableForHttps = true;
             });
-            var applicationSettingsConfiguration = this.configuration.GetSection("ApplicationSettings");
-            services.Configure<AppSettings>(applicationSettingsConfiguration);
-
-            var appSettings = applicationSettingsConfiguration.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddControllersWithViews(options =>
             {
@@ -78,7 +73,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ISuppliersService, SuppliersService>();
             services.AddTransient<IOffersService, OffersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
