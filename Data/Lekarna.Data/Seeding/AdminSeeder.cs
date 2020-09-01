@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
+    using static Lekarna.Common.GlobalConstants;
+
     public class AdminSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
@@ -16,18 +18,18 @@
             var userManager = serviceProvider
                 .GetRequiredService<UserManager<ApplicationUser>>();
 
-            if (dbContext.ApplicationUsers.Any(u => u.UserName == "admin@lekarna.com"))
+            if (dbContext.ApplicationUsers.Any(u => u.UserName == AdminEmail))
             {
                 return;
             }
 
             var user = new ApplicationUser
             {
-                UserName = "Admin",
-                Email = "admin@lekarna.com",
+                UserName = Administrator,
+                Email = AdminEmail,
             };
 
-            var password = "admin123";
+            var password = AdminPassword;
 
             var result = await userManager.CreateAsync(user, password);
 
