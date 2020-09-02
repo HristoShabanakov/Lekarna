@@ -129,7 +129,6 @@ namespace Lekarna.Data.Migrations
                     Country = table.Column<string>(maxLength: 30, nullable: false),
                     Address = table.Column<string>(maxLength: 30, nullable: false),
                     ImageId = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

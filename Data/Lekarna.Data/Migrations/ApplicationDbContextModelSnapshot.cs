@@ -109,7 +109,7 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PharmacyId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -138,8 +138,6 @@ namespace Lekarna.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("PharmacyId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -449,6 +447,9 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -475,6 +476,8 @@ namespace Lekarna.Data.Migrations
                         .HasMaxLength(30);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ImageId")
                         .IsUnique()
@@ -677,13 +680,6 @@ namespace Lekarna.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Lekarna.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
-                        .WithMany()
-                        .HasForeignKey("PharmacyId");
-                });
-
             modelBuilder.Entity("Lekarna.Data.Models.Medicine", b =>
                 {
                     b.HasOne("Lekarna.Data.Models.Discount", "Discount")
@@ -746,6 +742,10 @@ namespace Lekarna.Data.Migrations
 
             modelBuilder.Entity("Lekarna.Data.Models.Pharmacy", b =>
                 {
+                    b.HasOne("Lekarna.Data.Models.ApplicationUser", null)
+                        .WithMany("Pharmacies")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Lekarna.Data.Models.Image", "Image")
                         .WithOne("Pharmacy")
                         .HasForeignKey("Lekarna.Data.Models.Pharmacy", "ImageId");

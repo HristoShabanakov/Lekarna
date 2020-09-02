@@ -8,7 +8,7 @@
 
     public interface IPharmaciesService
     {
-        Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user);
+        Task<string> CreateAsync(PharmacyViewModel inputModel);
 
         Task<string> EditAsync(PharmacyEditViewModel inputModel);
 

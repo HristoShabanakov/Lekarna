@@ -18,6 +18,7 @@ namespace Lekarna.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Orders = new HashSet<Order>();
+            this.Pharmacies = new HashSet<Pharmacy>();
         }
 
         // Audit info
@@ -32,7 +33,7 @@ namespace Lekarna.Data.Models
 
         public string PharmacyId { get; set; }
 
-        public virtual Pharmacy Pharmacy { get; set; }
+        public virtual ICollection<Pharmacy> Pharmacies { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

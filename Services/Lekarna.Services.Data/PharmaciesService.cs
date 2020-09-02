@@ -25,7 +25,7 @@
             this.usersRepository = usersRepository;
         }
 
-        public async Task<string> CreateAsync(PharmacyViewModel inputModel, ApplicationUser user)
+        public async Task<string> CreateAsync(PharmacyViewModel inputModel)
         {
             var pharmacy = new Pharmacy
             {
@@ -33,15 +33,15 @@
                 Country = inputModel.Country,
                 Address = inputModel.Address,
             };
-
-            user.PharmacyId = pharmacy.Id;
-
+            ApplicationUser applicationUser = new ApplicationUser();
+            // user.PharmacyId = pharmacy.Id;
+            applicationUser.Pharmacies.Add(pharmacy);
             var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
 
-            if (dbPharmacy != null)
-            {
-                return null;
-            }
+            //if (dbPharmacy != null)
+            //{
+            //    return null;
+            //}
 
             if (inputModel.NewImage != null)
             {
@@ -52,7 +52,7 @@
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
 
-            this.usersRepository.Update(user);
+            //this.usersRepository.Update(user);
             await this.usersRepository.SaveChangesAsync();
             return pharmacy.Id;
         }

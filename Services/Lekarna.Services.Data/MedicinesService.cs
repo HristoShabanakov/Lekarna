@@ -61,26 +61,12 @@
                 .To<T>()
                 .ToListAsync();
 
+            //var x = await this.medicinesRepository.AllAsNoTracking()
+            //  .Select(x => new { x.Name, x.Id, Count = this.medicinesRepository.AllAsNoTracking().Count(y => y.TargetId == x.TargetId) })
+            //  .Where(x => x.Count > 1)
+            //  .ToListAsync();
+
             return medicines;
         }
-
-        //public async Task<IEnumerable<T>> GetSameTargetsId<T>(string id)
-        //{
-        //    //var medicineTargetId = await this.medicinesRepository.All()
-        //    //    .GroupBy(t => t.TargetId).Select(g => new { TargetId = g.Key, Count = g.Count() }).To<T>()
-        //    //    .ToListAsync();
-
-        //    var query = from p in this.medicinesRepository.All()
-        //                group p by p.TargetId into g
-        //                where g.Count() > 1
-        //                orderby g.Key
-        //                select new
-        //                {
-        //                    g.Key,
-        //                    Count = g.Count(),
-        //                };
-
-        //    return query.To<T>().ToList();
-        //}
     }
 }

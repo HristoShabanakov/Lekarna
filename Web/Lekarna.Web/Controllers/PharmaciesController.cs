@@ -72,7 +72,7 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel, user);
+            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel);
 
             if (pharmacyId == null)
             {
