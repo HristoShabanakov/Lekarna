@@ -16,7 +16,7 @@
 
         IEnumerable<T> GetAll<T>(int? count = null);
 
-        T GetById<T>(string id);
+        Task<T> GetById<T>(string id);
 
         IEnumerable<T> GetAllPharmacies<T>(int? take = null, int skip = 0);
 
