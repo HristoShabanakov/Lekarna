@@ -4,7 +4,6 @@
 
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
-    using Lekarna.Web.ViewModels.Targets;
 
     public class TargetsService : ITargetsService
     {
@@ -15,11 +14,11 @@
             this.targetsRepository = targetsRepository;
         }
 
-        public async Task<string> CreateAsync(TargetViewModel inputModel)
+        public async Task<string> CreateAsync(int quantity)
         {
             var target = new Target
             {
-                Quantity = inputModel.Quantity,
+                Quantity = quantity,
             };
 
             await this.targetsRepository.AddAsync(target);

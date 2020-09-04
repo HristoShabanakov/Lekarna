@@ -34,5 +34,12 @@
 
             public const string SuccessfullyDeletedPharmacy = "Pharmacy was successfully deleted!";
         }
+
+        public static class Offer
+        {
+            public const string Formula = "FORMULA";
+
+            public const string Total = "Total";
+        }
     }
 }

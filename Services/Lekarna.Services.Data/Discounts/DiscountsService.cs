@@ -4,7 +4,6 @@
 
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
-    using Lekarna.Web.ViewModels.Discounts;
 
     public class DiscountsService : IDiscountsService
     {
@@ -15,11 +14,11 @@
             this.discountsRepository = discountsRepository;
         }
 
-        public async Task<string> CreateAsync(DiscountViewModel inputModel)
+        public async Task<string> CreateAsync(decimal value)
         {
             var discount = new Discount
             {
-                Quantity = inputModel.Quantity,
+                Quantity = value,
             };
 
             await this.discountsRepository.AddAsync(discount);

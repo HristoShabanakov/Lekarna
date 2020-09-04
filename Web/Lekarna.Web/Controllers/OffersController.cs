@@ -36,11 +36,11 @@
             this.userManager = userManager;
         }
 
-        public IActionResult All(int page = 1)
+        public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = this.offersService.GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
+            var viewModel = await this.offersService.GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
 
-            var offersCount = this.offersService.GetAllOffersCount();
+            var offersCount = await this.offersService.GetAllOffersCount();
 
             var allOffersViewModel = new AllOffersViewModel
             {
@@ -54,7 +54,7 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = this.offersService.GetById<OfferViewModel>(id);
+            var viewModel = await this.offersService.GetById<OfferViewModel>(id);
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var medicines = await this.medicinesService.GetAllMedicines<MedicineViewModel>(id);
 

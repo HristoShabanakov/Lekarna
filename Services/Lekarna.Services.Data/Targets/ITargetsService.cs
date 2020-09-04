@@ -6,6 +6,6 @@
 
     public interface ITargetsService
     {
-        Task<string> CreateAsync(TargetViewModel inputModel);
+        Task<string> CreateAsync(int quantity);
     }
 }
