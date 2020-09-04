@@ -108,9 +108,6 @@ namespace Lekarna.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PharmacyId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -447,9 +444,6 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -475,15 +469,18 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ImageId")
                         .IsUnique()
                         .HasFilter("[ImageId] IS NOT NULL");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Pharmacies");
                 });
@@ -742,13 +739,13 @@ namespace Lekarna.Data.Migrations
 
             modelBuilder.Entity("Lekarna.Data.Models.Pharmacy", b =>
                 {
-                    b.HasOne("Lekarna.Data.Models.ApplicationUser", null)
-                        .WithMany("Pharmacies")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("Lekarna.Data.Models.Image", "Image")
                         .WithOne("Pharmacy")
                         .HasForeignKey("Lekarna.Data.Models.Pharmacy", "ImageId");
+
+                    b.HasOne("Lekarna.Data.Models.ApplicationUser", "User")
+                        .WithMany("Pharmacies")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Supplier", b =>

@@ -3,7 +3,6 @@ namespace Lekarna.Data.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     using Lekarna.Data.Common.Models;
 
@@ -30,8 +29,6 @@ namespace Lekarna.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        public string PharmacyId { get; set; }
 
         public virtual ICollection<Pharmacy> Pharmacies { get; set; }
 

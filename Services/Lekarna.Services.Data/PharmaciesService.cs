@@ -14,35 +14,31 @@
     {
         private readonly IDeletableEntityRepository<Pharmacy> pharmaciesRepository;
         private readonly IImagesService imagesService;
-        private readonly IRepository<ApplicationUser> usersRepository;
 
         public PharmaciesService(
             IDeletableEntityRepository<Pharmacy> pharmaciesRepository,
-            IImagesService imagesService,
-            IRepository<ApplicationUser> usersRepository)
+            IImagesService imagesService)
         {
             this.pharmaciesRepository = pharmaciesRepository;
             this.imagesService = imagesService;
-            this.usersRepository = usersRepository;
         }
 
-        public async Task<string> CreateAsync(PharmacyViewModel inputModel)
+        public async Task<string> CreateAsync(PharmacyViewModel inputModel, string userId)
         {
+            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == inputModel.Name).FirstOrDefault();
+
+            if (dbPharmacy != null)
+            {
+                return string.Empty;
+            }
+
             var pharmacy = new Pharmacy
             {
                 Name = inputModel.Name,
                 Country = inputModel.Country,
                 Address = inputModel.Address,
+                UserId = userId,
             };
-            ApplicationUser applicationUser = new ApplicationUser();
-            // user.PharmacyId = pharmacy.Id;
-            applicationUser.Pharmacies.Add(pharmacy);
-            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == pharmacy.Name).FirstOrDefault();
-
-            //if (dbPharmacy != null)
-            //{
-            //    return null;
-            //}
 
             if (inputModel.NewImage != null)
             {
@@ -53,8 +49,6 @@
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
 
-            //this.usersRepository.Update(user);
-            await this.usersRepository.SaveChangesAsync();
             return pharmacy.Id;
         }
 

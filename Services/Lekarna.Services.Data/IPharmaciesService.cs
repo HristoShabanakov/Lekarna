@@ -3,12 +3,11 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
     using Lekarna.Web.ViewModels.Pharmacies;
 
     public interface IPharmaciesService
     {
-        Task<string> CreateAsync(PharmacyViewModel inputModel);
+        Task<string> CreateAsync(PharmacyViewModel inputModel, string userId);
 
         Task<string> EditAsync(PharmacyEditViewModel inputModel);
 

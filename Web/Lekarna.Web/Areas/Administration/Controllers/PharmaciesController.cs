@@ -71,9 +71,9 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel);
+            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel, user.Id);
 
-            if (pharmacyId == null)
+            if (string.IsNullOrEmpty(pharmacyId))
             {
                 return this.RedirectToAction("Error", "Home");
             }
