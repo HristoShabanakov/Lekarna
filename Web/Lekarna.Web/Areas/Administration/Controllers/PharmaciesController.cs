@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
 
+    using static Lekarna.Common.GlobalConstants;
+
     public class PharmaciesController : AdministrationController
     {
         private const int PharmaciesPerPage = 9;
@@ -19,7 +21,6 @@
         private readonly UserManager<ApplicationUser> userManager;
 
         private readonly string imagePathPrefix;
-        private readonly string cloudinaryPrefix = "https://res.cloudinary.com/{0}/image/upload/";
 
         public PharmaciesController(
             IPharmaciesService pharmaciesService,
@@ -29,7 +30,7 @@
             this.pharmaciesService = pharmaciesService;
             this.configuration = configuration;
             this.userManager = userManager;
-            this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
+            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration["Cloudinary:CloudName"]);
         }
 
         public IActionResult All(int page = 1)
@@ -39,7 +40,7 @@
             foreach (var pharmacy in viewModel)
             {
                 pharmacy.ImageUrl = pharmacy.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
@@ -77,13 +78,13 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully created!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyCreatedPharmacy;
             return this.RedirectToAction("Details", new { id = pharmacyId });
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
 
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -93,7 +94,7 @@
             }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
@@ -101,17 +102,15 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
             viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
@@ -132,7 +131,7 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully edited!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyEditedPharmacy;
 
             return this.RedirectToAction("Details", new { id = pharmacyId });
         }
@@ -161,7 +160,7 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully deleted!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyDeletedPharmacy;
 
             return this.RedirectToAction("All");
         }

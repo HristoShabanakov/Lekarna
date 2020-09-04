@@ -8,6 +8,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Pharmacies;
+    using Microsoft.EntityFrameworkCore;
 
     public class PharmaciesService : IPharmaciesService
     {
@@ -130,12 +131,10 @@
             return this.pharmaciesRepository.All().ToList().Count;
         }
 
-        public T GetById<T>(string id)
-        {
-            var pharmacy = this.pharmaciesRepository.All().Where(x => x.Id == id)
-               .To<T>().FirstOrDefault();
-
-            return pharmacy;
-        }
+        public async Task<T> GetById<T>(string id)
+        => await this.pharmaciesRepository
+            .All()
+            .Where(x => x.Id == id)
+            .To<T>().FirstOrDefaultAsync();
     }
 }

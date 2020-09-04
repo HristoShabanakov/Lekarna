@@ -11,6 +11,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
 
+    using static Lekarna.Common.GlobalConstants;
+
     [Authorize]
     public class PharmaciesController : Controller
     {
@@ -21,7 +23,6 @@
         private readonly UserManager<ApplicationUser> userManager;
 
         private readonly string imagePathPrefix;
-        private readonly string cloudinaryPrefix = "https://res.cloudinary.com/{0}/image/upload/";
 
         public PharmaciesController(
             IPharmaciesService pharmaciesService,
@@ -31,17 +32,18 @@
             this.pharmaciesService = pharmaciesService;
             this.configuration = configuration;
             this.userManager = userManager;
-            this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
+            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration[Cloudinary.CloudName]);
         }
 
         public IActionResult All(int page = 1)
         {
-            var viewModel = this.pharmaciesService.GetAllPharmacies<PharmacyViewModel>(PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
+            var viewModel = this.pharmaciesService
+                .GetAllPharmacies<PharmacyViewModel>(PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
 
             foreach (var pharmacy in viewModel)
             {
                 pharmacy.ImageUrl = pharmacy.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
@@ -71,7 +73,6 @@
                 return this.View(inputModel);
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
             var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel);
 
             if (pharmacyId == null)
@@ -79,15 +80,13 @@
                 return this.RedirectToAction("NotFound", "Errors");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully created!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyCreatedPharmacy;
             return this.RedirectToAction("Details", new { id = pharmacyId });
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
-
-            var user = await this.userManager.GetUserAsync(this.User);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
 
             if (viewModel == null)
             {
@@ -95,7 +94,7 @@
             }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
@@ -103,7 +102,7 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
 
             if (viewModel == null)
             {
@@ -118,7 +117,7 @@
             }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
@@ -139,14 +138,14 @@
                 return this.RedirectToAction("BadRequest", "Errors");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully edited!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyEditedPharmacy;
 
             return this.RedirectToAction("Details", new { id = pharmacyId });
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
 
             if (viewModel == null)
             {
@@ -173,7 +172,7 @@
                 return this.RedirectToAction("BadRequest", "Errors");
             }
 
-            this.TempData["Notification"] = "Pharmacy was successfully deleted!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyDeletedPharmacy;
 
             return this.RedirectToAction("All");
         }
