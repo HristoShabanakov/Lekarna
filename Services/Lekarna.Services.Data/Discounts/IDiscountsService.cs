@@ -2,10 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using Lekarna.Web.ViewModels.Discounts;
-
     public interface IDiscountsService
     {
-        Task<string> CreateAsync(DiscountViewModel inputModel);
+        Task<string> CreateAsync(decimal value);
     }
 }

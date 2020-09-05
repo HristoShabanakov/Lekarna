@@ -142,7 +142,7 @@
                 return this.View(inputModel);
             }
 
-            var medicineId = await this.medicinesService.CreateAsync(inputModel);
+            var medicineId = await this.medicinesService.CreateAsync(inputModel.Name, inputModel.Price, inputModel.OfferId, inputModel.TargetId, inputModel.DiscountId);
 
             if (medicineId == null)
             {
