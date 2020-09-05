@@ -1,6 +1,5 @@
 ﻿namespace Lekarna.Data.Models
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +8,6 @@
     public class OrderItem : BaseDeletableStringIdModel
     {
         [Required]
-        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
         [Required]
@@ -18,10 +16,10 @@
 
         public string MedicineId { get; set; }
 
-        public virtual Medicine Medicine { get; set; }
+        public Medicine Medicine { get; set; }
 
         public string OfferId { get; set; }
 
-        public virtual Offer Offer { get; set; }
+        public Offer Offer { get; set; }
     }
 }

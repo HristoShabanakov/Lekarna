@@ -8,11 +8,6 @@
 
     public class Discount : BaseDeletableStringIdModel
     {
-        public Discount()
-        {
-            this.CreatedOn = DateTime.UtcNow;
-        }
-
         [Required]
         [Column(TypeName = "decimal(5,2)")]
         public decimal Quantity { get; set; }

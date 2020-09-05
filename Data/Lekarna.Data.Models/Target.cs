@@ -7,11 +7,6 @@
 
     public class Target : BaseDeletableStringIdModel
     {
-        public Target()
-        {
-            this.CreatedOn = DateTime.UtcNow;
-        }
-
         [Required]
         public int Quantity { get; set; }
     }

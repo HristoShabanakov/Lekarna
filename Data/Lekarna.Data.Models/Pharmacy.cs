@@ -1,6 +1,5 @@
 ﻿namespace Lekarna.Data.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,21 +10,17 @@
         public Pharmacy()
         {
             this.Orders = new HashSet<Order>();
-            this.CreatedOn = DateTime.UtcNow;
         }
 
         [Required]
-        [MinLength(3)]
         [MaxLength(30)]
         public string Name { get; set; }
 
         [Required]
-        [MinLength(3)]
         [MaxLength(30)]
         public string Country { get; set; }
 
         [Required]
-        [MinLength(3)]
         [MaxLength(30)]
         public string Address { get; set; }
 
