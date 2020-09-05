@@ -8,6 +8,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Pharmacies;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class PharmaciesService : IPharmaciesService
@@ -23,9 +24,9 @@
             this.imagesService = imagesService;
         }
 
-        public async Task<string> CreateAsync(PharmacyViewModel inputModel, string userId)
+        public async Task<string> CreateAsync(string name, string country, string address, IFormFile newImage, string userId)
         {
-            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == inputModel.Name).FirstOrDefault();
+            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == name).FirstOrDefault();
 
             if (dbPharmacy != null)
             {
@@ -34,16 +35,16 @@
 
             var pharmacy = new Pharmacy
             {
-                Name = inputModel.Name,
-                Country = inputModel.Country,
-                Address = inputModel.Address,
+                Name = name,
+                Country = country,
+                Address = address,
                 UserId = userId,
             };
 
-            if (inputModel.NewImage != null)
+            if (newImage != null)
             {
-                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
-                pharmacy.ImageId = newImage.Id;
+                var newPictureImage = await this.imagesService.CreateAsync(newImage);
+                pharmacy.ImageId = newPictureImage.Id;
             }
 
             await this.pharmaciesRepository.AddAsync(pharmacy);
@@ -94,7 +95,7 @@
             return pharmacy.Id;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
         {
             IQueryable<Pharmacy> query = this.pharmaciesRepository.All().OrderBy(x => x.Name);
 
@@ -103,7 +104,7 @@
                 query = query.Take(count.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllPharmacies<T>(string userId = null, int? take = null, int skip = 0)
@@ -125,9 +126,9 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public int GetAllPharmaciesCount()
+        public async Task<int> GetAllPharmaciesCount()
         {
-            return this.pharmaciesRepository.All().ToList().Count;
+            return await this.pharmaciesRepository.All().CountAsync();
         }
 
         public async Task<T> GetById<T>(string id)

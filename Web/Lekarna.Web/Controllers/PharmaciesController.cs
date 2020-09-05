@@ -49,7 +49,7 @@
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
-            var pharmaciesCount = this.pharmaciesService.GetAllPharmaciesCount();
+            var pharmaciesCount = await this.pharmaciesService.GetAllPharmaciesCount();
 
             var allPharmaciesViewModel = new AllPharmaciesViewModel
             {
@@ -76,7 +76,9 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel, user.Id);
+            var pharmacyId = await this
+                .pharmaciesService
+                .CreateAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.NewImage, user.Id);
 
             if (string.IsNullOrEmpty(pharmacyId))
             {
@@ -111,13 +113,6 @@
             {
                 return this.RedirectToAction("NotFound", "Errors");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-           // if (user.PharmacyId != viewModel.Id)
-           // {
-           //     return this.RedirectToAction("Forbidden", "Errors");
-           // }
 
             viewModel.ImageUrl = viewModel.ImageUrl == null
                 ? Images.LogoPath
@@ -154,13 +149,6 @@
             {
                 return this.RedirectToAction("NotFound", "Errors");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            //if (user.PharmacyId != viewModel.Id)
-            //{
-            //    return this.RedirectToAction("Forbidden", "Errors");
-            //}
 
             return this.View(viewModel);
         }

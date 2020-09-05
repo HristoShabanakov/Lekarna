@@ -1,6 +1,5 @@
 ﻿namespace Lekarna.Data.Configurations
 {
-
     using Lekarna.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
