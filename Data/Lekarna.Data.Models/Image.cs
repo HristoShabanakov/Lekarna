@@ -1,12 +1,9 @@
 ﻿namespace Lekarna.Data.Models
 {
-    using System;
-
     using Lekarna.Data.Common.Models;
 
     public class Image : BaseDeletableStringIdModel
     {
-
         public string Url { get; set; }
 
         public string PharmacyId { get; set; }

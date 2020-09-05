@@ -33,9 +33,9 @@
             this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration["Cloudinary:CloudName"]);
         }
 
-        public IActionResult All(int page = 1)
+        public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = this.pharmaciesService.GetAllPharmacies<PharmacyViewModel>(PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
+            var viewModel = await this.pharmaciesService.GetAllPharmacies<PharmacyViewModel>(null, PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
 
             foreach (var pharmacy in viewModel)
             {

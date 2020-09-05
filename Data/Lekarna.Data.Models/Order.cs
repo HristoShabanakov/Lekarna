@@ -6,7 +6,6 @@
 
     public class Order : BaseDeletableStringIdModel
     {
-
         public DateTime IssuedOn { get; set; }
 
         public string PharmacyId { get; set; }
