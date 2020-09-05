@@ -8,13 +8,7 @@
 
     public class Medicine : BaseDeletableStringIdModel
     {
-        public Medicine()
-        {
-            this.CreatedOn = DateTime.UtcNow;
-        }
-
         [Required]
-        [MinLength(3)]
         [MaxLength(50)]
         public string Name { get; set; }
 

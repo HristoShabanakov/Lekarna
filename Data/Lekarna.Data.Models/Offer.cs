@@ -10,12 +10,10 @@
     {
         public Offer()
         {
-            this.CreatedOn = DateTime.UtcNow;
             this.Medicines = new HashSet<Medicine>();
         }
 
         [Required]
-        [MinLength(3)]
         [MaxLength(40)]
         public string Name { get; set; }
 
