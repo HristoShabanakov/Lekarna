@@ -44,7 +44,7 @@
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
-            var pharmaciesCount = this.pharmaciesService.GetAllPharmaciesCount();
+            var pharmaciesCount = await this.pharmaciesService.GetAllPharmaciesCount();
 
             var allPharmaciesViewModel = new AllPharmaciesViewModel
             {
@@ -71,7 +71,9 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var pharmacyId = await this.pharmaciesService.CreateAsync(inputModel, user.Id);
+            var pharmacyId = await this
+                .pharmaciesService
+                .CreateAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.NewImage, user.Id);
 
             if (string.IsNullOrEmpty(pharmacyId))
             {
@@ -85,8 +87,6 @@
         public async Task<IActionResult> Details(string id)
         {
             var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             if (viewModel == null)
             {
@@ -138,14 +138,12 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             return this.View(viewModel);
         }
