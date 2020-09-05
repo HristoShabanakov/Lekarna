@@ -23,14 +23,14 @@
 
         public string TargetId { get; set; }
 
-        public virtual Target Target { get; set; }
+        public Target Target { get; set; }
 
-        public virtual Discount Discount { get; set; }
+        public Discount Discount { get; set; }
 
         public string DiscountId { get; set; }
 
         public string OfferId { get; set; }
 
-        public virtual Offer Offer { get; set; }
+        public Offer Offer { get; set; }
     }
 }

@@ -16,7 +16,7 @@
     [Authorize]
     public class PharmaciesController : Controller
     {
-        private const int PharmaciesPerPage = 9;
+        private const int PharmaciesPerPage = 3;
 
         private readonly IPharmaciesService pharmaciesService;
         private readonly IConfiguration configuration;

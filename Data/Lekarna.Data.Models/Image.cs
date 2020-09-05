@@ -8,10 +8,10 @@
 
         public string PharmacyId { get; set; }
 
-        public virtual Pharmacy Pharmacy { get; set; }
+        public Pharmacy Pharmacy { get; set; }
 
         public string SupplierId { get; set; }
 
-        public virtual Supplier Supplier { get; set; }
+        public Supplier Supplier { get; set; }
     }
 }

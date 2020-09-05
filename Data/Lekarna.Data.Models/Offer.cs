@@ -25,12 +25,12 @@
 
         public string SupplierId { get; set; }
 
-        public virtual Supplier Supplier { get; set; }
+        public Supplier Supplier { get; set; }
 
         public string CategoryId { get; set; }
 
-        public virtual Category Category { get; set; }
+        public Category Category { get; set; }
 
-        public virtual ICollection<Medicine> Medicines { get; set; }
+        public ICollection<Medicine> Medicines { get; set; }
     }
 }

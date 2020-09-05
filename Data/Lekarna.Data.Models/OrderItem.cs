@@ -18,10 +18,10 @@
 
         public string MedicineId { get; set; }
 
-        public virtual Medicine Medicine { get; set; }
+        public Medicine Medicine { get; set; }
 
         public string OfferId { get; set; }
 
-        public virtual Offer Offer { get; set; }
+        public Offer Offer { get; set; }
     }
 }

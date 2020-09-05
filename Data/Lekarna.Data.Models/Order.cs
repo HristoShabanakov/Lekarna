@@ -10,14 +10,14 @@
 
         public string PharmacyId { get; set; }
 
-        public virtual Pharmacy Pharmacy { get; set; }
+        public Pharmacy Pharmacy { get; set; }
 
         public int StatusId { get; set; }
 
-        public virtual OrderStatus Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public string OrderItemId { get; set; }
 
-        public virtual OrderItem OrderItem { get; set; }
+        public OrderItem OrderItem { get; set; }
     }
 }

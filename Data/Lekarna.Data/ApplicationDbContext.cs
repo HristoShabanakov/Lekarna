@@ -105,41 +105,10 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUser>()
-               .HasMany(u => u.Pharmacies)
-               .WithOne(p => p.User)
-               .HasForeignKey(p => p.UserId);
+            // Needed for Identity models configuration
+            base.OnModelCreating(builder);
 
-            builder.Entity<Supplier>()
-                .HasMany(o => o.Offers)
-                .WithOne(s => s.Supplier)
-                .HasForeignKey(s => s.SupplierId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            builder.Entity<Category>()
-                .HasMany(o => o.Offers)
-                .WithOne(c => c.Category)
-                .HasForeignKey(c => c.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            builder.Entity<Image>()
-               .HasOne(i => i.Pharmacy)
-               .WithOne(p => p.Image)
-               .HasForeignKey<Pharmacy>(p => p.ImageId);
-
-            builder.Entity<Image>()
-               .HasOne(i => i.Supplier)
-               .WithOne(p => p.Image)
-               .HasForeignKey<Supplier>(p => p.ImageId);
-
-            builder.Entity<Medicine>()
-                .HasKey(m => m.Id);
-
-            builder.Entity<Order>()
-                .HasOne(p => p.Pharmacy)
-                .WithMany(o => o.Orders)
-                .HasForeignKey(p => p.PharmacyId)
-                .HasForeignKey(o => o.OrderItemId);
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
         private void ApplyAuditInfoRules()
