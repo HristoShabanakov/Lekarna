@@ -4,12 +4,8 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Order : BaseDeletableModel<string>
+    public class Order : BaseDeletableStringIdModel
     {
-        public Order()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
 
         public DateTime IssuedOn { get; set; }
 

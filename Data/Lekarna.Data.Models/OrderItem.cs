@@ -1,19 +1,13 @@
 ﻿namespace Lekarna.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Text;
 
     using Lekarna.Data.Common.Models;
 
-    public class OrderItem : BaseDeletableModel<string>
+    public class OrderItem : BaseDeletableStringIdModel
     {
-        public OrderItem()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
 
         [Required]
         [Range(1, int.MaxValue)]

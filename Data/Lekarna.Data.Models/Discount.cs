@@ -6,11 +6,10 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Discount : BaseDeletableModel<string>
+    public class Discount : BaseDeletableStringIdModel
     {
         public Discount()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
         }
 

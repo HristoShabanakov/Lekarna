@@ -6,11 +6,10 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Medicine : BaseDeletableModel<string>
+    public class Medicine : BaseDeletableStringIdModel
     {
         public Medicine()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
         }
 

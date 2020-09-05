@@ -4,12 +4,8 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Image : BaseDeletableModel<string>
+    public class Image : BaseDeletableStringIdModel
     {
-        public Image()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
 
         public string Url { get; set; }
 
