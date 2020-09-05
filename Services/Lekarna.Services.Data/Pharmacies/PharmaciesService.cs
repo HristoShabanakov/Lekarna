@@ -106,18 +106,23 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllPharmacies<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllPharmacies<T>(string userId = null, int? take = null, int skip = 0)
         {
             var query = this.pharmaciesRepository.All()
                 .OrderByDescending(p => p.Name)
                 .Skip(skip);
+
+            if (userId != null)
+            {
+                query = query.Where(x => x.UserId == userId);
+            }
 
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
         public int GetAllPharmaciesCount()

@@ -67,11 +67,10 @@
                 .To<T>()
                 .ToListAsync();
 
-            //var x = await this.medicinesRepository.AllAsNoTracking()
+            // var x = await this.medicinesRepository.AllAsNoTracking()
             //  .Select(x => new { x.Name, x.Id, Count = this.medicinesRepository.AllAsNoTracking().Count(y => y.TargetId == x.TargetId) })
             //  .Where(x => x.Count > 1)
             //  .ToListAsync();
-
             return medicines;
         }
 
