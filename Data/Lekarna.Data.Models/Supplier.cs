@@ -6,11 +6,10 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Supplier : BaseDeletableModel<string>
+    public class Supplier : BaseDeletableStringIdModel
     {
         public Supplier()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.Offers = new HashSet<Offer>();
         }
 

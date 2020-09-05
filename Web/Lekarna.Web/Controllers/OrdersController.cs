@@ -36,7 +36,6 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            // user.PharmacyId = inputModel.PharmacyId;
             var order = this.ordersService.CreateOrder(inputModel, user);
 
             if (order == null)

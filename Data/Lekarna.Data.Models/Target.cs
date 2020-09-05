@@ -5,11 +5,10 @@
 
     using Lekarna.Data.Common.Models;
 
-    public class Target : BaseDeletableModel<string>
+    public class Target : BaseDeletableStringIdModel
     {
         public Target()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
         }
 
