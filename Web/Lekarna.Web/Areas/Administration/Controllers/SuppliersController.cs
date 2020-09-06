@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
 
+    using static Lekarna.Common.GlobalConstants;
+
     public class SuppliersController : AdministrationController
     {
         private const int SuppliersPerPage = 9;
@@ -32,9 +34,9 @@
             this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
-        public IActionResult All(int page = 1)
+        public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
+            var viewModel = await this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
 
             foreach (var supplier in viewModel)
             {
@@ -43,7 +45,7 @@
                 : this.imagePathPrefix + supplier.ImageUrl;
             }
 
-            var suppliersCount = this.suppliersService.GetAllSuppliersCount();
+            var suppliersCount = await this.suppliersService.GetAllSuppliersCount();
 
             var suppliersAllViewModel = new SuppliersAllViewModel
             {
@@ -68,15 +70,16 @@
                 return this.View(inputModel);
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-            var supplierId = await this.suppliersService.CreateAsync(inputModel, user);
+            var supplierId = await this
+                .suppliersService
+                .CreateAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.NewImage);
 
             if (supplierId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Supplier was successfully created!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyCreatedSupplier;
             return this.RedirectToAction("Details", new { id = supplierId });
         }
 
@@ -106,14 +109,16 @@
                 return this.RedirectToAction("Edit", new { id = inputModel.Id });
             }
 
-            var supplierId = await this.suppliersService.EditAsync(inputModel);
+            var supplierId = await this
+                .suppliersService
+                .EditAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.NewImage, inputModel.Id);
 
             if (supplierId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Supplier was successfully edited!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyEditedSupplier;
 
             return this.RedirectToAction("Details", new { id = supplierId });
         }
@@ -142,8 +147,7 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            // validations
-            this.TempData["Notification"] = "Supplier was successfully deleted!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyDeletedSupplier;
 
             return this.RedirectToAction("All");
         }

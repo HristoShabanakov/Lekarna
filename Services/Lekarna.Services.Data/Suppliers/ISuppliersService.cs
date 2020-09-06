@@ -3,16 +3,15 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
-    using Lekarna.Web.ViewModels.Suppliers;
+    using Microsoft.AspNetCore.Http;
 
     public interface ISuppliersService
     {
-        IEnumerable<T> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAll<T>(int? count = null);
 
-        Task<string> CreateAsync(SupplierCreateViewModel inputModel, ApplicationUser user);
+        Task<string> CreateAsync(string name, string country, string address, IFormFile newImage);
 
-        Task<string> EditAsync(SupplierEditViewModel inputModel);
+        Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id);
 
         Task<string> DeleteAsync(string id);
 
@@ -20,8 +19,8 @@
 
         T GetById<T>(string id);
 
-        IEnumerable<T> GetAllSuppliers<T>(int? take = null, int skip = 0);
+        Task<IEnumerable<T>> GetAllSuppliers<T>(int? take = null, int skip = 0);
 
-        int GetAllSuppliersCount();
+        Task<int> GetAllSuppliersCount();
     }
 }

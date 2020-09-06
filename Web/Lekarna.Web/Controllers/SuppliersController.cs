@@ -34,9 +34,9 @@
             this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
         }
 
-        public IActionResult All(int page = 1)
+        public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
+            var viewModel = await this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
 
             foreach (var supplier in viewModel)
             {
@@ -45,7 +45,7 @@
                 : this.imagePathPrefix + supplier.ImageUrl;
             }
 
-            var suppliersCount = this.suppliersService.GetAllSuppliersCount();
+            var suppliersCount = await this.suppliersService.GetAllSuppliersCount();
 
             var suppliersAllViewModel = new SuppliersAllViewModel
             {

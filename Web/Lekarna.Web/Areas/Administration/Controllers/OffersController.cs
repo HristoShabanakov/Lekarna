@@ -56,9 +56,9 @@
             return this.View(allOffersViewModel);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+            var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var viewModel = new OfferCreateInputModel
             {
@@ -73,7 +73,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+                var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
                 var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
                 var viewModel = new OfferCreateInputModel
                 {
@@ -99,7 +99,7 @@
         {
             var viewModel = await this.offersService.GetById<OfferViewModel>(id);
 
-            viewModel.Suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+            viewModel.Suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
             viewModel.Categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
 
             if (viewModel == null)
