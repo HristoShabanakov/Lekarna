@@ -10,7 +10,7 @@
     {
         Task<string> CreateAsync(string name, string country, string address, IFormFile newImage, string userId);
 
-        Task<string> EditAsync(PharmacyEditViewModel inputModel);
+        Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id);
 
         Task<string> DeleteAsync(string id);
 

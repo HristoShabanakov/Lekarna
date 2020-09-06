@@ -70,23 +70,23 @@
             return pharmacyId;
         }
 
-        public async Task<string> EditAsync(PharmacyEditViewModel inputModel)
+        public async Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id)
         {
-            var pharmacy = this.pharmaciesRepository.All().FirstOrDefault(p => p.Id == inputModel.Id);
+            var pharmacy = this.pharmaciesRepository.All().FirstOrDefault(p => p.Id == id);
 
             if (pharmacy == null)
             {
                 return null;
             }
 
-            pharmacy.Name = inputModel.Name;
-            pharmacy.Country = inputModel.Country;
-            pharmacy.Address = inputModel.Address;
+            pharmacy.Name = name;
+            pharmacy.Country = country;
+            pharmacy.Address = address;
 
-            if (inputModel.NewImage != null)
+            if (newImage != null)
             {
-                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
-                pharmacy.ImageId = newImage.Id;
+                var newPictureImage = await this.imagesService.CreateAsync(newImage);
+                pharmacy.ImageId = newPictureImage.Id;
             }
 
             this.pharmaciesRepository.Update(pharmacy);

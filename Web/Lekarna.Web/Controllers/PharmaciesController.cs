@@ -129,7 +129,9 @@
                 return this.RedirectToAction("Edit", new { id = inputModel.Id });
             }
 
-            var pharmacyId = await this.pharmaciesService.EditAsync(inputModel);
+            var pharmacyId = await this
+                .pharmaciesService
+                .EditAsync(inputModel.Name, inputModel.Country, inputModel.Address, inputModel.NewImage, inputModel.Id);
 
             if (pharmacyId == null)
             {
