@@ -58,7 +58,7 @@
 
         public async Task<IActionResult> Create()
         {
-            var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+            var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
             var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
             var viewModel = new OfferCreateInputModel
             {
@@ -73,8 +73,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
                 var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
+                var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
                 var viewModel = new OfferCreateInputModel
                 {
                     Suppliers = suppliers,
@@ -99,7 +99,7 @@
         {
             var viewModel = await this.offersService.GetById<OfferViewModel>(id);
 
-            viewModel.Suppliers = this.suppliersService.GetAll<SupplierDropDownViewModel>();
+            viewModel.Suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
             viewModel.Categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
 
             if (viewModel == null)
