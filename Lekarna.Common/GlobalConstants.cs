@@ -34,11 +34,18 @@
 
             public const string SuccessfullyDeletedPharmacy = "Pharmacy was successfully deleted!";
 
+            public const string SuccessfullyCreatedCategory = "Category was successfully created!";
+
+            public const string SuccessfullyDeletedCategory = "Category was successfully deleted!";
+
+            public const string SuccessfullyEditedCategory = "Category was successfully edited!";
+          
             public const string SuccessfullyCreatedSupplier = "Supplier was successfully created!";
 
             public const string SuccessfullyEditedSupplier = "Supplier was successfully edited!";
 
             public const string SuccessfullyDeletedSupplier = "Supplier was successfully deleted!";
+
         }
 
         public static class Offer

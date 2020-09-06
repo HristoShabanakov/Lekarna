@@ -8,6 +8,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Categories;
+    using Microsoft.EntityFrameworkCore;
 
     public class CategoriesService : ICategoriesService
     {
@@ -18,7 +19,7 @@
             this.categoriesRepository = categoriesRepository;
         }
 
-        public async Task<string> CreateAsync(string categoryName, string description, ApplicationUser user)
+        public async Task<string> CreateAsync(string categoryName, string description)
         {
             var category = new Category
             {
@@ -26,7 +27,9 @@
                 Description = description,
             };
 
-            var dbCategory = this.categoriesRepository.All().Where(c => c.CategoryName == category.CategoryName).FirstOrDefault();
+            var dbCategory = await this.categoriesRepository
+                .All()
+                .FirstOrDefaultAsync(c => c.CategoryName == category.CategoryName);
 
             if (dbCategory != null)
             {
@@ -40,7 +43,9 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var category = this.categoriesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            var category = await this.categoriesRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (category == null)
             {
@@ -55,17 +60,19 @@
             return categoryId;
         }
 
-        public async Task<string> EditAsync(CategoryEditViewModel inputModel)
+        public async Task<string> EditAsync(string id, string name, string description)
         {
-            var category = this.categoriesRepository.All().FirstOrDefault(c => c.Id == inputModel.Id);
+            var category = await this.categoriesRepository
+                .All().
+                FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
                 return null;
             }
 
-            category.CategoryName = inputModel.CategoryName;
-            category.Description = inputModel.Description;
+            category.CategoryName = name;
+            category.Description = description;
 
             this.categoriesRepository.Update(category);
             await this.categoriesRepository.SaveChangesAsync();
@@ -73,7 +80,7 @@
             return category.Id;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
         {
             IQueryable<Category> query = this.categoriesRepository.All().OrderBy(x => x.CategoryName);
 
@@ -82,10 +89,10 @@
                 query = query.Take(count.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
-        public IEnumerable<T> GetAllCategories<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllCategories<T>(int? take = null, int skip = 0)
         {
             var query = this.categoriesRepository.All()
                .OrderByDescending(c => c.CategoryName)
@@ -96,20 +103,17 @@
                 query = query.Take(take.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
-        public int GetAllCategoriesCount()
-        {
-            return this.categoriesRepository.All().ToList().Count;
-        }
+        public async Task<int> GetAllCategoriesCount()
+        => await this.categoriesRepository.All().CountAsync();
 
-        public T GetById<T>(string id)
-        {
-            var category = this.categoriesRepository.All().Where(x => x.Id == id)
-                .To<T>().FirstOrDefault();
-
-            return category;
-        }
+        public async Task<T> GetById<T>(string id)
+        => await this.categoriesRepository
+            .All()
+            .Where(x => x.Id == id)
+            .To<T>()
+            .FirstOrDefaultAsync();
     }
 }

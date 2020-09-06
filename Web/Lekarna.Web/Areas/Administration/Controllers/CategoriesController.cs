@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    using static Lekarna.Common.GlobalConstants.Notifications;
+
     public class CategoriesController : AdministrationController
     {
         private const int CategoriesPerPage = 10;
@@ -27,11 +29,12 @@
             this.userManager = userManager;
         }
 
-        public IActionResult All(int page = 1)
+        public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = this.categoriesService.GetAllCategories<CategoryViewModel>(CategoriesPerPage, (page - 1) * CategoriesPerPage);
+            var viewModel = await this.categoriesService
+                .GetAllCategories<CategoryViewModel>(CategoriesPerPage, (page - 1) * CategoriesPerPage);
 
-            var categoriesCount = this.categoriesService.GetAllCategoriesCount();
+            var categoriesCount = await this.categoriesService.GetAllCategoriesCount();
 
             var allCategoriesViewModel = new AllCategoriesViewModel
             {
@@ -58,31 +61,27 @@
                 return this.View(inputModel);
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
             var categoryId = await this.categoriesService.CreateAsync(
                 inputModel.CategoryName,
-                inputModel.Description,
-                user);
+                inputModel.Description);
 
             if (categoryId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Category was successfully created!";
+            this.TempData[Key] = SuccessfullyCreatedCategory;
             return this.RedirectToAction(nameof(this.All), new { id = categoryId });
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = this.categoriesService.GetById<CategoryDetailsViewModel>(id);
+            var viewModel = await this.categoriesService.GetById<CategoryDetailsViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             return this.View(viewModel);
         }
@@ -95,28 +94,27 @@
                 return this.RedirectToAction("Edit", new { id = inputModel.Id });
             }
 
-            var categoryId = await this.categoriesService.EditAsync(inputModel);
+            var categoryId = await this.categoriesService
+                .EditAsync(inputModel.Id, inputModel.CategoryName, inputModel.Description);
 
             if (categoryId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Category was successfully edited!";
+            this.TempData[Key] = SuccessfullyEditedCategory;
 
             return this.RedirectToAction("Details", new { id = categoryId });
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = this.categoriesService.GetById<CategoryDeleteViewModel>(id);
+            var viewModel = await this.categoriesService.GetById<CategoryDeleteViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             return this.View(viewModel);
         }
@@ -131,14 +129,14 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Category was successfully deleted!";
+            this.TempData[Key] = SuccessfullyDeletedCategory;
 
             return this.RedirectToAction("All");
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var categoriesViewModel = this.categoriesService.GetById<CategoryViewModel>(id);
+            var categoriesViewModel = await this.categoriesService.GetById<CategoryViewModel>(id);
 
             if (categoriesViewModel == null)
             {
