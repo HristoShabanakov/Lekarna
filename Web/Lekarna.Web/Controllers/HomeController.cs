@@ -1,6 +1,7 @@
 ﻿namespace Lekarna.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels;
@@ -16,11 +17,11 @@
             this.suppliersService = suppliersService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new IndexViewModel
             {
-                Suppliers = this.suppliersService.GetAll<IndexSupplierViewModel>(),
+                Suppliers = await this.suppliersService.GetAll<IndexSupplierViewModel>(),
             };
             return this.View(viewModel);
         }

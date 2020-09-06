@@ -8,6 +8,8 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Suppliers;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class SuppliersService : ISuppliersService
     {
@@ -22,13 +24,13 @@
             this.imagesService = imagesService;
         }
 
-        public async Task<string> CreateAsync(SupplierCreateViewModel inputModel, ApplicationUser user)
+        public async Task<string> CreateAsync(string name, string country, string address, IFormFile newImage)
         {
             var supplier = new Supplier
             {
-                Name = inputModel.Name,
-                Country = inputModel.Country,
-                Address = inputModel.Address,
+                Name = name,
+                Country = country,
+                Address = address,
             };
 
             var dbSupplier = this.suppliersRepository.All().Where(s => s.Name == supplier.Name).FirstOrDefault();
@@ -38,10 +40,10 @@
                 return null;
             }
 
-            if (inputModel.NewImage != null)
+            if (newImage != null)
             {
-                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
-                supplier.ImageId = newImage.Id;
+                var newPictureImage = await this.imagesService.CreateAsync(newImage);
+                supplier.ImageId = newPictureImage.Id;
             }
 
             await this.suppliersRepository.AddAsync(supplier);
@@ -49,23 +51,23 @@
             return supplier.Id;
         }
 
-        public async Task<string> EditAsync(SupplierEditViewModel inputModel)
+        public async Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id)
         {
-            var supplier = this.suppliersRepository.All().FirstOrDefault(p => p.Id == inputModel.Id);
+            var supplier = this.suppliersRepository.All().FirstOrDefault(s => s.Id == id);
 
             if (supplier == null)
             {
                 return null;
             }
 
-            supplier.Name = inputModel.Name;
-            supplier.Country = inputModel.Country;
-            supplier.Address = inputModel.Address;
+            supplier.Name = name;
+            supplier.Country = country;
+            supplier.Address = address;
 
-            if (inputModel.NewImage != null)
+            if (newImage != null)
             {
-                var newImage = await this.imagesService.CreateAsync(inputModel.NewImage);
-                supplier.ImageId = newImage.Id;
+                var newPictureImage = await this.imagesService.CreateAsync(newImage);
+                supplier.ImageId = newPictureImage.Id;
             }
 
             this.suppliersRepository.Update(supplier);
@@ -76,7 +78,7 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var supplier = this.suppliersRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            var supplier = this.suppliersRepository.All().Where(s => s.Id == id).FirstOrDefault();
 
             if (supplier == null)
             {
@@ -91,7 +93,7 @@
             return supplierId;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
         {
             IQueryable<Supplier> query = this.suppliersRepository.All().OrderBy(x => x.Name);
 
@@ -100,12 +102,13 @@
                 query = query.Take(count.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
-        public IEnumerable<T> GetAllSuppliers<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllSuppliers<T>(int? take = null, int skip = 0)
         {
-            var query = this.suppliersRepository.All()
+            var query = this.suppliersRepository
+                .All()
                 .OrderByDescending(s => s.CreatedOn)
                 .Skip(skip);
 
@@ -114,12 +117,12 @@
                 query = query.Take(take.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
-        public int GetAllSuppliersCount()
+        public async Task<int> GetAllSuppliersCount()
         {
-             return this.suppliersRepository.All().ToList().Count;
+             return await this.suppliersRepository.All().CountAsync();
         }
 
         public T GetById<T>(string id)

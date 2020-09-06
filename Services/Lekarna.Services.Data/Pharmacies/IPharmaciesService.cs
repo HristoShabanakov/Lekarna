@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Lekarna.Web.ViewModels.Pharmacies;
     using Microsoft.AspNetCore.Http;
 
     public interface IPharmaciesService
