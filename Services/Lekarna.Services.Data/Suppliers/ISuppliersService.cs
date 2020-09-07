@@ -15,9 +15,9 @@
 
         Task<string> DeleteAsync(string id);
 
-        T GetByName<T>(string name);
+        Task<T> GetByName<T>(string name);
 
-        T GetById<T>(string id);
+        Task<T> GetById<T>(string id);
 
         Task<IEnumerable<T>> GetAllSuppliers<T>(int? take = null, int skip = 0);
 

@@ -28,6 +28,10 @@
         {
             public const string Key = "Notification";
 
+            public const string Error = "Error";
+
+            public const string SuplierAlreadyExists = "Supplier with that name alredy exists!";
+
             public const string SuccessfullyCreatedPharmacy = "Pharmacy was successfully created!";
 
             public const string SuccessfullyEditedPharmacy = "Pharmacy was successfully edited!";
@@ -39,13 +43,12 @@
             public const string SuccessfullyDeletedCategory = "Category was successfully deleted!";
 
             public const string SuccessfullyEditedCategory = "Category was successfully edited!";
-          
+
             public const string SuccessfullyCreatedSupplier = "Supplier was successfully created!";
 
             public const string SuccessfullyEditedSupplier = "Supplier was successfully edited!";
 
             public const string SuccessfullyDeletedSupplier = "Supplier was successfully deleted!";
-
         }
 
         public static class Offer

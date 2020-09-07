@@ -1,6 +1,8 @@
-﻿@model Lekarna.Web.ViewModels.Suppliers.SupplierCreateViewModel
+﻿@using static Lekarna.Common.GlobalConstants.Notifications
+@model Lekarna.Web.ViewModels.Suppliers.SupplierCreateViewModel
 @{
     this.ViewData["Title"] = "Create new supplier";
+    var error = this.TempData[Error];
 }
 
 <h1>@this.ViewData["Title"]</h1>
@@ -20,6 +22,10 @@
                     <label asp-for="Name">Name</label>
                     <input asp-for="Name" type="text" class="form-control" id="supplierName" placeholder="Enter supplier">
                     <span asp-validation-for="Name" class="text-danger"></span>
+                    @if (error != null)
+                    {
+                        <span class="text-danger">@error</span>
+                    }
                 </div>
                 <div class="form-group">
                     <label asp-for="Country">Country</label>
