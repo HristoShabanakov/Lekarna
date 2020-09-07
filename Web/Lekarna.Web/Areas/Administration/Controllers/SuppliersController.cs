@@ -21,7 +21,6 @@
         private readonly IConfiguration configuration;
 
         private readonly string imagePathPrefix;
-        private readonly string cloudinaryPrefix = "https://res.cloudinary.com/{0}/image/upload/";
 
         public SuppliersController(
             ISuppliersService suppliersService,
@@ -31,17 +30,18 @@
             this.suppliersService = suppliersService;
             this.userManager = userManager;
             this.configuration = configuration;
-            this.imagePathPrefix = string.Format(this.cloudinaryPrefix, this.configuration["Cloudinary:CloudName"]);
+            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration[Cloudinary.CloudName]);
         }
 
         public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = await this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, (page - 1) * SuppliersPerPage);
+            var skipPages = (page - 1) * SuppliersPerPage;
+            var viewModel = await this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, skipPages);
 
             foreach (var supplier in viewModel)
             {
                 supplier.ImageUrl = supplier.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + supplier.ImageUrl;
             }
 
@@ -76,7 +76,8 @@
 
             if (supplierId == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                this.TempData[Notifications.Error] = Notifications.SuplierAlreadyExists;
+                return this.View(inputModel);
             }
 
             this.TempData[Notifications.Key] = Notifications.SuccessfullyCreatedSupplier;
@@ -85,17 +86,15 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = this.suppliersService.GetById<SupplierViewModel>(id);
+            var viewModel = await this.suppliersService.GetById<SupplierViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
             viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? "/images/logo.png"
+                ? Images.LogoPath
                 : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
@@ -125,14 +124,12 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = this.suppliersService.GetById<SupplierDeleteViewModel>(id);
+            var viewModel = await this.suppliersService.GetById<SupplierDeleteViewModel>(id);
 
             if (viewModel == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             return this.View(viewModel);
         }
@@ -152,9 +149,9 @@
             return this.RedirectToAction("All");
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var viewModel = this.suppliersService.GetById<SupplierViewModel>(id);
+            var viewModel = await this.suppliersService.GetById<SupplierViewModel>(id);
 
             if (viewModel == null)
             {

@@ -7,7 +7,6 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
-    using Lekarna.Web.ViewModels.Suppliers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +32,10 @@
                 Address = address,
             };
 
-            var dbSupplier = this.suppliersRepository.All().Where(s => s.Name == supplier.Name).FirstOrDefault();
+            var dbSupplier = await this.suppliersRepository
+                .All()
+                .Where(s => s.Name == supplier.Name)
+                .FirstOrDefaultAsync();
 
             if (dbSupplier != null)
             {
@@ -53,7 +55,9 @@
 
         public async Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id)
         {
-            var supplier = this.suppliersRepository.All().FirstOrDefault(s => s.Id == id);
+            var supplier = await this.suppliersRepository
+                .All()
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (supplier == null)
             {
@@ -78,7 +82,9 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var supplier = this.suppliersRepository.All().Where(s => s.Id == id).FirstOrDefault();
+            var supplier = await this.suppliersRepository
+                .All()
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (supplier == null)
             {
@@ -125,20 +131,18 @@
              return await this.suppliersRepository.All().CountAsync();
         }
 
-        public T GetById<T>(string id)
-        {
-            var supplier = this.suppliersRepository.All().Where(x => x.Id == id)
-                .To<T>().FirstOrDefault();
+        public async Task<T> GetById<T>(string id)
+        => await this.suppliersRepository
+                .All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
 
-            return supplier;
-        }
-
-        public T GetByName<T>(string name)
-        {
-            var supplier = this.suppliersRepository.All().Where(x => x.Name == name)
-                .To<T>().FirstOrDefault();
-
-            return supplier;
-        }
+        public async Task<T> GetByName<T>(string name)
+        => await this.suppliersRepository
+                .All()
+                .Where(x => x.Name == name)
+                .To<T>()
+                .FirstOrDefaultAsync();
     }
 }
