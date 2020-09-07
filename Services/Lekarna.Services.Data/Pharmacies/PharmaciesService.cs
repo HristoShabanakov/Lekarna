@@ -26,7 +26,7 @@
 
         public async Task<string> CreateAsync(string name, string country, string address, IFormFile newImage, string userId)
         {
-            var dbPharmacy = this.pharmaciesRepository.All().Where(p => p.Name == name).FirstOrDefault();
+            var dbPharmacy = await this.pharmaciesRepository.All().Where(p => p.Name == name).FirstOrDefaultAsync();
 
             if (dbPharmacy != null)
             {
@@ -55,7 +55,7 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var pharmacy = this.pharmaciesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            var pharmacy = await this.pharmaciesRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (pharmacy == null)
             {
@@ -72,7 +72,7 @@
 
         public async Task<string> EditAsync(string name, string country, string address, IFormFile newImage, string id)
         {
-            var pharmacy = this.pharmaciesRepository.All().FirstOrDefault(p => p.Id == id);
+            var pharmacy = await this.pharmaciesRepository.All().FirstOrDefaultAsync(p => p.Id == id);
 
             if (pharmacy == null)
             {
