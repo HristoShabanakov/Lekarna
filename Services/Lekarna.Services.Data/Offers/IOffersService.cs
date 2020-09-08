@@ -3,13 +3,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Lekarna.Web.ViewModels.Offers;
+    using Microsoft.AspNetCore.Http;
 
     public interface IOffersService
     {
-        Task<string> CreateAsync(OfferCreateInputModel inputModel);
+        Task<string> CreateAsync(string name, string supplierId, string categoryId, IFormFile formData);
 
-        Task<string> EditAsync(OfferEditViewModel inputModel);
+        Task<string> EditAsync(string id, string name, string categoryId, string supplierId);
 
         Task<string> DeleteAsync(string id);
 

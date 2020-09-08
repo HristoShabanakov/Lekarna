@@ -49,6 +49,12 @@
             public const string SuccessfullyEditedSupplier = "Supplier was successfully edited!";
 
             public const string SuccessfullyDeletedSupplier = "Supplier was successfully deleted!";
+
+            public const string SuccessfullyEditedOffer = "Offer was successfully edited!";
+
+            public const string SuccessfullyCreatedOffer = "Offer was successfully created!";
+
+            public const string SuccessfullyDeletedOffer = "Offer was successfully deleted!";
         }
 
         public static class Offer
