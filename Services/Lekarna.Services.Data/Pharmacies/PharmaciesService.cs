@@ -95,7 +95,7 @@
             return pharmacy.Id;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
         {
             IQueryable<Pharmacy> query = this.pharmaciesRepository.All().OrderBy(x => x.Name);
 
@@ -107,7 +107,7 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllPharmacies<T>(string userId = null, int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllPharmaciesAsync<T>(string userId = null, int? take = null, int skip = 0)
         {
             var query = this.pharmaciesRepository.All()
                 .OrderByDescending(p => p.Name)
@@ -126,12 +126,10 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<int> GetAllPharmaciesCount()
-        {
-            return await this.pharmaciesRepository.All().CountAsync();
-        }
+        public async Task<int> GetAllPharmaciesCountAsync()
+        => await this.pharmaciesRepository.All().CountAsync();
 
-        public async Task<T> GetById<T>(string id)
+        public async Task<T> GetByIdAsync<T>(string id)
         => await this.pharmaciesRepository
             .All()
             .Where(x => x.Id == id)

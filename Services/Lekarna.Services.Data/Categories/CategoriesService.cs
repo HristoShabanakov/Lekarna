@@ -79,7 +79,7 @@
             return category.Id;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
         {
             IQueryable<Category> query = this.categoriesRepository.All().OrderBy(x => x.CategoryName);
 
@@ -91,7 +91,7 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllCategories<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllCategoriesAsync<T>(int? take = null, int skip = 0)
         {
             var query = this.categoriesRepository.All()
                .OrderByDescending(c => c.CategoryName)
@@ -105,10 +105,10 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<int> GetAllCategoriesCount()
+        public async Task<int> GetAllCategoriesCountAsync()
         => await this.categoriesRepository.All().CountAsync();
 
-        public async Task<T> GetById<T>(string id)
+        public async Task<T> GetByIdAsync<T>(string id)
         => await this.categoriesRepository
             .All()
             .Where(x => x.Id == id)

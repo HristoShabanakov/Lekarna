@@ -13,12 +13,12 @@
 
         Task<string> DeleteAsync(string id);
 
-        Task<IEnumerable<T>> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
 
-        Task<T> GetById<T>(string id);
+        Task<T> GetByIdAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllPharmacies<T>(string userId = null, int? take = null, int skip = 0);
+        Task<IEnumerable<T>> GetAllPharmaciesAsync<T>(string userId = null, int? take = null, int skip = 0);
 
-        Task<int> GetAllPharmaciesCount();
+        Task<int> GetAllPharmaciesCountAsync();
     }
 }

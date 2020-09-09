@@ -7,7 +7,7 @@
 
     public interface ISuppliersService
     {
-        Task<IEnumerable<T>> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
 
         Task<string> CreateAsync(string name, string country, string address, IFormFile newImage);
 
@@ -15,12 +15,12 @@
 
         Task<string> DeleteAsync(string id);
 
-        Task<T> GetByName<T>(string name);
+        Task<T> GetByNameAsync<T>(string name);
 
-        Task<T> GetById<T>(string id);
+        Task<T> GetByIdAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllSuppliers<T>(int? take = null, int skip = 0);
+        Task<IEnumerable<T>> GetAllSuppliersAsync<T>(int? take = null, int skip = 0);
 
-        Task<int> GetAllSuppliersCount();
+        Task<int> GetAllSuppliersCountAsync();
     }
 }

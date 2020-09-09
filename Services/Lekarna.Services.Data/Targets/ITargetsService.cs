@@ -2,8 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using Lekarna.Web.ViewModels.Targets;
-
     public interface ITargetsService
     {
         Task<string> CreateAsync(int quantity);

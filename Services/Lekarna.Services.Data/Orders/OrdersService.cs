@@ -7,7 +7,7 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
-    using Lekarna.Web.ViewModels.Orders;
+    using Microsoft.EntityFrameworkCore;
 
     public class OrdersService : IOrdersService
     {
@@ -19,14 +19,14 @@
             this.ordersRepository = ordersRepository;
         }
 
-        public async Task<string> CreateOrder(OrderCreateViewModel inputModel, ApplicationUser user)
+        public async Task<string> CreateOrderAsync(string offerId, string medicineId, decimal price, int quantity)
         {
             var order = new OrderItem
             {
-               OfferId = inputModel.OfferId,
-               MedicineId = inputModel.MedicineId,
-               Price = inputModel.Price,
-               Quantity = inputModel.Quantity,
+               OfferId = offerId,
+               MedicineId = medicineId,
+               Price = price,
+               Quantity = quantity,
             };
 
             await this.ordersRepository.AddAsync(order);
@@ -34,7 +34,7 @@
             return order.Id;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
         {
             IQueryable<OrderItem> query = this.ordersRepository.All().OrderBy(x => x.Id);
 
@@ -43,7 +43,7 @@
                 query = query.Take(count.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
     }
 }

@@ -23,9 +23,9 @@
         public async Task<IActionResult> All(int page = 1)
         {
             var viewModel = await this.categoriesService
-                .GetAllCategories<CategoryViewModel>(CategoriesPerPage, (page - 1) * CategoriesPerPage);
+                .GetAllCategoriesAsync<CategoryViewModel>(CategoriesPerPage, (page - 1) * CategoriesPerPage);
 
-            var categoriesCount = await this.categoriesService.GetAllCategoriesCount();
+            var categoriesCount = await this.categoriesService.GetAllCategoriesCountAsync();
 
             var allCategoriesViewModel = new AllCategoriesViewModel
             {
@@ -39,7 +39,7 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var categoriesViewModel = await this.categoriesService.GetById<CategoryViewModel>(id);
+            var categoriesViewModel = await this.categoriesService.GetByIdAsync<CategoryViewModel>(id);
 
             if (categoriesViewModel == null)
             {

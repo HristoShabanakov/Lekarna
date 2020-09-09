@@ -13,12 +13,12 @@
 
         Task<string> DeleteAsync(string id);
 
-        Task<IEnumerable<T>> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
 
-        Task<T> GetById<T>(string id);
+        Task<T> GetByIdAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllOffers<T>(int? take = null, int skip = 0);
+        Task<IEnumerable<T>> GetAllOffersAsync<T>(int? take = null, int skip = 0);
 
-        Task<int> GetAllOffersCount();
+        Task<int> GetAllOffersCountAsync();
     }
 }
