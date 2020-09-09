@@ -2,28 +2,19 @@
 {
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class OrdersController : Controller
     {
-        private readonly IMedicinesService medicinesService;
         private readonly IOrdersService ordersService;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersController(
-            IMedicinesService medicinesService,
-            IOrdersService ordersService,
-            UserManager<ApplicationUser> userManager)
+        public OrdersController(IOrdersService ordersService)
         {
-            this.medicinesService = medicinesService;
             this.ordersService = ordersService;
-            this.userManager = userManager;
         }
 
         [HttpPost]
@@ -34,9 +25,8 @@
                 return this.View(inputModel);
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var order = this.ordersService.CreateOrder(inputModel, user);
+            var order = await this.ordersService
+                .CreateOrderAsync(inputModel.OfferId, inputModel.MedicineId, inputModel.Price, inputModel.Quantity);
 
             if (order == null)
             {
@@ -46,9 +36,9 @@
             return this.RedirectToAction("Cart");
         }
 
-        public IActionResult Cart()
+        public async Task<IActionResult> Cart()
         {
-            var viewModel = this.ordersService.GetAll<CartViewModel>();
+            var viewModel = await this.ordersService.GetAllAsync<CartViewModel>();
 
             var allOrders = new AllOrdersViewModel
             {

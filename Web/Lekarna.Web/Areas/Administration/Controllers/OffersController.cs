@@ -44,9 +44,9 @@
 
         public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = await this.offersService.GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
+            var viewModel = await this.offersService.GetAllOffersAsync<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
 
-            var offersCount = await this.offersService.GetAllOffersCount();
+            var offersCount = await this.offersService.GetAllOffersCountAsync();
 
             var allOffersViewModel = new AllOffersViewModel
             {
@@ -60,8 +60,8 @@
 
         public async Task<IActionResult> Create()
         {
-            var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
-            var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
+            var suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
+            var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
             var viewModel = new OfferCreateInputModel
             {
                 Suppliers = suppliers,
@@ -75,8 +75,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
-                var suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
+                var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
+                var suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
                 var viewModel = new OfferCreateInputModel
                 {
                     Suppliers = suppliers,
@@ -100,10 +100,10 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = await this.offersService.GetById<OfferViewModel>(id);
+            var viewModel = await this.offersService.GetByIdAsync<OfferViewModel>(id);
 
-            viewModel.Suppliers = await this.suppliersService.GetAll<SupplierDropDownViewModel>();
-            viewModel.Categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
+            viewModel.Suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
+            viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
 
             if (viewModel == null)
             {
@@ -136,7 +136,7 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = await this.offersService.GetById<OfferDeleteViewModel>(id);
+            var viewModel = await this.offersService.GetByIdAsync<OfferDeleteViewModel>(id);
 
             if (viewModel == null)
             {
@@ -163,8 +163,8 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = await this.offersService.GetById<OfferViewModel>(id);
-            var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
+            var viewModel = await this.offersService.GetByIdAsync<OfferViewModel>(id);
+            var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
             var medicines = await this.medicinesService.GetAllMedicines<MedicineViewModel>(id);
             if (viewModel == null)
             {

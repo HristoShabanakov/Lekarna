@@ -3,13 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
-    using Lekarna.Web.ViewModels.Orders;
-
     public interface IOrdersService
     {
-        Task<string> CreateOrder(OrderCreateViewModel inputModel, ApplicationUser user);
+        Task<string> CreateOrderAsync(string offerId, string medicineId, decimal price, int quantity);
 
-        IEnumerable<T> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
     }
 }

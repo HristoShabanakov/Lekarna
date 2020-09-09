@@ -40,7 +40,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
 
             var viewModel = await this.pharmaciesService
-                .GetAllPharmacies<PharmacyViewModel>(user.Id, PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
+                .GetAllPharmaciesAsync<PharmacyViewModel>(user.Id, PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
 
             foreach (var pharmacy in viewModel)
             {
@@ -49,7 +49,7 @@
                 : this.imagePathPrefix + pharmacy.ImageUrl;
             }
 
-            var pharmaciesCount = await this.pharmaciesService.GetAllPharmaciesCount();
+            var pharmaciesCount = await this.pharmaciesService.GetAllPharmaciesCountAsync();
 
             var allPharmaciesViewModel = new AllPharmaciesViewModel
             {
@@ -91,7 +91,7 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetByIdAsync<PharmacyDetailsViewModel>(id);
 
             if (viewModel == null)
             {
@@ -107,7 +107,7 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = await this.pharmaciesService.GetById<PharmacyDetailsViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetByIdAsync<PharmacyDetailsViewModel>(id);
 
             if (viewModel == null)
             {
@@ -145,7 +145,7 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = await this.pharmaciesService.GetById<PharmacyDeleteViewModel>(id);
+            var viewModel = await this.pharmaciesService.GetByIdAsync<PharmacyDeleteViewModel>(id);
 
             if (viewModel == null)
             {
@@ -172,7 +172,7 @@
 
         public IActionResult ById(string id)
         {
-            var offerViewModel = this.pharmaciesService.GetById<PharmacyViewModel>(id);
+            var offerViewModel = this.pharmaciesService.GetByIdAsync<PharmacyViewModel>(id);
             if (offerViewModel == null)
             {
                 return this.NotFound();

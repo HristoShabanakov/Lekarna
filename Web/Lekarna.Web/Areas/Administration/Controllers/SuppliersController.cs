@@ -36,7 +36,7 @@
         public async Task<IActionResult> All(int page = 1)
         {
             var skipPages = (page - 1) * SuppliersPerPage;
-            var viewModel = await this.suppliersService.GetAllSuppliers<SupplierViewModel>(SuppliersPerPage, skipPages);
+            var viewModel = await this.suppliersService.GetAllSuppliersAsync<SupplierViewModel>(SuppliersPerPage, skipPages);
 
             foreach (var supplier in viewModel)
             {
@@ -45,7 +45,7 @@
                 : this.imagePathPrefix + supplier.ImageUrl;
             }
 
-            var suppliersCount = await this.suppliersService.GetAllSuppliersCount();
+            var suppliersCount = await this.suppliersService.GetAllSuppliersCountAsync();
 
             var suppliersAllViewModel = new SuppliersAllViewModel
             {
@@ -86,7 +86,7 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = await this.suppliersService.GetById<SupplierViewModel>(id);
+            var viewModel = await this.suppliersService.GetByIdAsync<SupplierViewModel>(id);
 
             if (viewModel == null)
             {
@@ -124,7 +124,7 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var viewModel = await this.suppliersService.GetById<SupplierDeleteViewModel>(id);
+            var viewModel = await this.suppliersService.GetByIdAsync<SupplierDeleteViewModel>(id);
 
             if (viewModel == null)
             {
@@ -151,7 +151,7 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = await this.suppliersService.GetById<SupplierViewModel>(id);
+            var viewModel = await this.suppliersService.GetByIdAsync<SupplierViewModel>(id);
 
             if (viewModel == null)
             {
