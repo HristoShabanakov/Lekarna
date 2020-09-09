@@ -7,7 +7,7 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
-    using Lekarna.Web.ViewModels.Offers;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class OffersService : IOffersService
@@ -23,26 +23,28 @@
             this.medicinesService = medicinesService;
         }
 
-        public async Task<string> CreateAsync(OfferCreateInputModel inputModel)
+        public async Task<string> CreateAsync(string name, string supplierId, string categoryId, IFormFile formData)
         {
             var offer = new Offer
             {
-                Name = inputModel.Name,
-                SupplierId = inputModel.SupplierId,
-                CategoryId = inputModel.CategoryId,
+                Name = name,
+                SupplierId = supplierId,
+                CategoryId = categoryId,
             };
 
             await this.offersRepository.AddAsync(offer);
             await this.offersRepository.SaveChangesAsync();
 
-            await this.medicinesService.SaveAllFromFile(inputModel.Data, offer.Id);
+            await this.medicinesService.SaveAllFromFile(formData, offer.Id);
 
             return offer.Id;
         }
 
         public async Task<string> DeleteAsync(string id)
         {
-            var offer = this.offersRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            var offer = await this.offersRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (offer == null)
             {
@@ -57,18 +59,20 @@
             return offerId;
         }
 
-        public async Task<string> EditAsync(OfferEditViewModel inputModel)
+        public async Task<string> EditAsync(string id, string name, string categoryId, string supplierId)
         {
-            var offer = this.offersRepository.All().FirstOrDefault(o => o.Id == inputModel.Id);
+            var offer = await this.offersRepository
+                .All()
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (offer == null)
             {
                 return null;
             }
 
-            offer.Name = inputModel.Name;
-            offer.CategoryId = inputModel.CategoryId;
-            offer.SupplierId = inputModel.SupplierId;
+            offer.Name = name;
+            offer.CategoryId = categoryId;
+            offer.SupplierId = supplierId;
 
             this.offersRepository.Update(offer);
             await this.offersRepository.SaveChangesAsync();
