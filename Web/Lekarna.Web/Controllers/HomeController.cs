@@ -21,7 +21,7 @@
         {
             var viewModel = new IndexViewModel
             {
-                Suppliers = await this.suppliersService.GetAll<IndexSupplierViewModel>(),
+                Suppliers = await this.suppliersService.GetAllAsync<IndexSupplierViewModel>(),
             };
             return this.View(viewModel);
         }

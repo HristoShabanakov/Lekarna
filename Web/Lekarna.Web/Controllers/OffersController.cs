@@ -31,9 +31,9 @@
         public async Task<IActionResult> All(int page = 1)
         {
             var viewModel = await this.offersService
-                .GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
+                .GetAllOffersAsync<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
 
-            var offersCount = await this.offersService.GetAllOffersCount();
+            var offersCount = await this.offersService.GetAllOffersCountAsync();
 
             var allOffersViewModel = new AllOffersViewModel
             {
@@ -47,8 +47,8 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var viewModel = await this.offersService.GetById<OfferViewModel>(id);
-            var categories = await this.categoriesService.GetAll<CategoryDropDownViewModel>();
+            var viewModel = await this.offersService.GetByIdAsync<OfferViewModel>(id);
+            var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
             var medicines = await this.medicinesService.GetAllMedicines<MedicineViewModel>(id);
 
             if (viewModel == null)

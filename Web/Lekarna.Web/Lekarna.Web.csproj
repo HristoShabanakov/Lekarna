@@ -53,7 +53,6 @@
     <ProjectReference Include="..\..\Services\Lekarna.Services.Mapping\Lekarna.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\Lekarna.Services.Messaging\Lekarna.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\Lekarna.Services\Lekarna.Services.csproj" />
-    <ProjectReference Include="..\Lekarna.Web.Infrastructure\Lekarna.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Lekarna.Web.ViewModels\Lekarna.Web.ViewModels.csproj" />
   </ItemGroup>
 

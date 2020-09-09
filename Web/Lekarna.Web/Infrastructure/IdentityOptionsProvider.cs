@@ -1,4 +1,4 @@
-﻿namespace Lekarna.Data
+﻿namespace Lekarna.Web.Infrastructure
 {
     using Microsoft.AspNetCore.Identity;
 

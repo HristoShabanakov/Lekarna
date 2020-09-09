@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface ICategoriesService
+    using Lekarna.Services.Data.Common;
+
+    public interface ICategoriesService : IService
     {
         Task<string> CreateAsync(string categoryName, string description);
 
@@ -11,12 +13,12 @@
 
         Task<string> DeleteAsync(string id);
 
-        Task<IEnumerable<T>> GetAll<T>(int? count = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
 
-        Task<T> GetById<T>(string id);
+        Task<T> GetByIdAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllCategories<T>(int? take = null, int skip = 0);
+        Task<IEnumerable<T>> GetAllCategoriesAsync<T>(int? take = null, int skip = 0);
 
-        Task<int> GetAllCategoriesCount();
+        Task<int> GetAllCategoriesCountAsync();
     }
 }

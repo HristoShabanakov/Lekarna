@@ -99,7 +99,7 @@
             return supplierId;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
         {
             IQueryable<Supplier> query = this.suppliersRepository.All().OrderBy(x => x.Name);
 
@@ -111,7 +111,7 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllSuppliers<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllSuppliersAsync<T>(int? take = null, int skip = 0)
         {
             var query = this.suppliersRepository
                 .All()
@@ -126,19 +126,17 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<int> GetAllSuppliersCount()
-        {
-             return await this.suppliersRepository.All().CountAsync();
-        }
+        public async Task<int> GetAllSuppliersCountAsync()
+        => await this.suppliersRepository.All().CountAsync();
 
-        public async Task<T> GetById<T>(string id)
+        public async Task<T> GetByIdAsync<T>(string id)
         => await this.suppliersRepository
                 .All()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-        public async Task<T> GetByName<T>(string name)
+        public async Task<T> GetByNameAsync<T>(string name)
         => await this.suppliersRepository
                 .All()
                 .Where(x => x.Name == name)

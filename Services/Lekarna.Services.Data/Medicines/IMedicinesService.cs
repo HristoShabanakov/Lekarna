@@ -3,9 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Lekarna.Services.Data.Common;
     using Microsoft.AspNetCore.Http;
 
-    public interface IMedicinesService
+    public interface IMedicinesService : IService
     {
         Task<string> CreateAsync(string name, decimal price, string offerId, string targetId, string discountId);
 

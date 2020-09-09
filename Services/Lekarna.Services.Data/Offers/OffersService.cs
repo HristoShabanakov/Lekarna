@@ -80,7 +80,7 @@
             return offer.Id;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
         {
             IQueryable<Offer> query = this.offersRepository.All().OrderBy(x => x.Name);
 
@@ -92,7 +92,7 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllOffers<T>(int? take = null, int skip = 0)
+        public async Task<IEnumerable<T>> GetAllOffersAsync<T>(int? take = null, int skip = 0)
         {
             var query = this.offersRepository.All()
                 .OrderByDescending(s => s.CreatedOn)
@@ -106,10 +106,10 @@
             return await query.To<T>().ToListAsync();
         }
 
-        public async Task<int> GetAllOffersCount()
+        public async Task<int> GetAllOffersCountAsync()
         => await this.offersRepository.All().CountAsync();
 
-        public async Task<T> GetById<T>(string id)
+        public async Task<T> GetByIdAsync<T>(string id)
         => await this.offersRepository
                  .All()
                  .Where(x => x.Id == id)
