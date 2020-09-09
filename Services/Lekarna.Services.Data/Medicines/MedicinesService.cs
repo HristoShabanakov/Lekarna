@@ -47,7 +47,7 @@
             return medicine.Id;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public async Task<IEnumerable<T>> GetAll<T>(int? count = null)
         {
             IQueryable<Medicine> query = this.medicinesRepository.All().OrderBy(x => x.Name);
 
@@ -56,7 +56,7 @@
                 query = query.Take(count.Value);
             }
 
-            return query.To<T>().ToList();
+            return await query.To<T>().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllMedicines<T>(string id)
