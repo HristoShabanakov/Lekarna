@@ -1,7 +1,6 @@
 ﻿namespace Lekarna.Web
 {
     using System.Reflection;
-    using System.Text;
 
     using CloudinaryDotNet;
     using Lekarna.Data;
