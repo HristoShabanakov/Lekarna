@@ -7,7 +7,6 @@
     using Lekarna.Data.Common.Repositories;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
-    using Lekarna.Web.ViewModels.Pharmacies;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 

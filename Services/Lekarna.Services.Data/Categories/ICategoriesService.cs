@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface ICategoriesService
+    using Lekarna.Services.Data.Common;
+
+    public interface ICategoriesService : IService
     {
         Task<string> CreateAsync(string categoryName, string description);
 

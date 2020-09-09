@@ -51,6 +51,11 @@
             MapperInstance = new Mapper(new MapperConfiguration(config));
         }
 
+        public static void RegisterMappings(object getTyp, object assembly)
+        {
+            throw new NotImplementedException();
+        }
+
         private static IEnumerable<TypesMap> GetFromMaps(IEnumerable<Type> types)
         {
             var fromMaps = from t in types

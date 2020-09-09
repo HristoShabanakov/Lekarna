@@ -10,7 +10,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
 
-    public class ImageService : IImagesService
+    public class ImagesService : IImagesService
     {
         private readonly Cloudinary cloudinary;
         private readonly IConfiguration configuration;
@@ -19,7 +19,7 @@
         private readonly string imagePathPrefix;
         private readonly string cloudinaryPrefix = "https://res.cloudinary.com/{0}/image/upload/";
 
-        public ImageService(
+        public ImagesService(
             Cloudinary cloudinary,
             IConfiguration configuration,
             IDeletableEntityRepository<Image> imagesRepository)

@@ -2,7 +2,9 @@
 {
     using System.Threading.Tasks;
 
-    public interface ITargetsService
+    using Lekarna.Services.Data.Common;
+
+    public interface ITargetsService : IService
     {
         Task<string> CreateAsync(int quantity);
     }

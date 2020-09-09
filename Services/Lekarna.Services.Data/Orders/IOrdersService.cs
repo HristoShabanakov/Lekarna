@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IOrdersService
+    using Lekarna.Services.Data.Common;
+
+    public interface IOrdersService : IService
     {
         Task<string> CreateOrderAsync(string offerId, string medicineId, decimal price, int quantity);
 
