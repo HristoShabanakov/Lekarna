@@ -8,7 +8,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
-    public static class ApplicationBuilderExtention
+    public static class ApplicationBuilderExtentions
     {
         public static void ApplyMigrations(this IApplicationBuilder app)
         {
