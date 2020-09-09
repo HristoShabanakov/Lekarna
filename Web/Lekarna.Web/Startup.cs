@@ -1,28 +1,15 @@
 ﻿namespace Lekarna.Web
 {
     using System.Reflection;
-    using System.Text;
 
-    using CloudinaryDotNet;
-    using Lekarna.Data;
-    using Lekarna.Data.Common;
-    using Lekarna.Data.Common.Repositories;
-    using Lekarna.Data.Models;
-    using Lekarna.Data.Repositories;
-    using Lekarna.Data.Seeding;
-    using Lekarna.Services.Data;
     using Lekarna.Services.Mapping;
-    using Lekarna.Services.Messaging;
     using Lekarna.Web.Hubs;
+    using Lekarna.Web.Infrastructure.Extentions;
     using Lekarna.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -33,64 +20,21 @@
             this.configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
-
             services.AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
             });
 
-            services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
-            services.AddRazorPages();
-
-            services.AddControllers();
-
-            services.AddSingleton(this.configuration);
-
-            services.AddSignalR();
-
-            // Data repositories
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
-
-            // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISuppliersService, SuppliersService>();
-            services.AddTransient<IOffersService, OffersService>();
-            services.AddTransient<ICategoriesService, CategoriesService>();
-            services.AddTransient<IPharmaciesService, PharmaciesService>();
-            services.AddTransient<IImagesService, ImageService>();
-            services.AddTransient<IMedicinesService, MedicinesService>();
-            services.AddTransient<IOrdersService, OrdersService>();
-            services.AddTransient<ITargetsService, TargetsService>();
-            services.AddTransient<IDiscountsService, DiscountsService>();
-
-            Account account = new Account(
-                this.configuration["Cloudinary:CloudName"],
-                this.configuration["Cloudinary:AppKey"],
-                this.configuration["Cloudinary:ApiSecret"]);
-
-            Cloudinary cloudinary = new Cloudinary(account);
-
-            services.AddSingleton(cloudinary);
+            services.AddDatabase(this.configuration)
+                    .AddIdentity()
+                    .ConfigureCookiePolicy()
+                    .AddMVC()
+                    .AddDataRepositories()
+                    .AddApplicationServices()
+                    .AddClaudinary(this.configuration)
+                    .AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,41 +43,15 @@
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            app.ApplyMigrations();
 
-                if (env.IsDevelopment())
-                {
-                    dbContext.Database.Migrate();
-                }
-
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            }
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
+            app.ConfigureErrorHandling(env);
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseRouting();
-
-            app.UseCors(options => options
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod());
-
+            app.UseCorsWithConfiguredOptions();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -3,9 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Lekarna.Services.Data.Common;
     using Microsoft.AspNetCore.Http;
 
-    public interface IPharmaciesService
+    public interface IPharmaciesService : IService
     {
         Task<string> CreateAsync(string name, string country, string address, IFormFile newImage, string userId);
 

@@ -3,9 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Lekarna.Services.Data.Common;
     using Microsoft.AspNetCore.Http;
 
-    public interface IOffersService
+    public interface IOffersService : IService
     {
         Task<string> CreateAsync(string name, string supplierId, string categoryId, IFormFile formData);
 

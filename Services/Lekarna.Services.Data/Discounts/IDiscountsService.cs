@@ -2,7 +2,9 @@
 {
     using System.Threading.Tasks;
 
-    public interface IDiscountsService
+    using Lekarna.Services.Data.Common;
+
+    public interface IDiscountsService : IService
     {
         Task<string> CreateAsync(decimal value);
     }

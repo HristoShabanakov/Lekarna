@@ -17,6 +17,11 @@
             public const string Prefix = "https://res.cloudinary.com/{0}/image/upload/";
 
             public const string CloudName = "Cloudinary:CloudName";
+
+            public const string ApiSecret = "Cloudinary:ApiSecret";
+
+            public const string AppKey = "Cloudinary:AppKey";
+
         }
 
         public static class Images

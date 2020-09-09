@@ -3,11 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Medicines;
     using Lekarna.Web.ViewModels.Offers;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     using static Lekarna.Common.GlobalConstants;
@@ -20,26 +18,17 @@
         private readonly ISuppliersService suppliersService;
         private readonly ICategoriesService categoriesService;
         private readonly IMedicinesService medicinesService;
-        private readonly ITargetsService targetsService;
-        private readonly IDiscountsService discountsService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public OffersController(
             IOffersService offersService,
             ISuppliersService suppliersService,
             ICategoriesService categoriesService,
-            IMedicinesService medicinesService,
-            ITargetsService targetsService,
-            IDiscountsService discountsService,
-            UserManager<ApplicationUser> userManager)
+            IMedicinesService medicinesService)
         {
             this.offersService = offersService;
             this.suppliersService = suppliersService;
             this.categoriesService = categoriesService;
             this.medicinesService = medicinesService;
-            this.targetsService = targetsService;
-            this.discountsService = discountsService;
-            this.userManager = userManager;
         }
 
         public async Task<IActionResult> All(int page = 1)
