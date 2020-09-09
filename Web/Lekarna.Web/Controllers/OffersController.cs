@@ -30,7 +30,8 @@
 
         public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = await this.offersService.GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
+            var viewModel = await this.offersService
+                .GetAllOffers<OfferViewModel>(OffersPerPage, (page - 1) * OffersPerPage);
 
             var offersCount = await this.offersService.GetAllOffersCount();
 

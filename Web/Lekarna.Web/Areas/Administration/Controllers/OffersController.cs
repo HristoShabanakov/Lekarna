@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    using static Lekarna.Common.GlobalConstants;
+
     public class OffersController : AdministrationController
     {
         private const int OffersPerPage = 10;
@@ -84,15 +86,16 @@
                 return this.View(viewModel);
             }
 
-            var offerId = await this.offersService.CreateAsync(inputModel);
+            var offerId = await this.offersService
+                .CreateAsync(inputModel.Name, inputModel.SupplierId, inputModel.CategoryId, inputModel.Data);
 
             if (offerId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Offer was successfully created!";
-            return this.RedirectToAction(nameof(this.Details), new { id = offerId });
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyCreatedOffer;
+            return this.RedirectToAction("All");
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -118,16 +121,17 @@
                 return this.RedirectToAction("Edit", new { id = inputModel.Id });
             }
 
-            var offerId = await this.offersService.EditAsync(inputModel);
+            var offerId = await this.offersService
+                .EditAsync(inputModel.Id, inputModel.Name, inputModel.CategoryId, inputModel.SupplierId);
 
             if (offerId == null)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Offer was successfully edited!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyEditedOffer;
 
-            return this.RedirectToAction("Details", new { id = offerId });
+            return this.RedirectToAction("All");
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -152,7 +156,7 @@
                 return this.RedirectToAction("Error", "Home");
             }
 
-            this.TempData["Notification"] = "Offer was successfully deleted!";
+            this.TempData[Notifications.Key] = Notifications.SuccessfullyDeletedOffer;
 
             return this.RedirectToAction("All");
         }
