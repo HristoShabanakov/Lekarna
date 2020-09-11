@@ -8,7 +8,6 @@
     using Lekarna.Web.ViewModels.Pharmacies;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
 
     using static Lekarna.Common.GlobalConstants;
 
@@ -17,32 +16,18 @@
         private const int PharmaciesPerPage = 9;
 
         private readonly IPharmaciesService pharmaciesService;
-        private readonly IConfiguration configuration;
         private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly string imagePathPrefix;
-
-        public PharmaciesController(
-            IPharmaciesService pharmaciesService,
-            IConfiguration configuration,
-            UserManager<ApplicationUser> userManager)
+        public PharmaciesController(IPharmaciesService pharmaciesService, UserManager<ApplicationUser> userManager)
         {
             this.pharmaciesService = pharmaciesService;
-            this.configuration = configuration;
             this.userManager = userManager;
-            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration["Cloudinary:CloudName"]);
         }
 
         public async Task<IActionResult> All(int page = 1)
         {
-            var viewModel = await this.pharmaciesService.GetAllPharmaciesAsync<PharmacyViewModel>(null, PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
-
-            foreach (var pharmacy in viewModel)
-            {
-                pharmacy.ImageUrl = pharmacy.ImageUrl == null
-                ? Images.LogoPath
-                : this.imagePathPrefix + pharmacy.ImageUrl;
-            }
+            var viewModel = await this.pharmaciesService
+                .GetAllPharmaciesAsync<PharmacyViewModel>(null, PharmaciesPerPage, (page - 1) * PharmaciesPerPage);
 
             var pharmaciesCount = await this.pharmaciesService.GetAllPharmaciesCountAsync();
 
@@ -93,10 +78,6 @@
                 return this.RedirectToAction("Error, Home");
             }
 
-            viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? Images.LogoPath
-               : this.imagePathPrefix + viewModel.ImageUrl;
-
             return this.View(viewModel);
         }
 
@@ -108,10 +89,6 @@
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? Images.LogoPath
-                : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
         }

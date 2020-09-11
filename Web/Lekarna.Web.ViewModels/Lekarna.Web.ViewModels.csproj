@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Lekarna.Data.Models\Lekarna.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Lekarna.Common\Lekarna.Common.csproj" />
     <ProjectReference Include="..\..\Services\Lekarna.Services.Mapping\Lekarna.Services.Mapping.csproj" />
   </ItemGroup>
 

@@ -24,9 +24,7 @@
         [MaxLength(50)]
         public string Address { get; set; }
 
-        public string ImageId { get; set; }
-
-        public Image Image { get; set; }
+        public string ImageUrl { get; set; }
 
         public ICollection<Offer> Offers { get; set; }
     }

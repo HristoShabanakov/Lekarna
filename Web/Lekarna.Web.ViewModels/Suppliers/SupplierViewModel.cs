@@ -4,11 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Microsoft.AspNetCore.Http;
 
-    public class SupplierViewModel : IMapFrom<Supplier>
+    using static Lekarna.Common.GlobalConstants.Images;
+
+    public class SupplierViewModel : IMapFrom<Supplier>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -40,5 +43,13 @@
         public string Url => $"{this.Name.Replace(' ', '-')}";
 
         public IEnumerable<SuppliersOffersViewModel> Offers { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Supplier, SupplierViewModel>()
+                .ForMember(
+                    x => x.ImageUrl,
+                    opt => opt.MapFrom(x => x.ImageUrl ?? LogoPath));
+        }
     }
 }
