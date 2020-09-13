@@ -38,13 +38,8 @@
                 Country = country,
                 Address = address,
                 UserId = userId,
+                ImageUrl = await this.imagesService.GetImageUrl(newImage),
             };
-
-            if (newImage != null)
-            {
-                var newPictureImage = await this.imagesService.CreateAsync(newImage);
-                pharmacy.ImageId = newPictureImage.Id;
-            }
 
             await this.pharmaciesRepository.AddAsync(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();
@@ -59,6 +54,11 @@
             if (pharmacy == null)
             {
                 return null;
+            }
+
+            if (pharmacy.ImageUrl != null)
+            {
+                await this.imagesService.DeleteFromCloudAsync(pharmacy.ImageUrl);
             }
 
             var pharmacyId = pharmacy.Id;
@@ -81,12 +81,7 @@
             pharmacy.Name = name;
             pharmacy.Country = country;
             pharmacy.Address = address;
-
-            if (newImage != null)
-            {
-                var newPictureImage = await this.imagesService.CreateAsync(newImage);
-                pharmacy.ImageId = newPictureImage.Id;
-            }
+            pharmacy.ImageUrl = await this.imagesService.GetImageUrl(newImage);
 
             this.pharmaciesRepository.Update(pharmacy);
             await this.pharmaciesRepository.SaveChangesAsync();

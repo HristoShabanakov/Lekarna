@@ -30,6 +30,7 @@
                 Name = name,
                 Country = country,
                 Address = address,
+                ImageUrl = await this.imagesService.GetImageUrl(newImage),
             };
 
             var dbSupplier = await this.suppliersRepository
@@ -40,12 +41,6 @@
             if (dbSupplier != null)
             {
                 return null;
-            }
-
-            if (newImage != null)
-            {
-                var newPictureImage = await this.imagesService.CreateAsync(newImage);
-                supplier.ImageId = newPictureImage.Id;
             }
 
             await this.suppliersRepository.AddAsync(supplier);
@@ -67,12 +62,7 @@
             supplier.Name = name;
             supplier.Country = country;
             supplier.Address = address;
-
-            if (newImage != null)
-            {
-                var newPictureImage = await this.imagesService.CreateAsync(newImage);
-                supplier.ImageId = newPictureImage.Id;
-            }
+            supplier.ImageUrl = await this.imagesService.GetImageUrl(newImage);
 
             this.suppliersRepository.Update(supplier);
             await this.suppliersRepository.SaveChangesAsync();
@@ -89,6 +79,11 @@
             if (supplier == null)
             {
                 return null;
+            }
+
+            if (supplier.ImageUrl != null)
+            {
+                await this.imagesService.DeleteFromCloudAsync(supplier.ImageUrl);
             }
 
             var supplierId = supplier.Id;

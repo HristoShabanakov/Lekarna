@@ -12,7 +12,7 @@
     using Lekarna.Data.Models;
     using Lekarna.Data.Repositories;
     using Lekarna.Data.Seeding;
-    using Lekarna.Services.Data;
+    using Lekarna.Web.;
     using Lekarna.Services.Messaging;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

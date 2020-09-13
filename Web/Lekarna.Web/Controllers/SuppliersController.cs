@@ -7,9 +7,6 @@
     using Lekarna.Web.ViewModels.Suppliers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-
-    using static Lekarna.Common.GlobalConstants;
 
     [Authorize]
     public class SuppliersController : Controller
@@ -17,28 +14,16 @@
         private const int SuppliersPerPage = 9;
 
         private readonly ISuppliersService suppliersService;
-        private readonly IConfiguration configuration;
 
-        private readonly string imagePathPrefix;
-
-        public SuppliersController(ISuppliersService suppliersService, IConfiguration configuration)
+        public SuppliersController(ISuppliersService suppliersService)
         {
             this.suppliersService = suppliersService;
-            this.configuration = configuration;
-            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration[Cloudinary.CloudName]);
         }
 
         public async Task<IActionResult> All(int page = 1)
         {
             var skipPages = (page - 1) * SuppliersPerPage;
             var viewModel = await this.suppliersService.GetAllSuppliersAsync<SupplierViewModel>(SuppliersPerPage, skipPages);
-
-            foreach (var supplier in viewModel)
-            {
-                supplier.ImageUrl = supplier.ImageUrl == null
-                ? Images.LogoPath
-                : this.imagePathPrefix + supplier.ImageUrl;
-            }
 
             var suppliersCount = await this.suppliersService.GetAllSuppliersCountAsync();
 

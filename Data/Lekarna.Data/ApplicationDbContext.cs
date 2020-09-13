@@ -40,8 +40,6 @@
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Image> Images { get; set; }
-
         public DbSet<Medicine> Medicines { get; set; }
 
         public DbSet<OrderStatus> OrderStatuses { get; set; }

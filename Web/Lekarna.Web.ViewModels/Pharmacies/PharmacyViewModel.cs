@@ -2,11 +2,14 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Microsoft.AspNetCore.Http;
 
-    public class PharmacyViewModel : IMapFrom<Pharmacy>
+    using static Lekarna.Common.GlobalConstants.Images;
+
+    public class PharmacyViewModel : IMapFrom<Pharmacy>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -29,5 +32,13 @@
 
         [Display(Name = "Image")]
         public IFormFile NewImage { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Pharmacy, PharmacyViewModel>()
+                .ForMember(
+                    x => x.ImageUrl,
+                    opt => opt.MapFrom(x => x.ImageUrl ?? LogoPath));
+        }
     }
 }

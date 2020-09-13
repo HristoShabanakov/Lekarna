@@ -3,12 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
-    using Lekarna.Data.Models;
     using Lekarna.Services.Data;
     using Lekarna.Web.ViewModels.Suppliers;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
 
     using static Lekarna.Common.GlobalConstants;
 
@@ -17,33 +14,16 @@
         private const int SuppliersPerPage = 9;
 
         private readonly ISuppliersService suppliersService;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly IConfiguration configuration;
 
-        private readonly string imagePathPrefix;
-
-        public SuppliersController(
-            ISuppliersService suppliersService,
-            UserManager<ApplicationUser> userManager,
-            IConfiguration configuration)
+        public SuppliersController(ISuppliersService suppliersService)
         {
             this.suppliersService = suppliersService;
-            this.userManager = userManager;
-            this.configuration = configuration;
-            this.imagePathPrefix = string.Format(Cloudinary.Prefix, this.configuration[Cloudinary.CloudName]);
         }
 
         public async Task<IActionResult> All(int page = 1)
         {
             var skipPages = (page - 1) * SuppliersPerPage;
             var viewModel = await this.suppliersService.GetAllSuppliersAsync<SupplierViewModel>(SuppliersPerPage, skipPages);
-
-            foreach (var supplier in viewModel)
-            {
-                supplier.ImageUrl = supplier.ImageUrl == null
-                ? Images.LogoPath
-                : this.imagePathPrefix + supplier.ImageUrl;
-            }
 
             var suppliersCount = await this.suppliersService.GetAllSuppliersCountAsync();
 
@@ -53,6 +33,7 @@
                 PagesCount = (int)Math.Ceiling((double)suppliersCount / SuppliersPerPage),
                 Suppliers = viewModel,
             };
+
             return this.View(suppliersAllViewModel);
         }
 
@@ -92,10 +73,6 @@
             {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            viewModel.ImageUrl = viewModel.ImageUrl == null
-                ? Images.LogoPath
-                : this.imagePathPrefix + viewModel.ImageUrl;
 
             return this.View(viewModel);
         }
