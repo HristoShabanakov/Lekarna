@@ -6,8 +6,9 @@
     using Lekarna.Data.Models;
     using Lekarna.Services.Mapping;
     using Lekarna.Web.ViewModels.Medicines;
+    using Lekarna.Web.ViewModels.Pharmacies;
 
-    public class OfferViewModel : IMapFrom<Offer>, IMapFrom<Medicine>, IMapFrom<Target>
+    public class OfferViewModel : IMapFrom<Offer>, IMapFrom<Medicine>, IMapFrom<Target>, IMapFrom<Pharmacy>
     {
         public string Id { get; set; }
 
@@ -15,19 +16,13 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string MedicineName { get; set; }
-
         public string UserUserName { get; set; }
 
-        public string UserId { get; set; }
+        public string PharmacyId { get; set; }
 
         public string CategoryId { get; set; }
 
         public string SupplierId { get; set; }
-
-        public string OfferId { get; set; }
-
-        public string MedicineId { get; set; }
 
         public string CategoryCategoryName { get; set; }
 
@@ -36,5 +31,7 @@
         public IEnumerable<SupplierDropDownViewModel> Suppliers { get; set; }
 
         public IEnumerable<MedicineViewModel> Medicines { get; set; }
+
+        public IEnumerable<PharmacyViewModel> Pharmacies { get; set; }
     }
 }

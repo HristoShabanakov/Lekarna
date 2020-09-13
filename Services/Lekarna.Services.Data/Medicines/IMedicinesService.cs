@@ -16,6 +16,6 @@
 
         Task SaveAllFromFile(IFormFile file, string offerId);
 
-       // Task<IEnumerable<T>> GetSameTargetsId<T>(string id);
+        Task<IEnumerable<T>> GetSameTargetsId<T>(string id);
     }
 }
