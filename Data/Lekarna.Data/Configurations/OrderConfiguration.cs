@@ -11,8 +11,7 @@
             order
                 .HasOne(p => p.Pharmacy)
                 .WithMany(o => o.Orders)
-                .HasForeignKey(p => p.PharmacyId)
-                .HasForeignKey(o => o.OrderItemId);
+                .HasForeignKey(p => p.PharmacyId);
         }
     }
 }

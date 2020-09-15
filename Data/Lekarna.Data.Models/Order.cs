@@ -1,23 +1,27 @@
 ﻿namespace Lekarna.Data.Models
 {
-    using System;
+    using System.Collections.Generic;
 
+    using Lekarna.Data.Common.Enumerations;
     using Lekarna.Data.Common.Models;
 
     public class Order : BaseDeletableStringIdModel
     {
-        public DateTime IssuedOn { get; set; }
+        public Order()
+        {
+            this.OrdersItems = new HashSet<OrderItem>();
+        }
 
         public string PharmacyId { get; set; }
 
         public Pharmacy Pharmacy { get; set; }
 
-        public int StatusId { get; set; }
+        public Status Status { get; set; }
 
-        public OrderStatus Status { get; set; }
+        public string OfferId { get; set; }
 
-        public string OrderItemId { get; set; }
+        public Offer Offer { get; set; }
 
-        public OrderItem OrderItem { get; set; }
+        public ICollection<OrderItem> OrdersItems { get; set; }
     }
 }
