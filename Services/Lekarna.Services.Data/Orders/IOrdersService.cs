@@ -7,7 +7,9 @@
 
     public interface IOrdersService : IService
     {
-        Task<string> CreateOrderAsync(string offerId, string medicineId, decimal price, int quantity);
+        Task<string> CreateOrderAsync(string pharmacyId, string offerId);
+
+        Task<string> AddToOrderAsync(string orderId, string medicineId, int quantity);
 
         Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
     }

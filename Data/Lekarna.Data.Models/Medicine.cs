@@ -1,6 +1,7 @@
 ﻿namespace Lekarna.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,11 @@
 
     public class Medicine : BaseDeletableStringIdModel
     {
+        public Medicine()
+        {
+            this.OrdersItems = new HashSet<OrderItem>();
+        }
+
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
@@ -26,5 +32,7 @@
         public string OfferId { get; set; }
 
         public Offer Offer { get; set; }
+
+        public ICollection<OrderItem> OrdersItems { get; set; }
     }
 }

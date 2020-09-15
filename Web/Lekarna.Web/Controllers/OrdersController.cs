@@ -26,7 +26,7 @@
             }
 
             var order = await this.ordersService
-                .CreateOrderAsync(inputModel.OfferId, inputModel.MedicineId, inputModel.Price, inputModel.Quantity);
+                .CreateOrderAsync(inputModel.OfferId, inputModel.PharmacyId);
 
             if (order == null)
             {

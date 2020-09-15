@@ -276,6 +276,9 @@ namespace Lekarna.Data.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("SupplierId")
                         .HasColumnType("nvarchar(450)");
 
@@ -307,22 +310,16 @@ namespace Lekarna.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("IssuedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderItemId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OrderItemId1")
+                    b.Property<string>("OfferId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PharmacyId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -331,74 +328,29 @@ namespace Lekarna.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("OrderItemId");
+                    b.HasIndex("OfferId");
 
-                    b.HasIndex("OrderItemId1");
-
-                    b.HasIndex("StatusId");
+                    b.HasIndex("PharmacyId");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.OrderItem", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("MedicineId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OfferId")
+                    b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("MedicineId", "OrderId");
 
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("MedicineId");
-
-                    b.HasIndex("OfferId");
-
-                    b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("Lekarna.Data.Models.OrderStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrderStatuses");
+                    b.ToTable("OrdersItems");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Pharmacy", b =>
@@ -655,30 +607,28 @@ namespace Lekarna.Data.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("ApplicationUserId");
 
+                    b.HasOne("Lekarna.Data.Models.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId");
+
                     b.HasOne("Lekarna.Data.Models.Pharmacy", "Pharmacy")
                         .WithMany("Orders")
-                        .HasForeignKey("OrderItemId");
-
-                    b.HasOne("Lekarna.Data.Models.OrderItem", "OrderItem")
-                        .WithMany()
-                        .HasForeignKey("OrderItemId1");
-
-                    b.HasOne("Lekarna.Data.Models.OrderStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("PharmacyId");
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.OrderItem", b =>
                 {
                     b.HasOne("Lekarna.Data.Models.Medicine", "Medicine")
-                        .WithMany()
-                        .HasForeignKey("MedicineId");
+                        .WithMany("OrdersItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Lekarna.Data.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId");
+                    b.HasOne("Lekarna.Data.Models.Order", "Order")
+                        .WithMany("OrdersItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lekarna.Data.Models.Pharmacy", b =>

@@ -42,9 +42,7 @@
 
         public DbSet<Medicine> Medicines { get; set; }
 
-        public DbSet<OrderStatus> OrderStatuses { get; set; }
-
-        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderItem> OrdersItems { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
