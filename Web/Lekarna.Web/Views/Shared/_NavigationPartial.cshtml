@@ -1,0 +1,38 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (this.SignInManager.IsSignedIn(this.User))
+    {
+        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Dashboard</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="All">Suppliers</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Offers
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-area="" asp-controller="Offers" asp-action="All">Active</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Offers" asp-action="All">Expired</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="All">Categories</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pharmacies
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-area="" asp-controller="Pharmacies" asp-action="All">All</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-area="" asp-controller="Pharmacies" asp-action="Create">Register</a>
+            </div>
+        </li>
+    }
+</ul>
