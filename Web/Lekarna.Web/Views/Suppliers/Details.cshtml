@@ -15,7 +15,6 @@
 <h1 class="row justify-content-center">@Model.Name</h1>
 
 
-
 <div class="card">
     <table class="table table-sm table-hover">
         <thead>
@@ -28,12 +27,11 @@
         </thead>
         @foreach (var offer in Model.Offers)
         {
-
             <tbody>
                 <tr>
                     <th scope="row">@(++index)</th>
-                    <td><i class="far fa-copyright"></i>@offer.Name</td>
-                    <td><i class="fas fa-chart-line">@offer.CategoryCategoryName</i></td>
+                    <td>@offer.Name</td>
+                    <td>@offer.CategoryCategoryName</td>
                     <td><a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
                 </tr>
             </tbody>

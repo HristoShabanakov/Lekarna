@@ -23,13 +23,10 @@
             <tbody>
                 <tr>
                     <th scope="row">@(++index)</th>
-                    <td><i class="far fa-copyright"></i>@medicine.Name</td>
-                    <td><i class="far fa-calendar-check"></i>@medicine.Price</td>
+                    <td>@medicine.Name</td>
+                    <td>@medicine.Price</td>
                     <td>@medicine.TargetQuantity</td>
                     <td>@medicine.DiscountQuantity</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-id="@medicine.Id" data-price="@medicine.Price" data-name="@medicine.Name" data-target="#orderModal">Order</button>
-                    </td>
                 </tr>
             </tbody>
         }
@@ -43,66 +40,6 @@
     <a class="btn-lg btn-danger" asp-area="Administration" asp-controller="Offers" asp-route-id="@Model.Id" asp-action="Delete">Delete</a>
 </div>
 
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="orderModalLabel">New order @Model.Id</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="Orders" asp-action="Order" method="post" id="order-form">
-                    <div class="form-group">
-                        <label for="medicine" class="col-form-label font-weight-bold">Medicine</label>
-                        <input type="text" class="form-control" name="medicine" id="medicine">
-                        <input type="hidden" id="medicineId" value="id" name="medicineId" />
-                    </div>
-                    <div class="form-group">
-                        <label for="price" class="col-form-label">Price</label>
-                        <input type="number" class="form-control" name="price" id="price">
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity" class="col-form-label">Quantity</label>
-                        <input type="number" class="form-control" name="quantity" id="quantity">
-                        <input type="hidden" value="@Model.Id" name="offerId" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="complete-order-button" type="button" class="btn btn-primary">Add to cart</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section footer{
-
-}
-
-
-
-@section Scripts {
-    <script>
-        $('#orderModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var medicine = button.data('name')
-            var price = button.data('price')// Extract info from data-* attributes
-            var medicineId = button.data('id')
-            var modal = $(this)
-            modal.find('.modal-title').text(' Offer ' + medicine)
-            $(".modal-body #price").val(price)
-            $(".modal-body #medicine").val(medicine)
-            $(".modal-body #medicineId").val(medicineId)
-
-        });
-
-        $('#complete-order-button').click(function () {
-            $('#order-form').submit();
-        });
-    </script>
-
 
 }

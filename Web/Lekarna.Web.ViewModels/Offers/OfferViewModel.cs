@@ -16,13 +16,13 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string UserUserName { get; set; }
-
         public string PharmacyId { get; set; }
 
         public string CategoryId { get; set; }
 
         public string SupplierId { get; set; }
+
+        public string SupplierName { get; set; }
 
         public string CategoryCategoryName { get; set; }
 

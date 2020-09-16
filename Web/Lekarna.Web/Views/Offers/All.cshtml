@@ -19,7 +19,7 @@
                 <th scope="col"><i class="fas fa-sort-down"></i></th>
                 <th scope="col">Name</th>
                 <th scope="col">Date</th>
-                <th scope="col">Username</th>
+                <th scope="col">Supplier</th>
                 <th scope="col">Category</th>
                 <th scope="col">Details</th>
             </tr>
@@ -29,9 +29,9 @@
             <tbody>
                 <tr>
                     <th scope="row">@(++index)</th>
-                    <td><i class="far fa-copyright"></i>@offer.Name</td>
-                    <td><i class="far fa-calendar-check"></i>@offer.CreatedOn</td>
-                    <td>@offer.UserUserName</td>
+                    <td>@offer.Name</td>
+                    <td>@offer.CreatedOn</td>
+                    <td>@offer.SupplierName</td>
                     <td>@offer.CategoryCategoryName</td>
                     <td><a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>
                 </tr>
