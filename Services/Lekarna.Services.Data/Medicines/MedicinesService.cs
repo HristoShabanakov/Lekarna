@@ -72,13 +72,13 @@
 
         public async Task<IEnumerable<T>> GetSameTargetsId<T>(string id)
         {
-             var commonTarget = await this.medicinesRepository.AllAsNoTracking()
-              .Select(x => new { x.Name, x.Id, Count = this.medicinesRepository.AllAsNoTracking().Count(y => y.TargetId == x.TargetId) })
-              .Where(x => x.Count > 1)
-              .To<T>()
-              .ToListAsync();
+            var commonTarget = await this.medicinesRepository.AllAsNoTracking()
+             .Select(x => new { x.Name, x.Id, Count = this.medicinesRepository.AllAsNoTracking().Count(y => y.TargetId == x.TargetId) })
+             .Where(x => x.Count > 1)
+             .To<T>()
+             .ToListAsync();
 
-             return commonTarget;
+            return commonTarget;
         }
 
         public async Task SaveAllFromFile(IFormFile file, string offerId)

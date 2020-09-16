@@ -75,7 +75,7 @@
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            }).AddRazorRuntimeCompilation();
 
             services.AddRazorPages();
 
