@@ -21,7 +21,6 @@
             public const string ApiSecret = "Cloudinary:ApiSecret";
 
             public const string AppKey = "Cloudinary:AppKey";
-
         }
 
         public static class Images

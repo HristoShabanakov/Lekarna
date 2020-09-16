@@ -24,9 +24,9 @@
         {
             var order = new Order
             {
-               PharmacyId = pharmacyId,
-               OfferId = offerId,
-               Status = Status.Active,
+                PharmacyId = pharmacyId,
+                OfferId = offerId,
+                Status = Status.Active,
             };
 
             await this.ordersRepository.AddAsync(order);
