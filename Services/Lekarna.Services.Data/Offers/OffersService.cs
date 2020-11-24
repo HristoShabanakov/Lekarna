@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -23,13 +24,14 @@
             this.medicinesService = medicinesService;
         }
 
-        public async Task<string> CreateAsync(string name, string supplierId, string categoryId, IFormFile formData)
+        public async Task<string> CreateAsync(string name, string supplierId, string categoryId, DateTime expirationDate, IFormFile formData)
         {
             var offer = new Offer
             {
                 Name = name,
                 SupplierId = supplierId,
                 CategoryId = categoryId,
+                ExpirationDate = expirationDate.ToUniversalTime(),
             };
 
             await this.offersRepository.AddAsync(offer);

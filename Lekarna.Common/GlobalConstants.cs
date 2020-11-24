@@ -66,6 +66,8 @@
             public const string Formula = "FORMULA";
 
             public const string Total = "Total";
+
+            public const string InvalidExpirationDateError = "The Expiration date must be greater than today's date";
         }
     }
 }

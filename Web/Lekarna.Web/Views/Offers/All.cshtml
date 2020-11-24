@@ -18,7 +18,7 @@
             <tr>
                 <th scope="col"><i class="fas fa-sort-down"></i></th>
                 <th scope="col">Name</th>
-                <th scope="col">Date</th>
+                <th scope="col">Expiration Date</th>
                 <th scope="col">Supplier</th>
                 <th scope="col">Category</th>
                 <th scope="col">Details</th>
@@ -30,7 +30,7 @@
                 <tr>
                     <th scope="row">@(++index)</th>
                     <td>@offer.Name</td>
-                    <td>@offer.CreatedOn</td>
+                    <td>@offer.ExpirationDate.Date.ToString("dd/MM/yyyy")</td>
                     <td>@offer.SupplierName</td>
                     <td>@offer.CategoryCategoryName</td>
                     <td><a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Info</a></td>

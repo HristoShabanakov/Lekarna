@@ -32,11 +32,11 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index"class="nav-link">Home</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                @*<li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
-                </li>
+                </li>*@
             </ul>
 
             <!-- SEARCH FORM -->
@@ -271,24 +271,24 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <div class="content-header">
+            <!--<div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Lekarna</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
+                        <div class="col-sm-6">-->
+                            @*<h1 class="m-0 text-dark pl-lg-3">Lekarna</h1>*@
+                        <!--</div>--><!-- /.col -->
+                        <!--<div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Home</a></li>
-                                <li class="breadcrumb-item active">Starter Page</li>
+                                <li class="breadcrumb-item active">@this.ViewData["Title"]</li>
                             </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
+                        </div>--><!-- /.col -->
+                    <!--</div>--><!-- /.row -->
+                <!--</div>--><!-- /.container-fluid -->
+            <!--</div>-->
             <!-- /.content-header -->
             <!-- Main content -->
-            <div class="content">
+            <div class="content pl-lg-5 py-5">
                 @this.RenderBody()
             </div>
             <!-- /.content -->
@@ -308,7 +308,7 @@
             <!-- To the right -->
 
             <div class="float-right d-none d-sm-inline">
-                Lekarna
+                <a asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
             </div>
             <!-- Default to the left -->
             <strong>&copy; 2020</strong> All rights reserved.

@@ -55,6 +55,7 @@
             {
                 Suppliers = suppliers,
                 Categories = categories,
+                ExpirationDate = DateTime.Now.Date,
             };
             return this.View(viewModel);
         }
@@ -62,7 +63,9 @@
         [HttpPost]
         public async Task<IActionResult> Create(OfferCreateInputModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            var invalidDate = inputModel.ExpirationDate.Date.CompareTo(DateTime.Now.Date) <= 0;
+
+            if (!this.ModelState.IsValid || invalidDate)
             {
                 var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
                 var suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
@@ -71,12 +74,19 @@
                     Suppliers = suppliers,
                     Categories = categories,
                     Data = inputModel.Data,
+                    ExpirationDate = inputModel.ExpirationDate,
                 };
+
+                if (invalidDate)
+                {
+                    this.ViewData["DateError"] = Offer.InvalidExpirationDateError;
+                }
+
                 return this.View(viewModel);
             }
 
             var offerId = await this.offersService
-                .CreateAsync(inputModel.Name, inputModel.SupplierId, inputModel.CategoryId, inputModel.Data);
+                .CreateAsync(inputModel.Name, inputModel.SupplierId, inputModel.CategoryId, inputModel.ExpirationDate, inputModel.Data);
 
             if (offerId == null)
             {

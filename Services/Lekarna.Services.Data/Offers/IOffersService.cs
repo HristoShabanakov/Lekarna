@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@
 
     public interface IOffersService : IService
     {
-        Task<string> CreateAsync(string name, string supplierId, string categoryId, IFormFile formData);
+        Task<string> CreateAsync(string name, string supplierId, string categoryId, DateTime expirationDate, IFormFile formData);
 
         Task<string> EditAsync(string id, string name, string categoryId, string supplierId);
 
