@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -68,6 +69,25 @@
             }
 
             return await query.To<T>().ToListAsync();
+        }
+
+        public Task<string> AddToCartAsync(string offerId, string medicineId, int quantity, string pharmacyId)
+        {
+            var order = new Order
+            {
+                OfferId = offerId,
+                PharmacyId = pharmacyId,
+            };
+
+            var orderItems = new OrderItem
+            {
+                MedicineId = medicineId,
+                Quantity = quantity,
+            };
+
+            order.OrdersItems.Add(orderItems);
+
+            return null;
         }
     }
 }

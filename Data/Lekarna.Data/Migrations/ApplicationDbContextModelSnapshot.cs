@@ -620,7 +620,7 @@ namespace Lekarna.Data.Migrations
                 {
                     b.HasOne("Lekarna.Data.Models.Medicine", "Medicine")
                         .WithMany("OrdersItems")
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("MedicineId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

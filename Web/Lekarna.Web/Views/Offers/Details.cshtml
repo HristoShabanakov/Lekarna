@@ -46,7 +46,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Orders" asp-action="Order" method="post" id="order-form">
+                <form asp-controller="Orders" asp-action="Order" method="post" enctype="multipart/form-data" id="order-form">
                     <div class="form-group">
                         <label for="medicine" class="col-form-label font-weight-bold">Medicine</label>
                         <input type="text" class="form-control" name="medicine" id="medicine">
@@ -87,6 +87,7 @@
             var medicine = button.data('name')
             var price = button.data('price')// Extract info from data-* attributes
             var medicineId = button.data('id')
+            var pharmacyId = button.data('')
             var modal = $(this)
             modal.find('.modal-title').text(medicine)
             $(".modal-body #price").val(price)

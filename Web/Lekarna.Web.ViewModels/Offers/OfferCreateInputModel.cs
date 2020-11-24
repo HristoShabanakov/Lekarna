@@ -1,5 +1,6 @@
 ﻿namespace Lekarna.Web.ViewModels.Offers
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,10 @@
         [Required]
         [Display(Name = "Category")]
         public string CategoryId { get; set; }
+
+        [Required]
+        [Display(Name = "Expiration Date")]
+        public DateTime ExpirationDate { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
 

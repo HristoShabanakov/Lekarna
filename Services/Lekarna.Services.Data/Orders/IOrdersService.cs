@@ -12,5 +12,7 @@
         Task<string> AddToOrderAsync(string orderId, string medicineId, int quantity);
 
         Task<IEnumerable<T>> GetAllAsync<T>(int? count = null);
+
+        Task<string> AddToCartAsync(string offerId, string medicineId, int quantity, string pharmacyId);
     }
 }

@@ -6,7 +6,7 @@
 }
 <h1>@this.ViewData["Title"]</h1>
 <div class="col-md-4">
-    <form method="post"  asp-area="Administration" asp-controller="Offers" asp-action="Create" enctype="multipart/form-data">
+    <form method="post" asp-area="Administration" asp-controller="Offers" asp-action="Create" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="text-danger"> </div>
 
         <div class="form-group">
@@ -32,6 +32,10 @@
                 <option value="" selected disabled hidden>Select category</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpirationDate"></label>
+            <input type="datetime-local" id="date" name="date" value="@DateTime.Now.ToString("s")" asp-for="ExpirationDate" class="form-control"/>
         </div>
 
         <hr />

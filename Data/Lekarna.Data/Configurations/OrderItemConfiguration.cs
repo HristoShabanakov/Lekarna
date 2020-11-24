@@ -16,7 +16,7 @@
 
             entity.HasOne(x => x.Medicine)
                 .WithMany(x => x.OrdersItems)
-                .HasForeignKey(x => x.OrderId);
+                .HasForeignKey(x => x.MedicineId);
         }
     }
 }
