@@ -1,6 +1,7 @@
-﻿@model Lekarna.Web.ViewModels.Offers.OfferViewModel
+﻿@model Lekarna.Web.ViewModels.Offers.OfferEditViewModel
 @{
     this.ViewData["Title"] = "Edit offer";
+    var dateError = this.ViewData["DateError"];
     var suppliers = Model.Suppliers.Select(x => new SelectListItem(x.Name, x.Id));
     var categories = Model.Categories.Select(x => new SelectListItem(x.CategoryName, x.Id));
 }
@@ -9,8 +10,6 @@
 
 <div class="col-md-4">
     <form method="post" asp-action="Edit">
-        <div asp-validation-summary="All" class="text-danger"> </div>
-
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
@@ -26,7 +25,11 @@
             <select asp-for="CategoryId" asp-items="categories" class="form-control"></select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
-
+        <div class="form-group">
+            <label asp-for="ExpirationDate"></label>
+            <input asp-for="ExpirationDate" type="date" min="@DateTime.Now.Date.ToString("yyyy-MM-dd")" value="@Model.ExpirationDate.Date.ToString("yyyy-MM-dd")" class="form-control" />
+            <span asp-validation-for="ExpirationDate" class="text-danger">@Html.Raw(dateError)</span>
+        </div>
         <hr />
 
         <input type="submit" class="btn btn-primary" />

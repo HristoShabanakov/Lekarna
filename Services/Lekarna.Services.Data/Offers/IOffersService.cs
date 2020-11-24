@@ -11,7 +11,7 @@
     {
         Task<string> CreateAsync(string name, string supplierId, string categoryId, DateTime expirationDate, IFormFile formData);
 
-        Task<string> EditAsync(string id, string name, string categoryId, string supplierId);
+        Task<string> EditAsync(string id, string name, string categoryId, string supplierId, DateTime expirationDate);
 
         Task<string> DeleteAsync(string id);
 

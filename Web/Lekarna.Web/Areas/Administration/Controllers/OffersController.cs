@@ -77,10 +77,7 @@
                     ExpirationDate = inputModel.ExpirationDate,
                 };
 
-                if (invalidDate)
-                {
-                    this.ViewData["DateError"] = Offer.InvalidExpirationDateError;
-                }
+                this.SetInvalidExpirationDateError(invalidDate);
 
                 return this.View(viewModel);
             }
@@ -99,7 +96,7 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = await this.offersService.GetByIdAsync<OfferViewModel>(id);
+            var viewModel = await this.offersService.GetByIdAsync<OfferEditViewModel>(id);
 
             viewModel.Suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
             viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
@@ -115,13 +112,25 @@
         [HttpPost]
         public async Task<IActionResult> Edit(OfferEditViewModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            var invalidDate = inputModel.ExpirationDate.Date.CompareTo(DateTime.Now.Date) <= 0;
+
+            if (!this.ModelState.IsValid || invalidDate)
             {
-                return this.RedirectToAction("Edit", new { id = inputModel.Id });
+                var categories = await this.categoriesService.GetAllAsync<CategoryDropDownViewModel>();
+                var suppliers = await this.suppliersService.GetAllAsync<SupplierDropDownViewModel>();
+                var viewModel = new OfferEditViewModel
+                {
+                    Suppliers = suppliers,
+                    Categories = categories,
+                    ExpirationDate = inputModel.ExpirationDate,
+                };
+
+                this.SetInvalidExpirationDateError(invalidDate);
+                return this.View(viewModel);
             }
 
             var offerId = await this.offersService
-                .EditAsync(inputModel.Id, inputModel.Name, inputModel.CategoryId, inputModel.SupplierId);
+                .EditAsync(inputModel.Id, inputModel.Name, inputModel.CategoryId, inputModel.SupplierId, inputModel.ExpirationDate);
 
             if (offerId == null)
             {
@@ -174,6 +183,14 @@
             viewModel.Medicines = medicines;
 
             return this.View(viewModel);
+        }
+
+        private void SetInvalidExpirationDateError(bool invalidDate)
+        {
+            if (invalidDate)
+            {
+                this.ViewData["DateError"] = Offer.InvalidExpirationDateError;
+            }
         }
     }
 }
