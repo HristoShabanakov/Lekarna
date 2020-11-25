@@ -26,7 +26,7 @@
         public string CategoryId { get; set; }
 
         [Required]
-        [Display(Name = "Expiration Date")]
+        [Display(Name = "Expiration Date (mm/dd/yyyy)")]
         public DateTime ExpirationDate { get; set; }
 
         public IEnumerable<CategoryDropDownViewModel> Categories { get; set; }
