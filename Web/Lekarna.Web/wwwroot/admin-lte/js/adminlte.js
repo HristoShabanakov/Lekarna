@@ -804,7 +804,7 @@
         }
 
         treeviewMenu.stop().slideDown(this._config.animationSpeed, function () {
-          parentLi.addClass(ClassName.OPEN);
+            parentLi.addClass(ClassName.OPEN);
           $(_this._element).trigger(expandedEvent);
         });
 
@@ -820,8 +820,9 @@
         treeviewMenu.stop().slideUp(this._config.animationSpeed, function () {
           parentLi.removeClass(ClassName.OPEN);
           $(_this2._element).trigger(collapsedEvent);
-          treeviewMenu.find(Selector.OPEN + " > " + Selector.TREEVIEW_MENU).slideUp();
-          treeviewMenu.find(Selector.OPEN).removeClass(ClassName.OPEN);
+            treeviewMenu.find(Selector.OPEN + " > " + Selector.TREEVIEW_MENU).slideUp();
+            const currentMenu = treeviewMenu.find(Selector.OPEN);
+            currentMenu.removeClass(ClassName.OPEN);
         });
       };
 
@@ -845,9 +846,9 @@
         var isOpen = parentLi.hasClass(ClassName.OPEN);
 
         if (isOpen) {
-          this.collapse($(treeviewMenu), parentLi);
+            this.collapse($(treeviewMenu), parentLi);
         } else {
-          this.expand($(treeviewMenu), parentLi);
+            this.expand($(treeviewMenu), parentLi);
         }
       } // Private
       ;
